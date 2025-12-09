@@ -17,7 +17,7 @@ class CommunityMemberFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            // halooo
         ];
     }
 }
