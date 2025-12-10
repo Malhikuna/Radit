@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class CommunityMember extends Model
+class CommunityMember extends Pivot
 {
-    /** @use HasFactory<\Database\Factories\CommunityMemberFactory> */
-    use HasFactory;
+    protected $table = 'community_members';
+
+    protected $fillable = [
+        'community_id', 'user_id', 'role', 'joined_at'
+    ];
 }
