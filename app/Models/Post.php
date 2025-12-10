@@ -2,29 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
     use HasFactory;
 
-    protected $table = 'posts';
-
     protected $fillable = [
-        'user_id',
-        'community_id',
-        'title',
-        'content',
-        'status',
-        'views',
+        'user_id', 'community_id', 'title', 'content', 'status', 'views'
     ];
-
-    /*
-    |--------------------------------------------------------------------------
-    | Relations
-    |--------------------------------------------------------------------------
-    */
 
     public function user()
     {
@@ -36,14 +23,30 @@ class Post extends Model
         return $this->belongsTo(Community::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Helper / Logic
-    |--------------------------------------------------------------------------
-    */
-
-    public function increaseViews(): void
+    public function comments()
     {
-        $this->increment('views');
+        return $this->hasMany(Comment::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    // HELPER
+    public function increaseViews()
+    {
+        $this->views++;
+        $this->save();
+    }
+
+    public function score()
+    {
+        return $this->votes()->sum('value');
     }
 }
