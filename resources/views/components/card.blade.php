@@ -1,58 +1,28 @@
-
-<!-- MAIN CONTENT -->
-<div class="content">
-
-    <!-- POST 1 -->
-    <div class="post">
-        <div class="user">
-            <div style="width:35px;height:35px;border-radius:50%;background:#222;"></div>
-            <div>
-                <div class="user-name">Traveller <span style="font-size:11px;color:#1a73e8;background:#eaf2ff;padding:2px 5px;border-radius:4px;">Follow</span></div>
-                <div style="font-size:12px;color:gray;">5 hours ago</div>
-            </div>
-        </div>
-
-        <span class="label">🆕 New</span>
-        <span class="label" style="background:#ff8800;">🔥 Best</span>
-
-        <div class="post-text">
-                <b>Cinta Ala Wifi</b>
-                Kau seperti WiFi tetangga,
-                kuharap gratis, ternyata pakai password.
-                Kau bilang aku spesial,
-                tapi ternyata semua orang juga kau bilang begitu di kolom komentar.
-                Aku rela menunggu sinyal cintamu,
-                meski kadang cuma buffering.
-                Kau bilang hubungan kita stabil,
-                padahal tiap malam kau reconnect dengan yang lain.
-        </div>
-
-        <div class="reaction">
-            <div>👍 50</div>
-            <div>💬 7</div>
-            <div>💭</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border mb-6">
+    <div class="flex items-center gap-3 mb-3">
+        <div class="w-10 h-10 bg-black rounded-full"></div>
+        <div>
+            <p class="font-semibold">
+                {{ $author }}
+                <span class="ml-1 text-xs bg-blue-500 text-white px-2 py-0.5 rounded">Follow</span>
+            </p>
+            <span class="text-xs text-gray-500">{{ $time }}</span>
         </div>
     </div>
 
-    <!-- POST 2 -->
-    <div class="post">
-        <div class="user">
-            <div style="width:35px;height:35px;border-radius:50%;background:#222;"></div>
-            <div>
-                <div class="user-name">Jomokers <span style="font-size:11px;color:#1a73e8;background:#eaf2ff;padding:2px 5px;border-radius:4px;">Follow</span></div>
-                <div style="font-size:12px;color:gray;">3 hours ago</div>
-            </div>
-        </div>
+    <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
 
-        <div class="post-text"><b>Viral!!</b></div>
+    @if(isset($content))
+        <p class="text-sm text-gray-700 leading-relaxed mb-4">{!! nl2br($content) !!}</p>
+    @endif
 
-        <img class="post-img" src="../../css/img/gambar.png" alt="Meme Jomok">
+    @if(isset($image))
+        <img src="{{ $image }}" class="rounded-xl w-full mb-4" />
+    @endif
 
-        <div class="reaction">
-            <div>👍 50</div>
-            <div>💬 7</div>
-            <div>💭</div>
-        </div>
+    <div class="flex items-center gap-4 text-gray-700">
+        <div class="flex items-center gap-1">👍 {{ $likes }}</div>
+        <div class="flex items-center gap-1">💬 {{ $comments }}</div>
+        <div class="flex items-center gap-1">🔁</div>
     </div>
-
 </div>
