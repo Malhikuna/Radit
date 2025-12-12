@@ -15,7 +15,6 @@
     <div class="flex">
 
         {{-- SIDEBAR --}}
-        {{-- @include('components.sidebar') --}}
         <x-sidebar/>
 
         {{-- MAIN CONTENT --}}
