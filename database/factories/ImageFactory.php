@@ -17,7 +17,7 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'file_path' => 'images/sample' . rand(1, 10) . '.jpg',
         ];
     }
 }
