@@ -9,6 +9,8 @@ class LoginLog extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = ['user_id', 'login_at', 'ip_address', 'user_agent'];
 
     public function user()
