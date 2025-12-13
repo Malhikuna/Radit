@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->integer('user_id')->nullable();
             $table->string('role')->default('member');
             $table->dateTime('joined_at')->nullable();
+            $table->timestamps();
         });
     }
 

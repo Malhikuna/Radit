@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Community extends Model
 {
+
     /** @use HasFactory<\Database\Factories\CommunityFactory> */
     use HasFactory;
 
@@ -24,9 +25,7 @@ class Community extends Model
 
     public function members()
     {
-        return $this->belongsToMany(user::class, 'community_members', 'community_id', 'user_id')-> withPivots('role', 'joined_at');
-    
+        //return $this->belongsToMany(user::class, 'community_members', 'community_id', 'user_id')-> withPivots('role', 'joined_at');
+        return $this->belongsToMany(User::class, 'community_members', 'community_id', 'user_id')->withPivot('role', 'joined_at');
     }
-
-    
 }

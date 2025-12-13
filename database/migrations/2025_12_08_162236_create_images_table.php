@@ -11,7 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->integer('post_id')->nullable();
             $table->string('file_path');
-            $table->dateTime('created_at')->nullable();
+            //$table->dateTime('created_at')->nullable();
+            $table->timestamps();
         });
     }
 

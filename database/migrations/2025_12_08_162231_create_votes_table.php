@@ -13,7 +13,8 @@ return new class extends Migration {
             $table->integer('post_id')->nullable();
             $table->integer('comment_id')->nullable();
             $table->integer('value')->nullable();
-            $table->dateTime('created_at')->nullable();
+            // $table->dateTime('created_at')->nullable();
+            $table->timestamps();
         });
     }
 
