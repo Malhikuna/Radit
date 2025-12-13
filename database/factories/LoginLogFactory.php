@@ -17,7 +17,12 @@ class LoginLogFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            //'user_id' => \App\Models\User::inRandomOrder()->first()->id ?? 1,
+            // 'login_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
+            // 'ip_address' => $this->faker->ipv4(),
+            // 'user_agent' => $this->faker->userAgent(),
+            'ip_address' => fake()->ipv4(),
+            'user_agent' => fake()->userAgent(),
         ];
     }
 }

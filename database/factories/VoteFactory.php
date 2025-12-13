@@ -17,7 +17,7 @@ class VoteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'value' => fake()->randomElement([1, -1]),
         ];
     }
 }
