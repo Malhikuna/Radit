@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    use AuthorizesRequests;
+
     /*
     |--------------------------------------------------------------------------
     | GET /posts
@@ -31,7 +35,8 @@ class PostController extends Controller
         ]);
 
         $post = Post::create([
-            'user_id' => auth()->id(),
+            // 'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'community_id' => $data['community_id'] ?? null,
             'title' => $data['title'],
             'content' => $data['content'] ?? null,
