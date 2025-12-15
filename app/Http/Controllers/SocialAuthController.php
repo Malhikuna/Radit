@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -22,7 +22,7 @@ class SocialAuthController extends Controller
             [
                 'name' => $socialUser->getName() ?? $socialUser->getNickname(),
                 'password' => bcrypt(Str::random(16)),
-                'role' => 'member'
+                'role' => 'member',
             ]
         );
 
