@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Livewire\Auth;
 
 use Livewire\Component;
@@ -9,27 +8,25 @@ use Illuminate\Support\Facades\Auth;
 
 class Register extends Component
 {
-    public $name;
-    public $email;
-    public $password;
+    public $name, $email, $password;
 
     public function register()
     {
         $this->validate([
-            'name'     => 'required|min:3',
-            'email'    => 'required|email|unique:users,email',
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
 
         $user = User::create([
-            'name'     => $this->name,
-            'email'    => $this->email,
+            'name' => $this->name,
+            'email' => $this->email,
             'password' => Hash::make($this->password),
+            'role' => 'member',
         ]);
 
         Auth::login($user);
-
-        return redirect('/login');
+        return redirect('/');
     }
 
     public function render()
