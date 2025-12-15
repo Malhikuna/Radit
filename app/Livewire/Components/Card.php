@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Components;
 
 use Livewire\Component;
 
 class Card extends Component
 {
-   public string $author;
+    public string $author;
     public string $time;
     public string $title;
     public ?string $content = null;
@@ -21,6 +21,6 @@ class Card extends Component
 
     public function render()
     {
-        return view('livewire.card');
+        return view('livewire.components.card');
     }
 }
