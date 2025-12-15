@@ -12,16 +12,21 @@
 
     <h2 class="font-bold text-lg mb-2">{{ $title }}</h2>
 
-    @if(isset($content))
-        <p class="text-sm text-gray-700 leading-relaxed mb-4">{!! nl2br($content) !!}</p>
+    @if(($content))
+        <p class="text-sm text-gray-700 leading-relaxed mb-4">{{$content}}</p>
     @endif
 
-    @if(isset($image))
+    @if(($image))
         <img src="{{ $image }}" class="rounded-xl w-full mb-4" />
     @endif
 
     <div class="flex items-center gap-4 text-gray-700">
-        <div class="flex items-center gap-1">👍 {{ $likes }}</div>
+        <button
+            wire:click="like"
+            class="hover:text-red-500 transition"
+        >
+            ❤️ {{ $likes }}
+        </button>
         <div class="flex items-center gap-1">💬 {{ $comments }}</div>
         <div class="flex items-center gap-1">🔁</div>
     </div>
