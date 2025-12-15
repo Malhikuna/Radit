@@ -1,5 +1,5 @@
 <div>
-    <livewire:post-list />
+    <livewire:components.post-list />
 
     {{--
     <livewire:card

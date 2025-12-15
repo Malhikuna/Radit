@@ -14,7 +14,7 @@
     </div>
 
     @foreach ($posts as $post)
-        <livewire:card
+        <livewire:components.card
             :wire:key="'post-'.$post->id"
             author="{{ $post->user->name ?? 'Anon' }}"
             time="{{ $post->created_at->diffForHumans() }}"
