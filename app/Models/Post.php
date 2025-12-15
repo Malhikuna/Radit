@@ -9,8 +9,15 @@ class Post extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
     protected $fillable = [
-        'user_id', 'community_id', 'title', 'content', 'status', 'views'
+        'user_id',
+        'community_id',
+        'title',
+        'content',
+        'status',
+        'views'
     ];
 
     public function user()
@@ -36,6 +43,7 @@ class Post extends Model
     public function votes()
     {
         return $this->hasMany(Vote::class);
+        return $this->hasMany(Vote::class, 'post_id');
     }
 
     // HELPER
