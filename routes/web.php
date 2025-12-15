@@ -10,9 +10,9 @@ use App\Http\Controllers\SocialAuthController;
 
 Route::get('/counter', Counter::class);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/create-thread', function () {
     return view('thread.create');
 });
