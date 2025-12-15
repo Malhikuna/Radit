@@ -2,19 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Livewire\Counter;
-use App\Livewire\Auth\Login;
-use App\Livewire\Auth\Register;
+use App\Livewire\Pages\Counter;
+use App\Livewire\Pages\Auth\Login;
+use App\Livewire\Pages\Auth\Register;
 use App\Http\Controllers\SocialAuthController;
-use App\Livewire\Home;
+use App\Livewire\Pages\Home;
 
 Route::get('/counter', Counter::class);
 
 Route::get('/', Home::class);
 
-Route::get('/create-thread', function () {
-    return view('thread.create');
-});
+// Route::get('/create-thread', function () {
+//     return view('thread.create');
+// });
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
