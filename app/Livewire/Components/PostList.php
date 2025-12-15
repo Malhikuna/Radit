@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Components;
 
 use Livewire\Component;
 use App\Models\Post;
@@ -21,6 +21,6 @@ class PostList extends Component
 
         $posts = $query->get();
 
-        return view('livewire.post-list', compact('posts'));
+        return view('livewire.components.post-list', compact('posts'));
     }
 }
