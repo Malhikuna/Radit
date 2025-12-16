@@ -3,25 +3,27 @@
 namespace Database\Factories;
 
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Community;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostFactory extends Factory
 {
     protected $model = Post::class;
 
-    public function definition(): array
+    public function definition()
     {
-        return [
-            'user_id' => rand(1, 20),
-            'community_id' => rand(1, 5),
-            'title' => fake()->sentence(6),
-            'content' => fake()->paragraphs(3, true),
-            'status' => fake()->randomElement(['published', 'draft']),
-            'views' => fake()->numberBetween(0, 500),
+        $types = ['text','image','video','link','poll'];
 
-            // news
-            'created_at' => fake()->dateTimeBetween('-7 days', '-1 minute'),
-            'updated_at' => now(),
+        return [
+            'user_id' => User::factory(),
+            'community_id' => Community::factory(),
+            'title' => $this->faker->sentence,
+            'content' => $this->faker->paragraph,
+            'url' => $this->faker->url,
+            'type' => $this->faker->randomElement($types),
+            'status' => 'published',
+            'views' => $this->faker->numberBetween(0, 100),
         ];
     }
 }
