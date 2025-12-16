@@ -8,17 +8,17 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('role')->default('member');
-            $table->timestamps(); // created_at & updated_at
+            $table->id(); // primary key auto-increment
+            $table->string('name'); // nama user
+            $table->string('email')->unique(); // email unik
+            $table->string('password'); // password hash
+            $table->string('role')->default('member'); // role user, default member
+            $table->timestamps(); // created_at & updated_at otomatis
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('users'); // hapus tabel jika rollback
     }
 };
