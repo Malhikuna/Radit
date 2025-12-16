@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class,
             VoteSeeder::class,
             LoginLogSeeder::class,
+            PollOptionSeeder::class,
         ]);
         // User::factory(10)->create();
 
