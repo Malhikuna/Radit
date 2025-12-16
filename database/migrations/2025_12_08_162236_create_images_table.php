@@ -8,11 +8,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->id();
-            $table->integer('post_id')->nullable();
-            $table->string('file_path');
-            //$table->dateTime('created_at')->nullable();
-            $table->timestamps();
+            $table->id(); // primary key
+            $table->foreignId('post_id')->constrained()->cascadeOnDelete(); 
+            // post terkait
+            $table->string('file_path'); // path file
+            $table->enum('type', ['image','video'])->default('image'); // tipe media
+            $table->timestamp('created_at')->useCurrent(); // waktu upload
         });
     }
 

@@ -12,9 +12,9 @@ Route::get('/counter', Counter::class);
 
 Route::get('/', Home::class);
 
-// Route::get('/create-thread', function () {
-//     return view('thread.create');
-// });
+Route::get('/create-thread', function () {
+    return view('livewire.pages.post.create');
+});
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');

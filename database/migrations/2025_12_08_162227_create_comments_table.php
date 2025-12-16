@@ -8,12 +8,16 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->integer('post_id')->nullable();
-            $table->integer('user_id')->nullable();
-            $table->integer('parent_id')->nullable();
-            $table->text('content');
-            $table->timestamps();
+            $table->id(); // primary key
+            $table->foreignId('post_id')->constrained()->cascadeOnDelete(); 
+            // post terkait
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); 
+            // user pembuat
+            $table->foreignId('parent_id')->nullable()->constrained('comments')->cascadeOnDelete(); 
+            // parent comment, null jika comment root
+            $table->text('content'); // isi comment
+            $table->timestamps(); // created_at & updated_at
+            $table->index('post_id'); // index untuk query cepat
         });
     }
 
