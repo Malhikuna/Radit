@@ -12,12 +12,16 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => rand(1, 20),       // asumsi user sudah ada
-            'community_id' => rand(1, 5),  // asumsi community ada
-            'title' => $this->faker->sentence(6),
-            'content' => $this->faker->paragraphs(3, true),
-            'status' => $this->faker->randomElement(['published', 'draft']),
-            'views' => $this->faker->numberBetween(0, 500),
+            'user_id' => rand(1, 20),
+            'community_id' => rand(1, 5),
+            'title' => fake()->sentence(6),
+            'content' => fake()->paragraphs(3, true),
+            'status' => fake()->randomElement(['published', 'draft']),
+            'views' => fake()->numberBetween(0, 500),
+
+            // news
+            'created_at' => fake()->dateTimeBetween('-7 days', '-1 minute'),
+            'updated_at' => now(),
         ];
     }
 }
