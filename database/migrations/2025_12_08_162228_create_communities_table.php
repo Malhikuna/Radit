@@ -8,10 +8,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('communities', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->text('description')->nullable();
-            $table->timestamps();
+            $table->id(); // primary key
+            $table->string('name')->unique(); // nama komunitas unik
+            $table->text('description')->nullable(); // deskripsi komunitas
+            $table->timestamps(); // created_at & updated_at otomatis
         });
     }
 
