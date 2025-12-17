@@ -13,7 +13,8 @@
         <button class="flex items-center gap-1 border px-4 py-2 rounded-full hover:bg-gray-100" onclick="window.location='{{ url('/create-thread') }}'">
             <span>⚙️</span> Create
         </button>
-        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-             class="w-10 rounded-full border-yellow-400 border-4" />
+          @auth
+        <x-avatar :user="auth()->user()" size="40" />
+        @endauth
     </div>
 </nav>
