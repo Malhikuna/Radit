@@ -3,20 +3,46 @@
 namespace App\Livewire\Components;
 
 use Livewire\Component;
+use App\Models\Post;
+use App\Models\Vote;
+use Illuminate\Support\Facades\Auth;
 
 class Card extends Component
 {
-    public string $author;
-    public string $time;
-    public string $title;
-    public ?string $content = null;
-    public ?string $image = null;
-    public int $likes = 0;
-    public int $comments = 0;
+    public $post;
 
-    public function like()
+    protected $listeners = ['refreshVotes' => '$refresh'];
+
+    public function mount(Post $post)
     {
-        $this->likes++;
+        $this->post = $post->loadSum('votes', 'value')->loadCount('comments');
+    }
+
+    public function vote($value)
+    {
+        $userId = Auth::id();
+        if (!$userId) return;
+
+        $existingVote = Vote::where('post_id', $this->post->id)
+                            ->where('user_id', $userId)
+                            ->first();
+
+        if ($existingVote) {
+            if ($existingVote->value == $value) {
+                $existingVote->delete();
+            } else {
+                $existingVote->update(['value' => $value]);
+            }
+        } else {
+            Vote::create([
+                'user_id' => $userId,
+                'post_id' => $this->post->id,
+                'value' => $value,
+            ]);
+        }
+
+        // refresh post agar angka like/dislike update langsung
+        $this->post->loadSum('votes', 'value');
     }
 
     public function render()
