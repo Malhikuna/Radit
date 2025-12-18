@@ -12,3 +12,7 @@ Route::get('/', function () {
 Route::get('/create-thread', function () {
     return view('thread.create');
 });
+
+Route::get('/login', function () {
+    return view('auth.login');
+});
