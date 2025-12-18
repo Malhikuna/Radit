@@ -2,13 +2,22 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash; // 🔴 WAJIB
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(10)->create(); // buat 10 user contoh
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@test.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+            'avatar' => null,
+        ]);
+
+        User::factory()->count(4)->create();
     }
 }

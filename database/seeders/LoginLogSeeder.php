@@ -9,6 +9,6 @@ class LoginLogSeeder extends Seeder
 {
     public function run(): void
     {
-        LoginLog::factory(30)->create();
+        LoginLog::factory(10)->create();
     }
 }
