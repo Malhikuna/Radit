@@ -8,12 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'community_id', 'title', 'content', 'url', 'type', 'status', 'views'];
 
+    protected $fillable = [
+        'user_id', 'community_id', 'title', 'content', 'url', 'type', 'status', 'views',
+    ];
+
+    // Relasi
     public function user() { return $this->belongsTo(User::class); }
     public function community() { return $this->belongsTo(Community::class); }
     public function comments() { return $this->hasMany(Comment::class); }
     public function images() { return $this->hasMany(Image::class); }
     public function votes() { return $this->hasMany(Vote::class); }
+
+    // Like / Dislike count
+    public function getLikesCountAttribute() { return $this->votes()->where('value', 1)->count(); }
+    public function getDislikesCountAttribute() { return $this->votes()->where('value', -1)->count(); }
+
+    // Poll options (optional)
     public function pollOptions() { return $this->hasMany(PollOption::class); }
 }

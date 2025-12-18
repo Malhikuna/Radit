@@ -7,8 +7,22 @@ use App\Models\Community;
 
 class CommunitySeeder extends Seeder
 {
-    public function run(): void
+public function run(): void
     {
-        Community::factory(5)->create(); // buat 5 komunitas contoh
+        $names = [
+            'Laravel',
+            'WebDev',
+            'Programming',
+            'Design',
+            'Gaming'
+        ];
+
+        foreach ($names as $name) {
+            Community::create([
+                'name' => $name,
+                'description' => "Community about $name",
+                'icon' => null,
+            ]);
+        }
     }
 }
