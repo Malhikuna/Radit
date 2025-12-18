@@ -2,23 +2,18 @@
 
 namespace Database\Factories;
 
+use App\Models\Community;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Community>
- */
 class CommunityFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Community::class;
+
+    public function definition()
     {
         return [
-            'name' => fake()->unique()->words(2, true),
-            'description' => fake()->sentence(),
+            'name' => $this->faker->unique()->word,
+            'description' => $this->faker->sentence,
         ];
     }
 }
