@@ -11,7 +11,6 @@ use App\Livewire\Pages\Post\Create;
 
 Route::get('/counter', Counter::class);
 
-<<<<<<< HEAD
 Route::get('/', Home::class);
 Route::get('/', Home::class)->name('home');
 
@@ -35,15 +34,11 @@ Route::post('/logout', function () {
     request()->session()->regenerateToken();
     return redirect('/login');
 })->name('logout');
-=======
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/create-thread', function () {
-    return view('thread.create');
-});
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
->>>>>>> ilona
+// Route::get('/create-thread', function () {
+//     return view('thread.create');
+// });
+
+// Route::get('/login', function () {
+//     return view('auth.login');
+// });
