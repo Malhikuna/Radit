@@ -15,13 +15,6 @@ Route::get('/counter', Counter::class);
 Route::get('/', Home::class);
 Route::get('/', Home::class)->name('home');
 
-
-// Route::get('/create-thread', function () {
-//     return view('livewire.pages.post.create');
-
-// });
-
-//Route::get('/create-thread', Create::class);
 Route::get('/create-thread', PostCreate::class)
     ->name('posts.create');
 

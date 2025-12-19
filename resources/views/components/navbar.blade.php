@@ -14,7 +14,7 @@
             <span>⚙️</span> Create
         </button>
         @auth
-        <x-avatar :user="auth()->user()" size="40" />
+            <x-avatar :user="auth()->user()" size="40" />
         @endauth
     </div>
 </nav>
