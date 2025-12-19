@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Livewire\Pages\Post;
+namespace App\Livewire\Post;
 
 use Livewire\Component;
 use App\Models\Post;
 use App\Models\Community;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Layout;
 
 class Create extends Component
 {
@@ -118,11 +119,11 @@ class Create extends Component
         return redirect()->route('home');
     }
 
+    #[Layout('components.layout')]
     public function render()
     {
-        return view('livewire.pages.post.create')
-            ->layout('components.layout', [
-                'title' => 'Create Post'
-            ]);
+        return view('livewire.post.create', [
+            'title' => 'Create Post'
+        ]);
     }
 }

@@ -1,3 +1,3 @@
 <div>
-    <livewire:components.post-list />
+    <livewire:post.post-list />
 </div>

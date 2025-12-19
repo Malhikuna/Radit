@@ -1,4 +1,4 @@
-<aside class="w-64 h-screen border-r px-6 py-6">
+<aside class="w-64 h-screen shadow-sm ring-gray-100 px-6 py-6">
 
     <div class="space-y-4">
         <a href="#" class="flex items-center gap-3 text-lg">

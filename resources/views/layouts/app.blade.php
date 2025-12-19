@@ -13,12 +13,14 @@
 <body class="bg-gray-50 antialiased">
 
     {{-- NAVBAR --}}
-    <livewire:shared.navbar />
+    @if (!($hideNavbar ?? false))
+        <livewire:shared.navbar />
+    @endif
 
     <div class="flex min-h-screen">
 
         {{-- SIDEBAR --}}
-        @if (!isset($hideSidebar))
+        @if (!($hideSidebar ?? false))
             <livewire:shared.sidebar />
         @endif
 

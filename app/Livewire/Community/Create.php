@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Community;
+namespace App\Livewire\Community;
 
 use Livewire\Component;
 

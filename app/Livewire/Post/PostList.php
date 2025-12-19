@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Components;
+namespace App\Livewire\Post;
 
 use Livewire\Component;
 use App\Models\Post;
@@ -24,7 +24,7 @@ class PostList extends Component
 
         $posts = $query->get();
 
-        return view('livewire.components.post-list', compact('posts'));
+        return view('livewire.post.post-list', compact('posts'));
     }
 
     public function vote($postId, $value)

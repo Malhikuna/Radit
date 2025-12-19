@@ -1,10 +1,11 @@
 <?php
-namespace App\Livewire\Pages\Auth;
+namespace App\Livewire\Auth;
 
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 
 class Register extends Component
 {
@@ -29,6 +30,7 @@ class Register extends Component
         return redirect('/');
     }
 
+    #[Layout('layouts.app', ['hideNavbar' => true, 'hideSidebar' => true])]
     public function render()
     {
         return view('livewire.auth.register');

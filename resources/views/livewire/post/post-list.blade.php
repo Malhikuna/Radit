@@ -14,12 +14,12 @@
 
     <!-- POSTS -->
     @foreach ($posts as $post)
-        <div class="bg-white p-6 rounded-xl shadow-sm border mb-6">
+        <div class="bg-white p-6 rounded-xl shadow-sm ring-gray-100 mb-6">
 
             <!-- AUTHOR -->
             <div class="flex items-center gap-3 mb-3">
                 <img src="{{ $post->user->avatar ? asset('storage/' . $post->user->avatar) : 'https://cdn-icons-png.flaticon.com/512/149/149071.png' }}"
-                     class="w-10 h-10 rounded-full object-cover border" />
+                        class="w-10 h-10 rounded-full object-cover border" />
 
                 <div>
                     <p class="font-semibold">
