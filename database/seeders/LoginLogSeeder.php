@@ -2,17 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\LoginLog;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\LoginLog;
 
 class LoginLogSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        LoginLog::factory()->count(25)->create();
+        LoginLog::factory(10)->create();
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace App\Livewire\Auth;
+namespace App\Livewire\Pages\Auth;
 
 use Livewire\Component;
 use App\Models\User;
