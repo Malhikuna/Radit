@@ -28,7 +28,11 @@
     </div>
 
     <div class="mt-6">
-        <button class="text-orange-600 font-semibold">+ Create Community</button>
+        <a href="{{ route('communities.create') }}"
+            class="text-orange-600 font-semibold">
+            + Create Community
+        </a>
     </div>
+
 
 </aside>
