@@ -26,7 +26,8 @@ class Create extends Component
 
         session()->flash('success', 'Community berhasil dibuat');
 
-        return redirect()->route('posts.create');
+        return redirect()->route('communities.index');
+        // return redirect()->route('posts.create');
         // return redirect()->route('home');
     }
 
