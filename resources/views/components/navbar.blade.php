@@ -13,8 +13,8 @@
         <button class="flex items-center gap-1 border px-4 py-2 rounded-full hover:bg-gray-100" onclick="window.location='{{ url('/create-thread') }}'">
             <span>⚙️</span> Create
         </button>
-          @auth
-        <x-avatar :user="auth()->user()" size="40" />
+        @auth
+            <x-avatar :user="auth()->user()" size="40" />
         @endauth
     </div>
 </nav>
