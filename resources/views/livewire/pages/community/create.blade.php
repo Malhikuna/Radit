@@ -9,7 +9,7 @@
 
     <form wire:submit.prevent="save" class="space-y-4">
         <div>
-            <label class="block mb-1">Nama Community</label>
+            <label class="block mb-1">Name Community</label>
             <input type="text" wire:model="name"
                 class="w-full border rounded p-2">
 
@@ -19,7 +19,7 @@
         </div>
 
         <div>
-            <label class="block mb-1">Deskripsi</label>
+            <label class="block mb-1">Description</label>
             <textarea wire:model="description"
                 class="w-full border rounded p-2"></textarea>
 
@@ -29,7 +29,7 @@
         </div>
 
         <button class="bg-orange-500 text-white px-4 py-2 rounded">
-            Simpan
+            Create
         </button>
     </form>
 </div>
