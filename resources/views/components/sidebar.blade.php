@@ -9,14 +9,17 @@
            class="flex items-center gap-3 px-3 py-2 rounded-md
                   font-medium text-gray-700
                   hover:bg-gray-100 hover:text-orange-600">
-            🏠 Home
+            <x-heroicon-o-home class="w-5 h-5" />
+            <span>Home</span>
         </a>
 
         <a href="#"
            class="flex items-center gap-3 px-3 py-2 rounded-md
                   font-medium text-gray-700
                   hover:bg-gray-100 hover:text-orange-600">
-            🔥 Popular
+
+            <x-heroicon-o-fire class="w-5 h-5" />
+            <span>Popular</span>
         </a>
     </div>
 
@@ -36,11 +39,7 @@
                               text-gray-700 font-medium
                               hover:bg-gray-100 hover:text-orange-600">
 
-                        {{-- COMMUNITY ICON --}}
-                        <x-community-icon
-                            :community="$community"
-                            size="28"
-                        />
+                        <x-community-icon :community="$community" size="28" />
 
                         <span class="truncate">
                             {{ $community->name }}
@@ -71,11 +70,7 @@
                               text-gray-700
                               hover:bg-gray-100 hover:text-orange-600">
 
-                        {{-- COMMUNITY ICON --}}
-                        <x-community-icon
-                            :community="$community"
-                            size="28"
-                        />
+                        <x-community-icon :community="$community" size="28" />
 
                         <span class="truncate">
                             {{ $community->name }}
@@ -85,20 +80,24 @@
             @endforeach
         </ul>
 
-        <div class="mt-4 space-y-2 px-3">
+        {{-- SEARCH --}}
+        <div class="mt-4 px-3">
             <a href="{{ route('communities.index') }}"
-               class="block text-orange-600 font-semibold hover:underline">
-                🔍 Cari Community
+               class="flex items-center gap-2 text-orange-600 font-semibold hover:underline">
+
+                <x-heroicon-o-magnifying-glass class="w-4 h-4" />
+                Cari Community
             </a>
         </div>
 
-        {{-- ACTION --}}
-        <div class="mt-4 space-y-2 px-3">
+        {{-- CREATE --}}
+        <div class="mt-3 px-3">
             <a href="{{ route('communities.create') }}"
-               class="block text-orange-600 font-semibold hover:underline">
-                + Create Community
+               class="flex items-center gap-2 text-orange-600 font-semibold hover:underline">
+
+                <x-heroicon-o-plus-circle class="w-4 h-4" />
+                Create Community
             </a>
         </div>
     </div>
-
 </aside>
