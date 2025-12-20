@@ -54,15 +54,3 @@ Route::post('/logout', function () {
     request()->session()->regenerateToken();
     return redirect('/login');
 })->name('logout');
-<<<<<<< HEAD
-=======
-
-
-// Route::get('/create-thread', function () {
-//     return view('thread.create');
-// });
-
-// Route::get('/login', function () {
-//     return view('auth.login');
-// });
->>>>>>> 6f760d35fc16c45482eb491ad2951fb67373ee0f
