@@ -23,6 +23,7 @@
     </div>
 
     <!-- POSTS -->
+    <a href="{{ ('/create-thread') }}">
     @foreach ($posts as $post)
         <div class="bg-white p-6 rounded-xl shadow-sm border mb-6">
 
@@ -106,4 +107,5 @@
 
         </div>
     @endforeach
+    </a>
 </div>
