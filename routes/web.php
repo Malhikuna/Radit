@@ -6,21 +6,60 @@ use App\Livewire\Pages\Counter;
 use App\Livewire\Pages\Auth\Login;
 use App\Livewire\Pages\Auth\Register;
 use App\Http\Controllers\SocialAuthController;
+
 use App\Livewire\Pages\Home;
-use App\Livewire\Pages\Post\Create;
+use App\Livewire\Pages\Post\Create as PostCreate;
+
+use App\Livewire\Pages\Community\Index as CommunityIndex;
+use App\Livewire\Pages\Community\Create as CommunityCreate;
+use App\Livewire\Pages\Community\Edit as CommunityEdit;
+use App\Livewire\Pages\Community\Show as CommunityShow;
+
+/*
+|--------------------------------------------------------------------------
+| PUBLIC
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/counter', Counter::class);
 
-Route::get('/', Home::class);
 Route::get('/', Home::class)->name('home');
 
+Route::get('/create-thread', PostCreate::class)
+    ->name('posts.create');
 
-// Route::get('/create-thread', function () {
-//     return view('livewire.pages.post.create');
+/*
+|--------------------------------------------------------------------------
+| COMMUNITIES (REDDIT STYLE)
+|--------------------------------------------------------------------------
+| /communities            -> list
+| /communities/create     -> create
+| /communities/{community}-> show (r/{community})
+| /communities/{community}/edit
+*/
 
-// });
+Route::prefix('communities')
+    ->name('communities.')
+    ->group(function () {
 
-Route::get('/create-thread', Create::class);
+        Route::get('/', CommunityIndex::class)
+            ->name('index');
+
+        Route::get('/create', CommunityCreate::class)
+            ->name('create');
+
+        Route::get('/{community}', CommunityShow::class)
+            ->name('show');
+
+        Route::get('/{community}/edit', CommunityEdit::class)
+            ->name('edit');
+    });
+
+/*
+|--------------------------------------------------------------------------
+| AUTH
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
@@ -29,7 +68,6 @@ Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback']);
 
 Route::post('/logout', function () {
-    // auth()->logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
     return redirect('/login');
