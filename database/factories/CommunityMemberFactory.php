@@ -2,22 +2,22 @@
 
 namespace Database\Factories;
 
+use App\Models\CommunityMember;
+use App\Models\User;
+use App\Models\Community;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CommunityMember>
- */
 class CommunityMemberFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = CommunityMember::class;
+
+    public function definition()
     {
         return [
-            // halooo
+            'user_id' => User::factory(),
+            'community_id' => Community::factory(),
+            'role' => 'member',
+            'joined_at' => $this->faker->dateTimeThisYear,
         ];
     }
 }
