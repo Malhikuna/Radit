@@ -4,16 +4,16 @@
 
         <form wire:submit.prevent="login" class="space-y-4">
             <input wire:model.defer="email"
-                   type="email"
-                   placeholder="Email"
-                   class="w-full border px-4 py-2 rounded-lg">
+                    type="email"
+                    placeholder="Email"
+                    class="w-full border px-4 py-2 rounded-lg">
 
             @error('email') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
 
             <input wire:model.defer="password"
-                   type="password"
-                   placeholder="Password"
-                   class="w-full border px-4 py-2 rounded-lg">
+                    type="password"
+                    placeholder="Password"
+                    class="w-full border px-4 py-2 rounded-lg">
 
             <button class="w-full bg-black text-white py-2 rounded-lg">
                 Login
