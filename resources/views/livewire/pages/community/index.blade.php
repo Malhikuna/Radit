@@ -1,26 +1,53 @@
-<div class="max-w-3xl mx-auto">
-    <h1 class="text-xl font-bold mb-4">Communities</h1>
+<div class="max-w-3xl mx-auto space-y-4">
 
-    @if (session()->has('success'))
-    <div class="mb-4 text-green-600">
-        {{ session('success') }}
+    {{-- HEADER --}}
+    <div class="flex items-center justify-between">
+        <h1 class="text-xl font-bold">Communities</h1>
+
+        <a href="{{ route('communities.create') }}"
+           class="px-4 py-1.5 rounded-full bg-orange-500
+                  text-white text-sm font-semibold hover:bg-orange-600">
+            + Create Community
+        </a>
     </div>
+
+    {{-- SUCCESS MESSAGE --}}
+    @if (session()->has('success'))
+        <div class="bg-green-50 text-green-700 px-4 py-2 rounded-md text-sm">
+            {{ session('success') }}
+        </div>
     @endif
 
-    <table class="w-full border">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="p-2 text-left">Name</th>
-                <th class="p-2">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($communities as $community)
-            <tr class="border-t">
-                <td class="p-2">{{ $community->name }}</td>
-                <td class="p-2 text-center flex gap-3 justify-center">
+    {{-- COMMUNITY LIST --}}
+    <div class="space-y-3">
+        @forelse ($communities as $community)
+            <div
+                class="bg-white border rounded-lg p-4
+                       flex items-center gap-4
+                       hover:border-gray-400 transition">
+
+                {{-- ICON --}}
+                <x-community-icon
+                    :community="$community"
+                    size="40"
+                />
+
+                {{-- INFO --}}
+                <div class="flex-1 min-w-0">
+                    <h2 class="font-semibold truncate">
+                        r/{{ $community->name }}
+                    </h2>
+
+                    <p class="text-xs text-gray-500">
+                        {{ $community->members_count ?? 0 }} members
+                        • Created {{ $community->created_at->diffForHumans() }}
+                    </p>
+                </div>
+
+                {{-- ACTION --}}
+                <div class="flex items-center gap-3 text-sm">
                     <a href="{{ route('communities.edit', $community->id) }}"
-                        class="text-blue-500 hover:underline">
+                       class="text-blue-500 hover:underline">
                         Edit
                     </a>
 
@@ -30,9 +57,13 @@
                         class="text-red-500 hover:underline">
                         Delete
                     </button>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+                </div>
+            </div>
+        @empty
+            <div class="text-center text-gray-500 py-10">
+                Belum ada community
+            </div>
+        @endforelse
+    </div>
+
 </div>
