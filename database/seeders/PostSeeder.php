@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Post;
-use App\Models\User;
-use App\Models\Community;
+use App\Models\User;        // 🔴 WAJIB
+use App\Models\Community;  // 🔴 WAJIB
 
 class PostSeeder extends Seeder
 {
@@ -14,19 +14,19 @@ class PostSeeder extends Seeder
         $users = User::all();
         $communities = Community::all();
 
-        // safety check
-        if ($users->isEmpty()) {
-            return;
+        foreach (range(1, 20) as $i) {
+            $type = fake()->randomElement(['text', 'link']);
+
+            Post::create([
+                'user_id' => $users->random()->id,
+                'community_id' => $communities->random()->id,
+                'title' => fake()->sentence(),
+                'content' => $type === 'text' ? fake()->paragraph(4) : null,
+                'url' => $type === 'link' ? fake()->url() : null,
+                'type' => $type,
+                'status' => 'published',
+                'views' => fake()->numberBetween(0, 500),
+            ]);
         }
-
-        // Buat 50 post random
-        Post::factory()->count(50)->make()->each(function ($post) use ($users, $communities) {
-            $post->user_id = $users->random()->id;
-            $post->community_id = $communities->isNotEmpty()
-                ? $communities->random()->id
-                : null;
-
-            $post->save();
-        });
     }
 }
