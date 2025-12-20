@@ -40,6 +40,7 @@
         </div>
     </aside>
 
+
     <!-- MAIN CONTENT -->
     <main class="ml-20 min-h-screen">
         <h1 class="text-2xl font-bold mb-4">Main Content</h1>
@@ -50,3 +51,13 @@
       
     </main>
 </div>
+    <div class="mt-6">
+        <a href="{{ route('communities.create') }}"
+            class="text-orange-600 font-semibold">
+            + Create Community
+        </a>
+    </div>
+
+
+</aside>
+

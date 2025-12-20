@@ -7,20 +7,19 @@ use App\Livewire\Pages\Auth\Login;
 use App\Livewire\Pages\Auth\Register;
 use App\Http\Controllers\SocialAuthController;
 use App\Livewire\Pages\Home;
-use App\Livewire\Pages\Post\Create;
+use App\Livewire\Pages\Post\Create as PostCreate;
+use App\Livewire\Pages\Community\Create as CommunityCreate;
 
 Route::get('/counter', Counter::class);
 
 Route::get('/', Home::class);
 Route::get('/', Home::class)->name('home');
 
+Route::get('/create-thread', PostCreate::class)
+    ->name('posts.create');
 
-// Route::get('/create-thread', function () {
-//     return view('livewire.pages.post.create');
-
-// });
-
-Route::get('/create-thread', Create::class);
+Route::get('/communities/create', CommunityCreate::class)
+    ->name('communities.create');
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
@@ -34,6 +33,7 @@ Route::post('/logout', function () {
     request()->session()->regenerateToken();
     return redirect('/login');
 })->name('logout');
+
 
 // Route::get('/create-thread', function () {
 //     return view('thread.create');
