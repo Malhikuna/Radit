@@ -15,15 +15,21 @@ class Show extends Component
             'user',
             'community',
             'images',
-            'comments.user'
+            'comments.user',
+            'votes',
+        ])->loadCount([
+            'comments',
         ]);
 
-        // tambah view
+        // Tambah view count
         $this->post->increment('views');
     }
 
     public function render()
     {
-        return view('livewire.pages.post.show');
+        return view('livewire.pages.post.show')
+            ->layout('components.layout', [
+                'title' => $this->post->title,
+            ]);
     }
 }

@@ -3,17 +3,21 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Livewire\Pages\Counter;
+use App\Livewire\Pages\Home;
+use App\Livewire\Pages\Search;
+
 use App\Livewire\Pages\Auth\Login;
 use App\Livewire\Pages\Auth\Register;
-use App\Http\Controllers\SocialAuthController;
 
-use App\Livewire\Pages\Home;
 use App\Livewire\Pages\Post\Create as PostCreate;
+use App\Livewire\Pages\Post\Show as PostShow;
 
 use App\Livewire\Pages\Community\Index as CommunityIndex;
 use App\Livewire\Pages\Community\Create as CommunityCreate;
 use App\Livewire\Pages\Community\Edit as CommunityEdit;
 use App\Livewire\Pages\Community\Show as CommunityShow;
+
+use App\Http\Controllers\SocialAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,16 +29,34 @@ Route::get('/counter', Counter::class);
 
 Route::get('/', Home::class)->name('home');
 
+/*
+|--------------------------------------------------------------------------
+| SEARCH (GLOBAL)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/search', Search::class)
+    ->name('search');
+
+/*
+|--------------------------------------------------------------------------
+| POSTS
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/create-thread', PostCreate::class)
     ->name('posts.create');
+
+Route::get('/posts/{post}', PostShow::class)
+    ->name('posts.show');
 
 /*
 |--------------------------------------------------------------------------
 | COMMUNITIES (REDDIT STYLE)
 |--------------------------------------------------------------------------
-| /communities            -> list
-| /communities/create     -> create
-| /communities/{community}-> show (r/{community})
+| /communities              -> list
+| /communities/create       -> create
+| /communities/{community}  -> show (r/{community})
 | /communities/{community}/edit
 */
 
@@ -70,5 +92,6 @@ Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'
 Route::post('/logout', function () {
     request()->session()->invalidate();
     request()->session()->regenerateToken();
-    return redirect('/login');
+
+    return redirect()->route('login');
 })->name('logout');
