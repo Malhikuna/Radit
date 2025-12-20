@@ -1,4 +1,4 @@
-<nav class="w-full border-b bg-white px-6 py-4 flex justify-between items-center">
+<nav class="w-full border-b bg-white px-6 py-4 flex justify-between items-center fixed top-0 left-0 right-0 h-16 bg-white border-b z-50">
     <div class="flex items-center gap-3">
         <img src="https://cdn-icons-png.flaticon.com/512/888/888879.png" class="w-10" />
         <span class="font-bold text-xl text-orange-500 leading-none">RADIT</span>
@@ -13,8 +13,8 @@
         <button class="flex items-center gap-1 border px-4 py-2 rounded-full hover:bg-gray-100" onclick="window.location='{{ url('/create-thread') }}'">
             <span>⚙️</span> Create
         </button>
-          @auth
-        <x-avatar :user="auth()->user()" size="40" />
+        @auth
+            <x-avatar :user="auth()->user()" size="40" />
         @endauth
     </div>
 </nav>
