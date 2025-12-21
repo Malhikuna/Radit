@@ -92,8 +92,8 @@ class Edit extends Component
             $this->post->images()->create(['file_path' => $path]);
         }
 
-        return redirect()->route('posts.show', $this->post)
-                         ->with('success', 'Post berhasil diperbarui');
+        session()->flash('success', 'Post berhasil diperbarui');
+        return redirect()->route('posts.show', $this->post);
     }
 
     public function cancel()
