@@ -11,6 +11,7 @@ use App\Livewire\Pages\Auth\Register;
 
 use App\Livewire\Pages\Post\Create as PostCreate;
 use App\Livewire\Pages\Post\Show as PostShow;
+use App\Livewire\Pages\Post\Edit as PostEdit;
 
 use App\Livewire\Pages\Community\Index as CommunityIndex;
 use App\Livewire\Pages\Community\Create as CommunityCreate;
@@ -27,11 +28,12 @@ use App\Http\Controllers\SocialAuthController;
 
 Route::get('/counter', Counter::class);
 
-Route::get('/', Home::class)->name('home');
+Route::get('/', Home::class)
+    ->name('home');
 
 /*
 |--------------------------------------------------------------------------
-| SEARCH (GLOBAL)
+| SEARCH
 |--------------------------------------------------------------------------
 */
 
@@ -40,24 +42,31 @@ Route::get('/search', Search::class)
 
 /*
 |--------------------------------------------------------------------------
-| POSTS
+| POSTS (REDDIT STYLE CRUD)
 |--------------------------------------------------------------------------
+| Create  -> /create-thread
+| Show    -> /posts/{post}
+| Edit    -> /posts/{post}/edit
+| Update  -> Livewire method
+| Delete  -> Livewire method
 */
 
-Route::get('/create-thread', PostCreate::class)
-    ->name('posts.create');
+Route::middleware('auth')->group(function () {
+
+    Route::get('/create-thread', PostCreate::class)
+        ->name('posts.create');
+
+    Route::get('/posts/{post}/edit', PostEdit::class)
+        ->name('posts.edit');
+});
 
 Route::get('/posts/{post}', PostShow::class)
     ->name('posts.show');
 
 /*
 |--------------------------------------------------------------------------
-| COMMUNITIES (REDDIT STYLE)
+| COMMUNITIES
 |--------------------------------------------------------------------------
-| /communities              -> list
-| /communities/create       -> create
-| /communities/{community}  -> show (r/{community})
-| /communities/{community}/edit
 */
 
 Route::prefix('communities')
