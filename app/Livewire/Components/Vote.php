@@ -1,46 +1,68 @@
 <?php
-
 namespace App\Livewire\Components;
 
 use Livewire\Component;
 use App\Models\Post;
-use App\Models\Vote;
+use App\Models\Vote as VoteModel;
 use Illuminate\Support\Facades\Auth;
 
 class Vote extends Component
 {
     public Post $post;
-    public int $userVote = 0; // 1 = upvote, -1 = downvote, 0 = none
+    public int $userVote = 0;
+    public int $score = 0;
 
+    // Mount component
     public function mount(Post $post)
     {
         $this->post = $post;
-
-        if (Auth::check()) {
-            $vote = $post->votes()->where('user_id', Auth::id())->first();
-            $this->userVote = $vote ? $vote->value : 0;
-        }
+        $this->updateVoteData();
     }
 
+    // Handle voting
     public function vote(int $value)
     {
-        if (!Auth::check()) return;
+        if (!Auth::check()) return; // Jika belum login, tidak boleh vote
 
-        $vote = $this->post->votes()->updateOrCreate(
-            ['user_id' => Auth::id()],
-            ['value' => $value]
-        );
+        $existingVote = $this->post->votes()->where('user_id', Auth::id())->first();
 
-        $this->userVote = $value;
+        if ($existingVote) {
+            if ($existingVote->value === $value) {
+                // Cancel vote
+                $existingVote->delete();
+                $this->userVote = 0;
+            } else {
+                // Update vote
+                $existingVote->update(['value' => $value]);
+                $this->userVote = $value;
+            }
+        } else {
+            // Create new vote
+            VoteModel::create([
+                'user_id' => Auth::id(),
+                'post_id' => $this->post->id,
+                'value' => $value,
+            ]);
+            $this->userVote = $value;
+        }
 
-        $this->emit('voteUpdated', $this->post->id);
+        $this->updateVoteData();
+    }
+
+    // Update score dan userVote
+    private function updateVoteData()
+    {
+        $this->score = $this->post->votes()->sum('value');
+
+        if (Auth::check()) {
+            $this->userVote = $this->post->votes()
+                ->where('user_id', Auth::id())
+                ->value('value') ?? 0;
+        }
     }
 
     public function render()
     {
-        return view('livewire.components.vote', [
-            'upvotes' => $this->post->votes()->where('value', 1)->count(),
-            'downvotes' => $this->post->votes()->where('value', -1)->count(),
-        ]);
+        return view('livewire.components.vote');
     }
 }
