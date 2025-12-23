@@ -27,7 +27,7 @@
         @endif
 
         {{-- MAIN CONTENT --}}
-        <main role="main" class="flex-1 pt-24 px-6">
+        <main role="main" class="flex-1 {{ $hideSidebar ? "pt-0" : "pt-24" }} px-6">
             {{ $slot }}
         </main>
 
@@ -37,7 +37,6 @@
                 <livewire:shared.rightbar />
             </div>
         @endif
-
 
     </div>
 
