@@ -2,24 +2,92 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Livewire\Counter;
+use App\Livewire\Home;
+use App\Livewire\Search;
+
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
-use App\Http\Controllers\SocialAuthController;
-use App\Livewire\Home;
+
 use App\Livewire\Post\Create as PostCreate;
+use App\Livewire\Post\Show as PostShow;
+use App\Livewire\Post\Edit as PostEdit;
+
+use App\Livewire\Community\Index as CommunityIndex;
 use App\Livewire\Community\Create as CommunityCreate;
+use App\Livewire\Community\Edit as CommunityEdit;
+use App\Livewire\Community\Show as CommunityShow;
 
-Route::get('/counter', Counter::class);
+use App\Http\Controllers\SocialAuthController;
 
-Route::get('/', Home::class);
-Route::get('/', Home::class)->name('home');
+/*
+|--------------------------------------------------------------------------
+| PUBLIC
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/create-thread', PostCreate::class)
-    ->name('posts.create');
+Route::get('/', Home::class)
+    ->name('home');
 
-Route::get('/communities/create', CommunityCreate::class)
-    ->name('communities.create');
+/*
+|--------------------------------------------------------------------------
+| SEARCH
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/search', Search::class)
+    ->name('search');
+
+/*
+|--------------------------------------------------------------------------
+| POSTS (REDDIT STYLE CRUD)
+|--------------------------------------------------------------------------
+| Create  -> /create-thread
+| Show    -> /posts/{post}
+| Edit    -> /posts/{post}/edit
+| Update  -> Livewire method
+| Delete  -> Livewire method
+*/
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/create-thread', PostCreate::class)
+        ->name('posts.create');
+
+    Route::get('/posts/{post}/edit', PostEdit::class)
+        ->name('posts.edit');
+});
+
+Route::get('/posts/{post}', PostShow::class)
+    ->name('posts.show');
+
+/*
+|--------------------------------------------------------------------------
+| COMMUNITIES
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('communities')
+    ->name('communities.')
+    ->group(function () {
+
+        Route::get('/', CommunityIndex::class)
+            ->name('index');
+
+        Route::get('/create', CommunityCreate::class)
+            ->name('create');
+
+        Route::get('/{community}', CommunityShow::class)
+            ->name('show');
+
+        Route::get('/{community}/edit', CommunityEdit::class)
+            ->name('edit');
+    });
+
+/*
+|--------------------------------------------------------------------------
+| AUTH
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
@@ -28,8 +96,8 @@ Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect']);
 Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback']);
 
 Route::post('/logout', function () {
-    // auth()->logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
-    return redirect('/login');
+
+    return redirect()->route('login');
 })->name('logout');

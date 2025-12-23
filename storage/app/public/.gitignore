@@ -1,2 +1,1 @@
-*
-!.gitignore
+app artisan bootstrap composer.json composer.lock config database node_modules package.json package-lock.json phpunit.xml pnpm-lock.yaml public README.md Reddit.sql resources routes storage tests vendor vite.config.js

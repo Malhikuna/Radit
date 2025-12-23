@@ -1,38 +1,112 @@
-<aside class="w-64 h-screen shadow-sm ring-gray-100 px-6 py-6">
+<aside
+    class="fixed top-20 left-0 w-64 h-[calc(100vh-5rem)]
+           bg-white border-r px-4 py-6
+           overflow-y-auto z-40 text-sm">
 
-    <div class="space-y-4">
-        <a href="#" class="flex items-center gap-3 text-lg">
-            <span>🏠</span> <span>Home</span>
+    {{-- MAIN NAV --}}
+    <div class="space-y-1">
+        <a href="{{ route('home') }}"
+           class="flex items-center gap-3 px-3 py-2 rounded-md
+                  font-medium
+                  {{ request()->routeIs('home')
+                        ? 'bg-orange-50 text-orange-600'
+                        : 'text-gray-700 hover:bg-gray-100 hover:text-orange-600' }}">
+            <x-heroicon-o-home class="w-5 h-5" />
+            <span>Home</span>
         </a>
 
-        <a href="#" class="flex items-center gap-3 text-lg">
-            <span>🔥</span> <span>Populer</span>
+        <a href="{{ route('home', ['sort' => 'popular']) }}"
+           class="flex items-center gap-3 px-3 py-2 rounded-md
+                  font-medium
+                  {{ request('sort') === 'popular'
+                        ? 'bg-orange-50 text-orange-600'
+                        : 'text-gray-700 hover:bg-gray-100 hover:text-orange-600' }}">
+            <x-heroicon-o-fire class="w-5 h-5" />
+            <span>Popular</span>
         </a>
     </div>
 
-    <hr class="my-6">
+    <hr class="my-5">
 
+    {{-- FOLLOWING COMMUNITIES --}}
+    @auth
+        <div>
+            <h3 class="px-3 mb-2 text-xs font-semibold uppercase text-gray-500">
+                Following Communities
+            </h3>
+
+            <ul class="space-y-1">
+                @forelse ($followingCommunities as $community)
+                    <li>
+                        <a href="{{ route('communities.show', $community) }}"
+                            class="flex items-center gap-3 px-3 py-1.5 rounded-md
+                                    font-medium text-gray-700hover:bg-gray-100 hover:text-orange-600"
+                                    >
+
+                            <x-community-icon :community="$community" size="26" />
+
+                            <span class="truncate">
+                                {{ $community->name }}
+                            </span>
+                        </a>
+                    </li>
+                @empty
+                    <li class="px-3 text-xs text-gray-400 italic">
+                        Belum mengikuti community
+                    </li>
+                @endforelse
+            </ul>
+        </div>
+
+        <hr class="my-5">
+    @endauth
+
+    {{-- DISCOVER COMMUNITIES --}}
     <div>
-        <h3 class="text-sm font-semibold mb-2">Following Community</h3>
-        <ul class="space-y-2 text-gray-700">
-            <li>🧩 Garut Squad</li>
+        <h3 class="px-3 mb-2 text-xs font-semibold uppercase text-gray-500">
+            Discover Communities
+        </h3>
+
+        <ul class="space-y-1">
+            @forelse ($communities as $community)
+                <li>
+                    <a  
+                        href="{{ route('communities.show', $community) }}"
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md
+                                text-gray-700
+                                hover:bg-gray-100 hover:text-orange-600"
+                    >
+
+                        <x-community-icon :community="$community" size="26" />
+
+                        <span class="truncate">
+                            {{ $community->name }}
+                        </span>
+                    </a>
+                </li>
+            @empty
+                <li class="px-3 text-xs text-gray-400 italic">
+                    Community belum tersedia
+                </li>
+            @endforelse
         </ul>
+
+        {{-- ACTIONS --}}
+        <div class="mt-4 space-y-2 px-3">
+            <a  
+                href="{{ route('communities.index') }}"
+                class="flex items-center gap-2 text-orange-600 font-semibold hover:underline">
+                <x-heroicon-o-magnifying-glass class="w-4 h-4" />
+                Cari Community
+            </a>
+
+            @auth
+                <a href="{{ route('communities.create') }}"
+                   class="flex items-center gap-2 text-orange-600 font-semibold hover:underline">
+                    <x-heroicon-o-plus-circle class="w-4 h-4" />
+                    Create Community
+                </a>
+            @endauth
+        </div>
     </div>
-
-    <div class="mt-6">
-        <h3 class="text-sm font-semibold mb-2">Community</h3>
-        <ul class="space-y-2 text-gray-700">
-            <li>👨🏻‍🎓 Teknik Unpas</li>
-            <li>🧘 Ambatukam</li>
-        </ul>
-    </div>
-
-    <div class="mt-6">
-        <a href="{{ route('communities.create') }}"
-            class="text-orange-600 font-semibold">
-            + Create Community
-        </a>
-    </div>
-
-
 </aside>
