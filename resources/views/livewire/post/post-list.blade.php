@@ -27,8 +27,7 @@
             class="block">
 
             <div
-                class="bg-white p-6 rounded-xl shadow-sm border mb-6
-                       hover:border-orange-400 transition">
+                class="bg-white p-6 rounded-xl border border-black/10 mb-6 hover:border-orange-400 transition">
 
                 {{-- AUTHOR --}}
                 <div class="flex items-center gap-3 mb-3">

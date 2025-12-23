@@ -46,7 +46,7 @@ class Show extends Component
             ->with('success', 'Post berhasil dihapus');
     }
 
-    #[Layout('components.layout')]
+    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.post.show', [

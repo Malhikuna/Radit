@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('components.sidebar', function ($view) {
+        View::composer('livewire.shared.sidebar', function ($view) {
 
             $userId = Auth::id();
 

@@ -31,9 +31,10 @@
 
     <!-- IMAGE -->
     @if($post->images && $post->images->count())
-        <img src="{{ asset('storage/' . $post->images->first()->file_path) }}"
-             class="rounded-xl w-full mb-4"
-             alt="post image">
+        <img 
+            src="{{ asset('storage/' . $post->images->first()->file_path) }}"
+            class="rounded-xl w-full mb-4"
+            alt="post image">
     @endif
 
 <!-- VOTE & COMMENTS -->
@@ -45,14 +46,16 @@
     @endphp
 
     <!-- LIKE -->
-    <button wire:click="vote({{ $post->id }}, 1)" 
+    <button 
+            wire:click="vote({{ $post->id }}, 1)" 
             class="px-2 py-1 rounded flex items-center gap-1 transition
             {{ $userVote && $userVote->value == 1 ? 'bg-green-400 text-white' : 'bg-green-200 hover:bg-green-300' }}">
         👍 {{ $post->likes_count }}
     </button>
 
     <!-- DISLIKE -->
-    <button wire:click="vote({{ $post->id }}, -1)" 
+    <button 
+            wire:click="vote({{ $post->id }}, -1)" 
             class="px-2 py-1 rounded flex items-center gap-1 transition
             {{ $userVote && $userVote->value == -1 ? 'bg-red-400 text-white' : 'bg-red-200 hover:bg-red-300' }}">
         👎 {{ $post->dislikes_count }}

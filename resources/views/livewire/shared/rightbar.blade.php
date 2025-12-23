@@ -1,7 +1,7 @@
-<aside class="fixed top-20 right-0 w-80 h-[calc(100vh-5rem)] px-6 py-6 space-y-6 overflow-y-auto">
+<aside class="fixed top-20 right-0 w-80 h-[calc(100vh-5rem)] pr-6 py-6 space-y-6 overflow-y-auto scrollbar-hide">
 
     {{-- COMMUNITY INFO --}}
-    <div class="bg-white rounded-xl border p-4">
+    <div class="bg-white rounded-xl ring ring-gray-200 p-4">
         <h3 class="font-semibold mb-2">About Community</h3>
         <p class="text-sm text-gray-600">
             Tempat diskusi, berbagi cerita, dan posting konten menarik.
@@ -19,7 +19,7 @@
     </div>
 
     {{-- RULES --}}
-    <div class="bg-white rounded-xl border p-4">
+    <div class="bg-white rounded-xl ring ring-gray-200 p-4">
         <h3 class="font-semibold mb-2">Community Rules</h3>
         <ul class="text-sm text-gray-600 space-y-2">
             <li>1. Jangan spam</li>
@@ -29,7 +29,7 @@
     </div>
 
     {{-- TRENDING --}}
-    <div class="bg-white rounded-xl border p-4">
+    <div class="bg-white rounded-xl ring ring-gray-200 p-4">
         <h3 class="font-semibold mb-2">Trending</h3>
         <ul class="text-sm text-gray-600 space-y-2">
             <li>#Laravel</li>

@@ -4,7 +4,7 @@ namespace App\Livewire\Components;
 
 use Livewire\Component;
 use App\Models\Post;
-use App\Models\Vote;
+// use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 
 class Vote extends Component
