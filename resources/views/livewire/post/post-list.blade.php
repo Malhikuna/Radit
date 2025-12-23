@@ -1,27 +1,19 @@
 <div>
     {{-- SORT --}}
     <div class="flex gap-3 mb-4">
-        <button wire:click="$set('sort','new')"
-                class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition
-                {{ $sort === 'new'
-                    ? 'bg-yellow-300 text-yellow-900'
-                    : 'bg-gray-200 hover:bg-gray-300' }}">
-            <x-heroicon-o-clock class="w-4 h-4" />
+        <button wire:click="$set('sort','new')" 
+                class="{{ $sort === 'new' ? 'font-bold' : '' }}">
             New
         </button>
-
-        <button wire:click="$set('sort','best')"
-                class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition
-                {{ $sort === 'best'
-                    ? 'bg-orange-300 text-orange-900'
-                    : 'bg-gray-200 hover:bg-gray-300' }}">
-            <x-heroicon-o-fire class="w-4 h-4" />
+        <button wire:click="$set('sort','best')" 
+                class="{{ $sort === 'best' ? 'font-bold' : '' }}">
             Best
         </button>
     </div>
 
-    {{-- POSTS --}}
+    {{-- POSTS LIST --}}
     @foreach ($posts as $post)
+<<<<<<< HEAD:resources/views/livewire/post/post-list.blade.php
 <<<<<<< HEAD:resources/views/livewire/post/post-list.blade.php
         <div class="bg-white p-6 rounded-xl shadow-sm ring-gray-100 mb-6">
 
@@ -122,5 +114,10 @@
 
             </div>
         </a>
+=======
+        <livewire:components.card
+            :post="$post"
+            :key="'post-'.$post->id" />
+>>>>>>> c87eae3 (feat: crud comment):resources/views/livewire/components/post-list.blade.php
     @endforeach
 </div>
