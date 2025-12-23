@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    {{-- Tailwind CDN --}}
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
 
@@ -35,8 +32,7 @@
                     wire:model.defer="email"
                     type="email"
                     placeholder="Email *"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-full
-                           focus:outline-none focus:border-gray-400">
+                    class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-gray-400">
             </div>
 
             {{-- Password --}}
@@ -45,8 +41,7 @@
                     wire:model.defer="password"
                     type="password"
                     placeholder="Password *"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-full pr-12
-                           focus:outline-none focus:border-gray-400">
+                    class="w-full px-4 py-2 border border-gray-300 rounded-full pr-12 focus:outline-none focus:border-gray-400">
             </div>
 
             {{-- Lupa Password --}}
@@ -57,8 +52,7 @@
             {{-- Button Login --}}
             <button
                 type="submit"
-                class="w-full border border-gray-300 rounded-full py-2 font-bold
-                       hover:bg-gray-100 transition">
+                class="w-full border border-gray-300 rounded-full py-2 font-bold hover:bg-gray-100 transition">
                 Login
             </button>
         </form>
@@ -71,9 +65,7 @@
         {{-- Login Google --}}
         <a
             href="/auth/google"
-            class="flex items-center justify-center gap-3
-                   border border-gray-300 py-2 rounded-full mb-3
-                   hover:bg-gray-50 transition">
+            class="flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-full mb-3 hover:bg-gray-50 transition">
 
             <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -86,9 +78,7 @@
         {{-- Login GitHub --}}
         <a
             href="/auth/github"
-            class="flex items-center justify-center gap-3
-                   border border-gray-300 py-2 rounded-full
-                   hover:bg-gray-50 transition">
+            class="flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-full hover:bg-gray-50 transition">
 
             <img
                 src="https://www.svgrepo.com/show/512317/github-142.svg"
@@ -101,8 +91,9 @@
         {{-- Register --}}
         <p class="text-center mt-6 text-sm">
             Belum punya akun?
-            <a href="/register"
-               class="text-blue-400 font-semibold hover:text-blue-700 transition">
+            <a  
+                href="/register"
+                class="text-blue-400 font-semibold hover:text-blue-700 transition">
                 Daftar
             </a>
         </p>

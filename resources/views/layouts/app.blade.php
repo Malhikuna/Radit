@@ -25,10 +25,24 @@
         @endif
 
         {{-- MAIN CONTENT --}}
+<<<<<<< HEAD
         <main role="main" class="flex-1 p-8">
             {{ $slot }}
         </main>
 
+=======
+        <main role="main" class="flex-1 {{ $hideSidebar ? "pt-0" : "pt-24" }} px-6">
+            {{ $slot }}
+        </main>
+
+        {{-- SIDEBAR KANAN --}}
+        @if (!($hideSidebar ?? false))
+            <div class="hidden lg:block lg:w-80">
+                <livewire:shared.rightbar />
+            </div>
+        @endif
+
+>>>>>>> 7a159d0 (style: fixed layout)
     </div>
 
     @livewireScripts
