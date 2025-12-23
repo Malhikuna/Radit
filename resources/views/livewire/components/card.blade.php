@@ -1,4 +1,4 @@
-<div class="bg-white rounded-xl shadow-sm border mb-4 hover:border-gray-300 transition duration-150">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4 hover:border-gray-300 transition duration-150 cursor-pointer">
 
     {{-- CONTENT COLUMN --}}
     <div class="flex-1 p-4 flex flex-col">
@@ -32,7 +32,7 @@
 
         {{-- TITLE --}}
         <a href="{{ route('posts.show', $post->id) }}">
-            <h2 class="font-bold text-lg leading-snug mb-1 hover:underline transition duration-150">
+            <h2 class="font-bold text-lg leading-snug mb-1 transition duration-150">
                 {{ $post->title }}
             </h2>
         </a>
@@ -56,9 +56,10 @@
 
         {{-- IMAGE --}}
         @if ($post->type === 'image' && $post->images && $post->images->count())
-            <img src="{{ asset('storage/'.$post->images->first()->file_path) }}"
-                 class="rounded-lg max-h-[420px] w-full object-cover mb-3"
-                 alt="post image">
+            <img 
+                src="{{ asset('storage/'.$post->images->first()->file_path) }}"
+                class="rounded-lg max-h-[420px] w-full object-cover mb-3"
+                alt="post image">
         @endif
 
         {{-- VIDEO --}}
@@ -103,18 +104,26 @@
                 <x-heroicon-s-share class="w-4 h-4" />
                 <span @click="open = !open">Share</span>
 
-                <div x-show="open" @click.away="open = false"
-                     class="absolute z-10 mt-1 bg-white border shadow-lg rounded-md p-2 text-xs">
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
-                       target="_blank" class="block hover:bg-gray-100 px-2 py-1 rounded">Facebook</a>
-                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}"
-                       target="_blank" class="block hover:bg-gray-100 px-2 py-1 rounded">Twitter</a>
-                    <a href="https://wa.me/?text={{ urlencode(request()->fullUrl()) }}"
-                       target="_blank" class="block hover:bg-gray-100 px-2 py-1 rounded">WhatsApp</a>
+                <div 
+                    x-show="open" @click.away="open = false"
+                    class="absolute z-10 mt-1 bg-white border shadow-lg rounded-md p-2 text-xs">
+                    <a 
+                        href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
+                        target="_blank" class="block hover:bg-gray-100 px-2 py-1 rounded">
+                        Facebook
+                    </a>
+                    <a 
+                        href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}"
+                        target="_blank" class="block hover:bg-gray-100 px-2 py-1 rounded">
+                        Twitter
+                    </a>
+                    <a 
+                        href="https://wa.me/?text={{ urlencode(request()->fullUrl()) }}"
+                        target="_blank" class="block hover:bg-gray-100 px-2 py-1 rounded">
+                        WhatsApp
+                    </a>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
