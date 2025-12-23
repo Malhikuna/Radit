@@ -26,6 +26,7 @@
 
         {{-- MAIN CONTENT --}}
 <<<<<<< HEAD
+<<<<<<< HEAD
         <main role="main" class="flex-1 p-8">
             {{ $slot }}
         </main>
@@ -34,6 +35,17 @@
         <main role="main" class="flex-1 {{ $hideSidebar ? "pt-0" : "pt-24" }} px-6">
             {{ $slot }}
         </main>
+=======
+        @if (!($hideSidebar ?? false))
+            <main role="main" class="flex-1 pt-24 px-6">
+                {{ $slot }}
+            </main>
+        @else
+            <main role="main" class="flex-1 pt-0 px-6">
+                {{ $slot }}
+            </main>
+        @endif
+>>>>>>> 288cf78 (feat: added midtrans)
 
         {{-- SIDEBAR KANAN --}}
         @if (!($hideSidebar ?? false))

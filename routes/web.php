@@ -18,7 +18,10 @@ use App\Livewire\Pages\Community\Create as CommunityCreate;
 use App\Livewire\Pages\Community\Edit as CommunityEdit;
 use App\Livewire\Pages\Community\Show as CommunityShow;
 
+use App\Livewire\Premium\Checkout;
+
 use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +65,15 @@ Route::prefix('communities')->name('communities.')->group(function () {
     Route::get('/{community}', CommunityShow::class)->name('show');
     Route::get('/{community}/edit', CommunityEdit::class)->name('edit');
 });
+
+/*
+|--------------------------------------------------------------------------
+| PREMIUM - Payment Gateway
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/checkout', Checkout::class)->name('checkout');
+Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
 
 /*
 |--------------------------------------------------------------------------
