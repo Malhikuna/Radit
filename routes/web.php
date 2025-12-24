@@ -14,6 +14,8 @@ use App\Livewire\Search;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\AdminLogin;
+use App\Livewire\User\Profile;
+use App\Livewire\User\UserProfile;
 
 /** Posts */
 use App\Livewire\Post\Create as PostCreate;
@@ -35,6 +37,7 @@ use App\Livewire\Admin\Users;
 use App\Livewire\Admin\Posts;
 use App\Livewire\Admin\Communities;
 use App\Livewire\Admin\Reports;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -98,9 +101,6 @@ Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
-
-    /** Admin Login */
-    Route::get('/admin/login', AdminLogin::class)->name('admin.login');
 });
 
 Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect']);
@@ -124,3 +124,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/communities', Communities::class)->name('communities');
     Route::get('/reports', Reports::class)->name('reports');
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| USER PROFILE
+|--------------------------------------------------------------------------
+*/
+// Profil login user sendiri (private)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', Profile::class)->name('profile');
+});
+
+// Profil publik user berdasarkan ID
+Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
+
+
