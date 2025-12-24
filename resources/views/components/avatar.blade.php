@@ -1,4 +1,4 @@
-<div>
+<div class="cursor-pointer">
 @if ($user->avatar)
     <img
         src="{{ asset('storage/' . $user->avatar) }}"
