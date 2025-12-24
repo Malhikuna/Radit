@@ -111,4 +111,9 @@
             @endauth
         </div>
     </div>
+
+    <div class="mt-10" >
+           {{-- SIMPLE AD --}}
+    <livewire:simple-ad />
+    </div>
 </aside>
