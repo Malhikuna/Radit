@@ -35,6 +35,7 @@ use App\Livewire\Admin\Users;
 use App\Livewire\Admin\Posts;
 use App\Livewire\Admin\Communities;
 use App\Livewire\Admin\Reports;
+use App\Livewire\Auth\AdminLogin;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,4 +129,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/posts', Posts::class)->name('posts');
     Route::get('/communities', Communities::class)->name('communities');
     Route::get('/reports', Reports::class)->name('reports');
+
 });
