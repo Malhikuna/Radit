@@ -7,10 +7,16 @@
             Tempat diskusi, berbagi cerita, dan posting konten menarik.
         </p>
 
-        <div class="mt-4 text-sm text-gray-500">
-            👥 1.234 Members  
-            <br>
-            🟢 23 Online
+        <div class="mt-4 text-sm text-gray-500 space-y-1">
+            <div class="flex items-center gap-2">
+                <x-heroicon-o-user-group class="w-5 h-5" />
+                <span>1.234 Members</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <x-heroicon-o-signal class="w-5 h-5 text-green-500" />
+                <span>23 Online</span>
+            </div>
         </div>
 
         <button class="mt-4 w-full bg-orange-600 text-white py-2 rounded-full font-semibold hover:bg-orange-700">

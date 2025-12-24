@@ -62,7 +62,7 @@
             </ul>
         </div>
 
-        <hr class="my-5">
+        <div class="border-b my-5 border-black/10 w-full"></div>
     @endauth
 
     {{-- DISCOVER COMMUNITIES --}}
