@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto">
 
     {{-- COMMUNITY HEADER --}}
-    <div class="bg-white rounded-lg border mb-6 overflow-hidden">
+    <div class="bg-white rounded-lg border border-gray-200 mb-6 overflow-hidden">
 
         {{-- BANNER --}}
         <div class="h-32 bg-gradient-to-r from-orange-500 to-orange-400"></div>
@@ -18,7 +18,7 @@
             {{-- TITLE --}}
             <div>
                 <h1 class="text-2xl font-bold">
-                    r/{{ $community->name }}
+                    c/{{ $community->name }}
                 </h1>
                 <p class="text-sm text-gray-500">
                     {{ $community->members_count }} members
@@ -130,7 +130,7 @@
 
             </div>
         @empty
-            <div class="bg-white border rounded-lg p-6 text-center text-gray-500">
+            <div class="bg-white border border-gray-200 rounded-lg p-6 text-center text-gray-500">
                 Belum ada post di community ini
             </div>
         @endforelse
