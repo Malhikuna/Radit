@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Livewire\Home;
-use App\Livewire\Search;
+use App\Livewire\Search\Show as SearchShow;
 
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
@@ -37,7 +37,7 @@ Route::get('/', Home::class)
 |--------------------------------------------------------------------------
 */
 
-Route::get('/search', Search::class)->name('search');
+Route::get('/search', SearchShow::class)->name('search');
 
 /*
 |--------------------------------------------------------------------------
