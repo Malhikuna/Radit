@@ -5,8 +5,14 @@
     </div>
 
     <div class="flex-1 px-10">
-        <input type="text" placeholder="Cari disini..."
-            class="w-full px-4 py-2 rounded-full border focus:outline-none focus:ring-2 focus:ring-orange-400">
+        <form action="{{ route('search') }}" method="GET">
+            <input
+                type="text"
+                name="q"
+                value="{{ request('q') }}"
+                placeholder="Cari disini..."
+                class="w-full px-4 py-2 rounded-full border focus:outline-none focus:ring-2 focus:ring-orange-400" />
+        </form>
     </div>
 
     <div class="flex items-center gap-4">
@@ -14,7 +20,7 @@
             <span>⚙️</span> Create
         </button>
         @auth
-            <x-avatar :user="auth()->user()" size="40" />
+        <x-avatar :user="auth()->user()" size="40" />
         @endauth
     </div>
 </nav>

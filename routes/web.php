@@ -7,6 +7,7 @@ use App\Livewire\Pages\Auth\Login;
 use App\Livewire\Pages\Auth\Register;
 use App\Http\Controllers\SocialAuthController;
 use App\Livewire\Pages\Home;
+use App\Livewire\Pages\Search;
 use App\Livewire\Pages\Post\Create as PostCreate;
 use App\Livewire\Pages\Community\Create as CommunityCreate;
 use App\Livewire\Pages\Community\Index as CommunityIndex;
@@ -16,6 +17,8 @@ Route::get('/counter', Counter::class);
 
 Route::get('/', Home::class);
 Route::get('/', Home::class)->name('home');
+
+Route::get('/search', Search::class)->name('search');
 
 Route::get('/create-thread', PostCreate::class)
     ->name('posts.create');
