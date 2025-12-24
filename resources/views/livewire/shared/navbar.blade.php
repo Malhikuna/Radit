@@ -70,7 +70,7 @@
                         class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
 
                         <a 
-                            href="#"
+                            href="{{ route('profile') }}"
                             class="block px-4 py-2 text-sm hover:bg-gray-100">
                             Profile
                         </a>

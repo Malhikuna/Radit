@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Route;
 | LIVEWIRE COMPONENTS
 |--------------------------------------------------------------------------
 */
-
 use App\Livewire\Home;
 use App\Livewire\Search;
 
 /** Auth */
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Auth\AdminLogin;
 
 /** Posts */
 use App\Livewire\Post\Create as PostCreate;
@@ -35,7 +35,6 @@ use App\Livewire\Admin\Users;
 use App\Livewire\Admin\Posts;
 use App\Livewire\Admin\Communities;
 use App\Livewire\Admin\Reports;
-use App\Livewire\Auth\AdminLogin;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,17 +50,11 @@ use App\Http\Controllers\PaymentController;
 |--------------------------------------------------------------------------
 */
 Route::get('/', Home::class)->name('home');
-
-/*
-|--------------------------------------------------------------------------
-| SEARCH
-|--------------------------------------------------------------------------
-*/
 Route::get('/search', Search::class)->name('search');
 
 /*
 |--------------------------------------------------------------------------
-| POSTS (Reddit Style)
+| POSTS
 |--------------------------------------------------------------------------
 */
 Route::get('/posts/{post}', PostShow::class)->name('posts.show');
@@ -95,7 +88,6 @@ Route::prefix('communities')->name('communities.')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', Checkout::class)->name('checkout');
 });
-
 Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
 
 /*
@@ -106,6 +98,9 @@ Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
+
+    /** Admin Login */
+    Route::get('/admin/login', AdminLogin::class)->name('admin.login');
 });
 
 Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect']);
@@ -122,12 +117,10 @@ Route::post('/logout', function () {
 | ADMIN PANEL (LIVEWIRE)
 |--------------------------------------------------------------------------
 */
-
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
     Route::get('/users', Users::class)->name('users');
     Route::get('/posts', Posts::class)->name('posts');
     Route::get('/communities', Communities::class)->name('communities');
     Route::get('/reports', Reports::class)->name('reports');
-
 });
