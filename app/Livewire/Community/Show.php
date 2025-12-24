@@ -24,7 +24,7 @@ class Show extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.pages.community.show', [
+        return view('livewire.community.show', [
             'posts' => $this->community->posts,
             'title' => 'r/' . $this->community->name
         ]);
