@@ -38,6 +38,8 @@ use App\Livewire\Admin\Posts;
 use App\Livewire\Admin\Communities;
 use App\Livewire\Admin\Reports;
 
+use App\Http\Controllers\WeatherPublicController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -138,5 +140,12 @@ Route::middleware(['auth'])->group(function () {
 
 // Profil publik user berdasarkan ID
 Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
+
+
+
+
+// Route::get('/weather-public', WeatherPublicController::class);
+
+
 
 
