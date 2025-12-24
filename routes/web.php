@@ -37,31 +37,20 @@ Route::get('/', Home::class)
 |--------------------------------------------------------------------------
 */
 
-Route::get('/search', Search::class)
-    ->name('search');
+Route::get('/search', Search::class)->name('search');
 
 /*
 |--------------------------------------------------------------------------
-| POSTS (REDDIT STYLE CRUD)
+| POSTS
 |--------------------------------------------------------------------------
-| Create  -> /create-thread
-| Show    -> /posts/{post}
-| Edit    -> /posts/{post}/edit
-| Update  -> Livewire method
-| Delete  -> Livewire method
 */
 
 Route::middleware('auth')->group(function () {
-
-    Route::get('/create-thread', PostCreate::class)
-        ->name('posts.create');
-
-    Route::get('/posts/{post}/edit', PostEdit::class)
-        ->name('posts.edit');
+    Route::get('/create-thread', PostCreate::class)->name('posts.create');
+    Route::get('/posts/{post}/edit', PostEdit::class)->name('posts.edit');
 });
 
-Route::get('/posts/{post}', PostShow::class)
-    ->name('posts.show');
+Route::get('/posts/{post}', PostShow::class)->name('posts.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -69,22 +58,21 @@ Route::get('/posts/{post}', PostShow::class)
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('communities')
-    ->name('communities.')
-    ->group(function () {
+Route::prefix('communities')->name('communities.')->group(function () {
+    Route::get('/', CommunityIndex::class)->name('index');
+    Route::get('/create', CommunityCreate::class)->name('create');
+    Route::get('/{community}', CommunityShow::class)->name('show');
+    Route::get('/{community}/edit', CommunityEdit::class)->name('edit');
+});
 
-        Route::get('/', CommunityIndex::class)
-            ->name('index');
+/*
+|--------------------------------------------------------------------------
+| PREMIUM - Payment Gateway
+|--------------------------------------------------------------------------
+*/
 
-        Route::get('/create', CommunityCreate::class)
-            ->name('create');
-
-        Route::get('/{community}', CommunityShow::class)
-            ->name('show');
-
-        Route::get('/{community}/edit', CommunityEdit::class)
-            ->name('edit');
-    });
+Route::get('/checkout', Checkout::class)->name('checkout');
+Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
 
 /*
 |--------------------------------------------------------------------------
