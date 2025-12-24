@@ -94,10 +94,12 @@
             </div>
 
             {{-- Comments --}}
-            <div class="flex items-center gap-1 hover:text-gray-700 cursor-pointer">
-                <x-heroicon-s-chat-bubble-bottom-center class="w-4 h-4" />
-                {{ $post->comments_count ?? 0 }} Comments
-            </div>
+            <a href="{{ route('posts.show', $post) }}">
+                <div class="flex items-center gap-1 hover:text-gray-700 cursor-pointer">
+                    <x-heroicon-s-chat-bubble-bottom-center class="w-4 h-4" />
+                    {{ $post->comments_count ?? 0 }} Comments
+                </div>
+            </a>
 
             {{-- Share --}}
             <div class="flex items-center gap-1 hover:text-gray-700 cursor-pointer relative" x-data="{ open: false }">
