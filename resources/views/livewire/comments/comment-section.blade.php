@@ -20,7 +20,7 @@
 
                 <button
                     wire:click="store"
-                    class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-1.5 rounded-md text-sm"
+                    class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-1.5 rounded-md text-sm"
                 >
                     Kirim
                 </button>

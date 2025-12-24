@@ -3,7 +3,7 @@
     {{-- ================= HEADER ================= --}}
     <div class="flex items-center gap-4 mb-6">
         <div
-            class="w-16 h-16 rounded-full bg-orange-500
+            class="w-16 h-16 rounded-full bg-purple-500
                    flex items-center justify-center
                    text-white font-bold text-xl">
             {{ strtoupper(substr($user->name, 0, 1)) }}

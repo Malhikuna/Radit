@@ -6,7 +6,7 @@
 
             {{-- USER HEADER --}}
             <div class="bg-white border rounded-lg mb-4 overflow-hidden">
-                <div class="h-24 bg-orange-500"></div>
+                <div class="h-24 bg-purple-500"></div>
 
                 <div class="p-4 flex items-start gap-4">
                     {{-- AVATAR --}}

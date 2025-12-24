@@ -43,7 +43,7 @@
             <div class="flex items-center gap-1">
                 <button
                     wire:click="voteComment({{ $comment->id }}, 1)"
-                    class="hover:text-orange-500"
+                    class="hover:text-purple-500"
                 >▲</button>
 
                 <span class="font-semibold text-gray-700">
