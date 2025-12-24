@@ -15,6 +15,7 @@ return array(
     'App\\Http\\Controllers\\SocialAuthController' => $baseDir . '/app/Http/Controllers/SocialAuthController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
     'App\\Http\\Controllers\\VoteController' => $baseDir . '/app/Http/Controllers/VoteController.php',
+    'App\\Http\\Middleware\\AdminMiddleware' => $baseDir . '/app/Http/Middleware/AdminMiddleware.php',
     'App\\Livewire\\Admin\\Comments' => $baseDir . '/app/Livewire/Admin/Comments.php',
     'App\\Livewire\\Admin\\Communities' => $baseDir . '/app/Livewire/Admin/Communities.php',
     'App\\Livewire\\Admin\\Dashboard' => $baseDir . '/app/Livewire/Admin/Dashboard.php',
