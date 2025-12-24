@@ -1,17 +1,6 @@
 <?php
 
-<<<<<<< HEAD:app/Livewire/Community/Edit.php
 namespace App\Livewire\Community;
-
-use Livewire\Component;
-
-class Edit extends Component
-{
-    public function render()
-    {
-        return view('livewire.community.edit');
-=======
-namespace App\Livewire\Pages\Community;
 
 use Livewire\Component;
 use App\Models\Community;
@@ -48,6 +37,5 @@ class Edit extends Component
     {
         return view('livewire.pages.community.edit')
             ->layout('components.layout', ['title' => 'Edit Community']);
->>>>>>> 235d953b77b221caa7e2489c340946dc09ab07f7:app/Livewire/Pages/Community/Edit.php
     }
 }
