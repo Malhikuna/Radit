@@ -15,8 +15,8 @@ class SocialAuthController extends Controller
 
     public function callback($provider)
     {
-        // $socialUser = Socialite::driver($provider)->stateless()->user();
-        $socialUser = Socialite::driver($provider)->user();
+        $socialUser = Socialite::driver($provider)->stateless()->user();
+        // $socialUser = Socialite::driver($provider)->user();
 
         $user = User::firstOrCreate(
             ['email' => $socialUser->getEmail()],

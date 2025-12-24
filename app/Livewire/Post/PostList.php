@@ -18,6 +18,26 @@ class PostList extends Component
         $this->search = $search;
     }
 
+    /* public function render()
+    {
+        $query = Post::with(['user', 'images', 'votes'])
+            ->withCount('comments')
+            ->withSum('votes', 'value');
+
+        if ($this->search !== '') {
+            $query->where(function ($q) {
+                $q->where('title', 'like', "%{$this->search}%")
+                    ->orWhere('content', 'like', "%{$this->search}%");
+            });
+        }
+
+        $this->sort === 'best'
+            ? $query->orderByDesc('votes_sum_value')
+            : $query->orderByDesc('created_at');
+
+        return view('livewire.post.post-list', compact('posts'));
+    } */
+
     public function render()
     {
         $query = Post::with(['user', 'images', 'votes'])
@@ -35,8 +55,9 @@ class PostList extends Component
             ? $query->orderByDesc('votes_sum_value')
             : $query->orderByDesc('created_at');
 
-<<<<<<< HEAD:app/Livewire/Post/PostList.php
-        return view('livewire.post.post-list', compact('posts'));
+        return view('livewire.post.post-list', [
+            'posts' => $query->paginate(10),
+        ]);
     }
 
     public function vote($postId, $value)
@@ -66,10 +87,5 @@ class PostList extends Component
     public function setSort($type)
     {
         $this->sort = $type;
-=======
-        return view('livewire.components.post-list', [
-            'posts' => $query->get()
-        ]);
->>>>>>> 235d953b77b221caa7e2489c340946dc09ab07f7:app/Livewire/Components/PostList.php
     }
 }

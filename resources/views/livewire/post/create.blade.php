@@ -1,9 +1,9 @@
 <div class="max-w-2xl mx-auto mt-6">
 
-    <div class="bg-white rounded-lg shadow border">
+    <div class="bg-white rounded-lg shadow border border-gray-100">
 
         {{-- HEADER --}}
-        <div class="px-4 py-3 border-b flex items-center justify-between">
+        <div class="px-4 py-3 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
             <h1 class="font-semibold text-base">Create a post</h1>
         </div>
 
@@ -15,11 +15,11 @@
                 <input
                     wire:model="communitySearch"
                     placeholder="Choose a community"
-                    class="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring"
+                    class="w-full border border-gray-100 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-orange-500"
                 >
 
                 @if (count($communities))
-                    <div class="absolute z-20 bg-white border rounded-md w-full mt-1 shadow">
+                    <div class="absolute z-20 bg-white border border-gray-100 rounded-md w-full mt-1 shadow">
                         @foreach ($communities as $community)
                             <button
                                 type="button"
@@ -40,24 +40,36 @@
 
             {{-- TABS --}}
             <div class="flex border-b text-sm">
-                @foreach (['text' => '📝', 'image' => '🖼️', 'video' => '🎬', 'link' => '🔗', 'poll' => '📊'] as $key => $icon)
+                @foreach ([
+                    'text'  => 'pencil-square',
+                    'image' => 'photo',
+                    'video' => 'video-camera',
+                    'link'  => 'link',
+                    'poll'  => 'chart-bar',
+                ] as $key => $icon)
                     <button
                         type="button"
                         wire:click="setType('{{ $key }}')"
-                        class="flex-1 py-2 text-center {{ $type === $key
-                            ? 'border-b-2 border-blue-600 font-medium text-blue-600'
-                            : 'text-gray-500 hover:text-gray-700' }} "
+                        class="flex-1 py-2 flex items-center justify-center gap-2
+                            {{ $type === $key
+                                ? 'border-b-2 border-blue-600 font-medium text-blue-600'
+                                : 'text-gray-500 hover:text-gray-700' }}"
                     >
-                        {{ $icon }} {{ ucfirst($key) }}
+                        <x-dynamic-component
+                            :component="'heroicon-s-' . $icon"
+                            class="w-4 h-4"
+                        />
+                        <span>{{ ucfirst($key) }}</span>
                     </button>
                 @endforeach
             </div>
+
 
             {{-- TITLE --}}
             <input
                 wire:model.defer="title"
                 placeholder="Title"
-                class="w-full border rounded-md px-3 py-2 text-sm"
+                class="w-full border border-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 rounded-md px-3 py-2 text-sm"
             >
             @error('title')
                 <p class="text-xs text-red-500">{{ $message }}</p>
@@ -68,7 +80,7 @@
                 <textarea
                     wire:model.defer="content"
                     placeholder="What are your thoughts?"
-                    class="w-full h-32 border rounded-md px-3 py-2 text-sm resize-none"
+                    class="w-full h-32 border border-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 rounded-md px-3 py-2 text-sm resize-none"
                 ></textarea>
             @endif
 
@@ -77,7 +89,7 @@
                 <input
                     wire:model.defer="url"
                     placeholder="https://example.com"
-                    class="w-full border rounded-md px-3 py-2 text-sm"
+                    class="w-full border border-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 rounded-md px-3 py-2 text-sm"
                 >
                 @error('url')
                     <p class="text-xs text-red-500">{{ $message }}</p>
@@ -117,7 +129,7 @@
                     type="text"
                     wire:model.defer="pollQuestion"
                     placeholder="Poll question"
-                    class="w-full border rounded-md px-3 py-2 text-sm mb-2"
+                    class="w-full border border-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 rounded-md px-3 py-2 text-sm mb-2"
                 >
                 @foreach ($pollOptions as $i => $option)
                     <div class="flex gap-2 items-center mb-2">
@@ -125,7 +137,7 @@
                             type="text"
                             wire:model.defer="pollOptions.{{ $i }}"
                             placeholder="Option {{ $i + 1 }}"
-                            class="flex-1 border rounded-md px-3 py-2 text-sm"
+                            class="flex-1 border border-gray-100 rounded-md px-3 py-2 text-sm"
                         >
                         @if ($i >= 2)
                             <button type="button" wire:click="removePollOption({{ $i }})" class="text-red-500">✖</button>
@@ -138,7 +150,7 @@
         </div>
 
         {{-- FOOTER --}}
-        <div class="px-4 py-3 border-t flex justify-end bg-gray-50">
+        <div class="px-4 py-3 border-t border border-gray-100 flex justify-end bg-gray-50">
             <button
                 wire:click="post"
                 class="bg-blue-600 text-white text-sm px-5 py-2 rounded-full hover:bg-blue-700"

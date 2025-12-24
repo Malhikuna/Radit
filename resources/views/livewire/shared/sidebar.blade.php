@@ -1,36 +1,36 @@
-<<<<<<< HEAD:resources/views/livewire/shared/sidebar.blade.php
-<aside class="w-64 h-screen shadow-sm ring-gray-100 px-6 py-6">
-=======
 <aside
-    class="fixed top-20 left-0 w-64 h-[calc(100vh-5rem)]
-           bg-white border-r px-4 py-6
-           overflow-y-auto z-40 text-sm">
->>>>>>> 235d953b77b221caa7e2489c340946dc09ab07f7:resources/views/components/sidebar.blade.php
+    class="fixed top-20 left-0 w-64 h-[calc(100vh-5rem)] bg-white border-r border-gray-200 px-4 py-6 overflow-y-auto z-40 text-sm">
 
     {{-- MAIN NAV --}}
     <div class="space-y-1">
-        <a href="{{ route('home') }}"
-           class="flex items-center gap-3 px-3 py-2 rounded-md
-                  font-medium
-                  {{ request()->routeIs('home')
-                        ? 'bg-orange-50 text-orange-600'
-                        : 'text-gray-700 hover:bg-gray-100 hover:text-orange-600' }}">
+        <a 
+            href="{{ route('home') }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-md font-medium 
+                        {{ 
+                            request()->routeIs('home')
+                            ? 'bg-orange-50 text-orange-600'
+                            : 'text-gray-700 hover:bg-gray-100 hover:text-orange-600' 
+                        }}"
+        >
             <x-heroicon-o-home class="w-5 h-5" />
             <span>Home</span>
         </a>
 
-        <a href="{{ route('home', ['sort' => 'popular']) }}"
-           class="flex items-center gap-3 px-3 py-2 rounded-md
-                  font-medium
-                  {{ request('sort') === 'popular'
+        <a 
+            href="{{ route('home', ['sort' => 'popular']) }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-md font-medium
+                    {{ 
+                        request('sort') === 'popular'
                         ? 'bg-orange-50 text-orange-600'
-                        : 'text-gray-700 hover:bg-gray-100 hover:text-orange-600' }}">
+                        : 'text-gray-700 hover:bg-gray-100 hover:text-orange-600' 
+                    }}"
+        >
             <x-heroicon-o-fire class="w-5 h-5" />
             <span>Popular</span>
         </a>
     </div>
 
-    <hr class="my-5">
+    <div class="border-b my-5 border-black/10 w-full"></div>
 
     {{-- FOLLOWING COMMUNITIES --}}
     @auth
@@ -43,9 +43,8 @@
                 @forelse ($followingCommunities as $community)
                     <li>
                         <a href="{{ route('communities.show', $community) }}"
-                           class="flex items-center gap-3 px-3 py-1.5 rounded-md
-                                  font-medium text-gray-700
-                                  hover:bg-gray-100 hover:text-orange-600">
+                            class="flex items-center gap-3 px-3 py-1.5 rounded-md font-medium text-gray-700 hover:bg-gray-100 hover:text-orange-600"
+                        >
 
                             <x-community-icon :community="$community" size="26" />
 
@@ -74,10 +73,10 @@
         <ul class="space-y-1">
             @forelse ($communities as $community)
                 <li>
-                    <a href="{{ route('communities.show', $community) }}"
-                       class="flex items-center gap-3 px-3 py-1.5 rounded-md
-                              text-gray-700
-                              hover:bg-gray-100 hover:text-orange-600">
+                    <a  
+                        href="{{ route('communities.show', $community) }}"
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md text-gray-700 hover:bg-gray-100 hover:text-orange-600"
+                    >
 
                         <x-community-icon :community="$community" size="26" />
 
@@ -95,15 +94,17 @@
 
         {{-- ACTIONS --}}
         <div class="mt-4 space-y-2 px-3">
-            <a href="{{ route('communities.index') }}"
-               class="flex items-center gap-2 text-orange-600 font-semibold hover:underline">
+            <a  
+                href="{{ route('communities.index') }}"
+                class="flex items-center gap-2 text-orange-600 font-semibold hover:underline">
                 <x-heroicon-o-magnifying-glass class="w-4 h-4" />
                 Cari Community
             </a>
 
             @auth
-                <a href="{{ route('communities.create') }}"
-                   class="flex items-center gap-2 text-orange-600 font-semibold hover:underline">
+                <a 
+                    href="{{ route('communities.create') }}"
+                    class="flex items-center gap-2 text-orange-600 font-semibold hover:underline">
                     <x-heroicon-o-plus-circle class="w-4 h-4" />
                     Create Community
                 </a>

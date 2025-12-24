@@ -10,7 +10,7 @@
     @livewireStyles
 </head>
 
-<body class="bg-gray-50 antialiased">
+<body class="bg-gray-100 antialiased">
 
     {{-- NAVBAR --}}
     @if (!($hideNavbar ?? false))
@@ -21,21 +21,12 @@
 
         {{-- SIDEBAR --}}
         @if (!($hideSidebar ?? false))
-            <livewire:shared.sidebar />
+            <div class="hidden lg:block lg:w-64">
+                <livewire:shared.sidebar />
+            </div>
         @endif
 
         {{-- MAIN CONTENT --}}
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <main role="main" class="flex-1 p-8">
-            {{ $slot }}
-        </main>
-
-=======
-        <main role="main" class="flex-1 {{ $hideSidebar ? "pt-0" : "pt-24" }} px-6">
-            {{ $slot }}
-        </main>
-=======
         @if (!($hideSidebar ?? false))
             <main role="main" class="flex-1 pt-24 px-6">
                 {{ $slot }}
@@ -45,7 +36,6 @@
                 {{ $slot }}
             </main>
         @endif
->>>>>>> 288cf78 (feat: added midtrans)
 
         {{-- SIDEBAR KANAN --}}
         @if (!($hideSidebar ?? false))
@@ -54,7 +44,6 @@
             </div>
         @endif
 
->>>>>>> 7a159d0 (style: fixed layout)
     </div>
 
     @livewireScripts

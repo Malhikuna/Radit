@@ -13,7 +13,7 @@ class Card extends Component
     public function mount(Post $post)
     {
         $this->post = $post->loadSum('votes', 'value')
-                           ->loadCount('comments');
+                            ->loadCount('comments');
     }
 
     public function render()

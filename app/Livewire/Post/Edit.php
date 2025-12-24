@@ -1,23 +1,13 @@
 <?php
 
-<<<<<<< HEAD:app/Livewire/Post/Edit.php
 namespace App\Livewire\Post;
-
-use Livewire\Component;
-
-class Edit extends Component
-{
-    public function render()
-    {
-        return view('livewire.post.edit');
-=======
-namespace App\Livewire\Pages\Post;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Post;
 use App\Models\Community;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 
 class Edit extends Component
 {
@@ -112,12 +102,11 @@ class Edit extends Component
         return redirect()->route('posts.show', $this->post);
     }
 
+    #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.pages.post.edit')
-            ->layout('components.layout', [
-                'title' => 'Edit Post',
-            ]);
->>>>>>> 235d953b77b221caa7e2489c340946dc09ab07f7:app/Livewire/Pages/Post/Edit.php
+        return view('livewire.post.create', [
+            'title' => 'Edit Post'
+        ]);
     }
 }

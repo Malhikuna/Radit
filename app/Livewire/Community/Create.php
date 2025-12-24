@@ -4,6 +4,7 @@ namespace App\Livewire\Community;
 
 use Livewire\Component;
 use App\Models\Community;
+use Livewire\Attributes\Layout;
 
 class Create extends Component
 {
@@ -31,11 +32,11 @@ class Create extends Component
         // return redirect()->route('home');
     }
 
+    #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.pages.community.create')
-            ->layout('components.layout', [
-                'title' => 'Create Community'
-            ]);
+        return view('livewire.community.create', [
+            'title' => 'Create Community'
+        ]);
     }
 }

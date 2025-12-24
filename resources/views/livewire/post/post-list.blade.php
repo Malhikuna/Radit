@@ -13,22 +13,18 @@
 
     {{-- POSTS LIST --}}
     @foreach ($posts as $post)
-<<<<<<< HEAD:resources/views/livewire/post/post-list.blade.php
-<<<<<<< HEAD:resources/views/livewire/post/post-list.blade.php
         <div class="bg-white p-6 rounded-xl shadow-sm ring-gray-100 mb-6">
 
             <!-- AUTHOR -->
             <div class="flex items-center gap-3 mb-3">
                 <img src="{{ $post->user->avatar ? asset('storage/' . $post->user->avatar) : 'https://cdn-icons-png.flaticon.com/512/149/149071.png' }}"
                         class="w-10 h-10 rounded-full object-cover border" />
-=======
         <a href="{{ route('posts.show', $post->id) }}"
            class="block">
 
             <div
                 class="bg-white p-6 rounded-xl shadow-sm border mb-6
                        hover:border-orange-400 transition">
->>>>>>> 235d953b77b221caa7e2489c340946dc09ab07f7:resources/views/livewire/components/post-list.blade.php
 
                 {{-- AUTHOR --}}
                 <div class="flex items-center gap-3 mb-3">
@@ -114,10 +110,10 @@
 
             </div>
         </a>
-=======
+
         <livewire:components.card
             :post="$post"
             :key="'post-'.$post->id" />
->>>>>>> c87eae3 (feat: crud comment):resources/views/livewire/components/post-list.blade.php
+
     @endforeach
 </div>

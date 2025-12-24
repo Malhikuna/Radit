@@ -145,7 +145,7 @@ class Create extends Component
         return redirect()->route('home');
     }
 
-    #[Layout('components.layout')]
+    #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.post.create', [

@@ -2,21 +2,20 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Livewire\Pages\Counter;
-use App\Livewire\Pages\Home;
-use App\Livewire\Pages\Search;
+use App\Livewire\Home;
+use App\Livewire\Search;
 
-use App\Livewire\Pages\Auth\Login;
-use App\Livewire\Pages\Auth\Register;
+use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Register;
 
-use App\Livewire\Pages\Post\Create as PostCreate;
-use App\Livewire\Pages\Post\Show as PostShow;
-use App\Livewire\Pages\Post\Edit as PostEdit;
+use App\Livewire\Post\Create as PostCreate;
+use App\Livewire\Post\Show as PostShow;
+use App\Livewire\Post\Edit as PostEdit;
 
-use App\Livewire\Pages\Community\Index as CommunityIndex;
-use App\Livewire\Pages\Community\Create as CommunityCreate;
-use App\Livewire\Pages\Community\Edit as CommunityEdit;
-use App\Livewire\Pages\Community\Show as CommunityShow;
+use App\Livewire\Community\Index as CommunityIndex;
+use App\Livewire\Community\Create as CommunityCreate;
+use App\Livewire\Community\Edit as CommunityEdit;
+use App\Livewire\Community\Show as CommunityShow;
 
 use App\Livewire\Premium\Checkout;
 
@@ -29,8 +28,8 @@ use App\Http\Controllers\PaymentController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/counter', Counter::class);
-Route::get('/', Home::class)->name('home');
+Route::get('/', Home::class)
+    ->name('home');
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +64,15 @@ Route::prefix('communities')->name('communities.')->group(function () {
     Route::get('/{community}', CommunityShow::class)->name('show');
     Route::get('/{community}/edit', CommunityEdit::class)->name('edit');
 });
+
+/*
+|--------------------------------------------------------------------------
+| PREMIUM - Payment Gateway
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/checkout', Checkout::class)->name('checkout');
+Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
 
 /*
 |--------------------------------------------------------------------------
