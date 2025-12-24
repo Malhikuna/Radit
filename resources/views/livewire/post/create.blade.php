@@ -15,7 +15,7 @@
                 <input
                     wire:model="communitySearch"
                     placeholder="Choose a community"
-                    class="w-full border border-gray-100 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-orange-500"
+                    class="w-full border border-gray-100 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-purple-500"
                 >
 
                 @if (count($communities))
@@ -69,7 +69,7 @@
             <input
                 wire:model.defer="title"
                 placeholder="Title"
-                class="w-full border border-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 rounded-md px-3 py-2 text-sm"
+                class="w-full border border-gray-100 focus:outline-none focus:ring-1 focus:ring-purple-500 rounded-md px-3 py-2 text-sm"
             >
             @error('title')
                 <p class="text-xs text-red-500">{{ $message }}</p>
@@ -80,7 +80,7 @@
                 <textarea
                     wire:model.defer="content"
                     placeholder="What are your thoughts?"
-                    class="w-full h-32 border border-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 rounded-md px-3 py-2 text-sm resize-none"
+                    class="w-full h-32 border border-gray-100 focus:outline-none focus:ring-1 focus:ring-purple-500 rounded-md px-3 py-2 text-sm resize-none"
                 ></textarea>
             @endif
 
@@ -89,7 +89,7 @@
                 <input
                     wire:model.defer="url"
                     placeholder="https://example.com"
-                    class="w-full border border-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 rounded-md px-3 py-2 text-sm"
+                    class="w-full border border-gray-100 focus:outline-none focus:ring-1 focus:ring-purple-500 rounded-md px-3 py-2 text-sm"
                 >
                 @error('url')
                     <p class="text-xs text-red-500">{{ $message }}</p>
@@ -129,7 +129,7 @@
                     type="text"
                     wire:model.defer="pollQuestion"
                     placeholder="Poll question"
-                    class="w-full border border-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-500 rounded-md px-3 py-2 text-sm mb-2"
+                    class="w-full border border-gray-100 focus:outline-none focus:ring-1 focus:ring-purple-500 rounded-md px-3 py-2 text-sm mb-2"
                 >
                 @foreach ($pollOptions as $i => $option)
                     <div class="flex gap-2 items-center mb-2">

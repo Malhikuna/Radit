@@ -6,8 +6,8 @@
 
         <a 
             href="{{ route('communities.create') }}"
-            class="px-4 py-1.5 rounded-full bg-orange-500
-                    text-white text-sm font-semibold hover:bg-orange-600">
+            class="px-4 py-1.5 rounded-full bg-purple-500
+                    text-white text-sm font-semibold hover:bg-purple-600">
             + Create Community
         </a>
     </div>
