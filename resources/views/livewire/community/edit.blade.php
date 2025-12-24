@@ -14,7 +14,7 @@
                 class="w-full border rounded px-3 py-2"></textarea>
         </div>
 
-        <button class="bg-orange-500 text-white px-4 py-2 rounded">
+        <button class="bg-purple-500 text-white px-4 py-2 rounded">
             Update
         </button>
     </form>
