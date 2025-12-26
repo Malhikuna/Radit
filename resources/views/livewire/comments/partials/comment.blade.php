@@ -2,7 +2,7 @@
     $indent = $level * 24;
 @endphp
 
-<div class="bg-white border rounded-lg p-3 text-sm mb-2"
+<div class="bg-white rounded-lg p-3 text-sm mb-2"
      style="margin-left: {{ $indent }}px">
 
     {{-- AUTHOR --}}
