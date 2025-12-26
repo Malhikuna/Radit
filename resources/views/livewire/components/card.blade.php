@@ -4,31 +4,41 @@
     <div class="flex-1 p-4 flex flex-col">
 
         {{-- AUTHOR INFO + AVATAR --}}
-        <div class="flex items-center gap-2 mb-1">
-            {{-- Avatar --}}
-            <div>
-                @if ($post->user->avatar)
-                    <img
-                        src="{{ asset('storage/' . $post->user->avatar) }}"
-                        style="width: 32px; height: 32px"
-                        class="rounded-full object-cover border-2 border-yellow-400"
-                    >
-                @else
-                    <div
-                        style="width: 32px; height: 32px"
-                        class="rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold border-2 border-yellow-400"
-                    >
-                        {{ strtoupper(substr($post->user->name, 0, 1)) }}
-                    </div>
-                @endif
-            </div>
+    @php
+        $author = $post->user;
+        $seed = urlencode($author->name);
+        $avatarStyle = 'avataaars';
+        $avatarUrl = "https://api.dicebear.com/7.x/{$avatarStyle}/svg?seed={$seed}";
+    @endphp
 
-            {{-- Author Info --}}
-            <div class="text-xs text-gray-500">
-                <span class="font-medium text-gray-700">u/{{ $post->user->name }}</span>
-                • {{ $post->created_at->diffForHumans() }}
-            </div>
-        </div>
+<div class="flex items-center gap-2 mb-1">
+    {{-- Avatar --}}
+    <div>
+        @if ($author->avatar)
+            <img
+                src="{{ asset('storage/' . $author->avatar) }}"
+                style="width: 32px; height: 32px"
+                class="rounded-full object-cover ring-2 ring-[#3e2b2c]"
+            >
+        @else
+            <img
+                src="{{ $avatarUrl }}"
+                alt="{{ $author->name }}"
+                style="width: 32px; height: 32px"
+                class="rounded-full object-cover ring-2 ring-[#3e2b2c] bg-white"
+            >
+        @endif
+    </div>
+
+    {{-- Author Info --}}
+    <div class="text-xs text-gray-500">
+        <span class="font-medium text-gray-700">
+            u/{{ $author->name }}
+        </span>
+        • {{ $post->created_at->diffForHumans() }}
+    </div>
+</div>
+
 
         {{-- TITLE --}}
         <a href="{{ route('posts.show', $post->id) }}">

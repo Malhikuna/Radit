@@ -1,21 +1,15 @@
-{{-- resources/views/components/community-icon.blade.php --}}
 @props([
     'community',
     'size' => 32,
 ])
 
 @php
-    $initial = strtoupper(substr($community->name, 0, 1));
+    $seed = urlencode($community->name);
 
-    // pseudo-random gradient based on community name
-    $gradients = [
-        'from-purle-500 to-purple-400',
-        'from-purple-400 to-amber-400',
-        'from-amber-500 to-purple-500',
-        'from-purple-500 to-yellow-400',
-    ];
+    // style avatar kartun
+    $style = 'adventurer';
 
-    $gradient = $gradients[crc32($community->name) % count($gradients)];
+    $avatarUrl = "https://api.dicebear.com/7.x/{$style}/svg?seed={$seed}";
 @endphp
 
 <div
@@ -31,16 +25,12 @@
                    shadow-sm"
         >
     @else
-        <div
-             class="w-full h-full rounded-full
-                   bg-purple-600
-                   text-white font-bold
-                   flex items-center justify-center
-                   ring-2 ring-purple-900
-                   shadow-sm select-none"
-            style="font-size: {{ $size / 2.2 }}px"
+        <img
+            src="{{ $avatarUrl }}"
+            alt="{{ $community->name }}"
+            class="w-full h-full rounded-full
+                   ring-2 ring-purple-400/60
+                   bg-white shadow-sm"
         >
-            {{ $initial }}
-        </div>
     @endif
 </div>
