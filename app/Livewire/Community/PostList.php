@@ -11,6 +11,7 @@ class PostList extends Component
 {
     public $sort = 'new';
     public $search = '';
+    public $communityId; // ID community yang sedang dibuka
 
     #[On('searchUpdated')]
     public function updateSearch($search)
@@ -18,36 +19,22 @@ class PostList extends Component
         $this->search = $search;
     }
 
-    /* public function render()
+    public function mount($communityId)
     {
-        $query = Post::with(['user', 'images', 'votes'])
-            ->withCount('comments')
-            ->withSum('votes', 'value');
-
-        if ($this->search !== '') {
-            $query->where(function ($q) {
-                $q->where('title', 'like', "%{$this->search}%")
-                    ->orWhere('content', 'like', "%{$this->search}%");
-            });
-        }
-
-        $this->sort === 'best'
-            ? $query->orderByDesc('votes_sum_value')
-            : $query->orderByDesc('created_at');
-
-        return view('livewire.post.post-list', compact('posts'));
-    } */
+        $this->communityId = $communityId;
+    }
 
     public function render()
     {
         $query = Post::with(['user', 'images', 'votes'])
             ->withCount('comments')
-            ->withSum('votes', 'value');
+            ->withSum('votes', 'value')
+            ->where('community_id', $this->communityId); // filter berdasarkan community
 
         if ($this->search !== '') {
             $query->where(function ($q) {
                 $q->where('title', 'like', "%{$this->search}%")
-                    ->orWhere('content', 'like', "%{$this->search}%");
+                  ->orWhere('content', 'like', "%{$this->search}%");
             });
         }
 
@@ -80,8 +67,6 @@ class PostList extends Component
                 'value' => $value
             ]);
         }
-
-        // **tidak perlu emit() sama sekali**, Livewire akan rerender otomatis
     }
 
     public function setSort($type)

@@ -27,7 +27,7 @@
             {{-- ACTIONS --}}
             <div class="ml-auto flex items-center gap-3">
                 <a 
-                    href="{{ route('posts.create') }}"
+                    href="{{ route('posts.create', ['community' => $community->id]) }}"
                     class="px-4 py-2 rounded-full bg-[#9966CC] text-white font-semibold hover:bg-[#7A49A6]">
                     + Create Post
                 </a>
@@ -43,7 +43,8 @@
 
     {{-- POST FEED (FULL WIDTH) --}}
     <div class="space-y-6">
-        <livewire:community.post-list />
+        {{-- Kirim communityId ke Livewire PostList --}}
+        <livewire:community.post-list :communityId="$community->id" />
     </div>
 
 </div>
