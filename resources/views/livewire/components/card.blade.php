@@ -1,3 +1,7 @@
+@php
+    $isCommunityPage = request()->routeIs('communities.show');
+@endphp
+
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4 hover:border-gray-300 transition duration-150 cursor-pointer">
 
     {{-- CONTENT COLUMN --}}
@@ -25,7 +29,15 @@
 
             {{-- Author Info --}}
             <div class="text-xs text-gray-500">
-                <span class="font-medium text-gray-700">u/{{ $post->user->name }}</span>
+                @if($isCommunityPage)
+                    {{-- Community Show: user --}}
+                    <span class="font-medium text-gray-700">u/{{ $post->user->name }}</span>
+                @else
+                    {{-- Post List: only community --}}
+                    <a href="{{ route('communities.show', $post->community->id) }}" class="font-medium text-gray-700 hover:underline">
+                        r/{{ $post->community->name }}
+                    </a>
+                @endif
                 • {{ $post->created_at->diffForHumans() }}
             </div>
         </div>
@@ -37,7 +49,7 @@
             </h2>
         </a>
 
-        {{-- LINK (jika post type link) --}}
+        {{-- LINK --}}
         @if ($post->type === 'link' && $post->url)
             <div class="mb-2">
                 <a href="{{ $post->url }}" target="_blank" class="text-blue-600 hover:underline break-all">
@@ -46,7 +58,7 @@
             </div>
         @endif
 
-        {{-- CONTENT (URL otomatis clickable) --}}
+        {{-- CONTENT --}}
         @if ($post->content)
             <p class="text-sm text-gray-800 mb-3 line-clamp-4">
                 {!! \Illuminate\Support\Str::of($post->content)
@@ -88,7 +100,7 @@
         {{-- FOOTER / ACTIONS --}}
         <div class="flex items-center gap-4 text-sm text-gray-500 mt-auto">
 
-            {{-- Vote (Like/Dislike) --}}
+            {{-- Vote --}}
             <div class="flex items-center gap-1 select-none">
                 <livewire:components.vote :post="$post" :key="'vote-'.$post->id" />
             </div>
