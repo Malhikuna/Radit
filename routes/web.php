@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 use App\Livewire\Home;
-use App\Livewire\Search;
+use App\Livewire\Search\Show as SearchShow;
 
 /** Auth */
 use App\Livewire\Auth\Login;
@@ -26,6 +26,10 @@ use App\Livewire\Community\Index as CommunityIndex;
 use App\Livewire\Community\Create as CommunityCreate;
 use App\Livewire\Community\Edit as CommunityEdit;
 use App\Livewire\Community\Show as CommunityShow;
+
+/** Premium */
+use App\Livewire\Premium\Checkout;
+use App\Livewire\Premium\Show as PremiumShow;
 
 /** Admin */
 use App\Livewire\Admin\Dashboard;
@@ -46,8 +50,17 @@ use App\Http\Controllers\SocialAuthController;
 | PUBLIC
 |--------------------------------------------------------------------------
 */
-Route::get('/', Home::class)->name('home');
-Route::get('/search', Search::class)->name('search');
+
+Route::get('/', Home::class)
+    ->name('home');
+
+/*
+|--------------------------------------------------------------------------
+| SEARCH
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/search', SearchShow::class)->name('search');
 
 /*
 |--------------------------------------------------------------------------
@@ -140,3 +153,16 @@ Route::prefix('admin')
 */
 Route::middleware('auth')->get('/profile', Profile::class)->name('profile');
 Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
+
+/*
+|--------------------------------------------------------------------------
+| SHOW PREMIUM
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->group(function () {
+    Route::get('/premium', PremiumShow::class)->name('premium.show');
+});
+
+
+
+// Route::get('/weather-public', WeatherPublicController::class);
