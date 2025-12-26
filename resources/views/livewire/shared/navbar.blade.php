@@ -86,7 +86,7 @@
                         </a>
 
                         <a 
-                            href="{{ route('checkout') }}"
+                            href=""
                             class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-400">
                             Radit+
                         </a>

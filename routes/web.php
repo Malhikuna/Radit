@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| LIVEWIRE
+| LIVEWIRE COMPONENTS
 |--------------------------------------------------------------------------
 */
 use App\Livewire\Home;
@@ -27,9 +27,6 @@ use App\Livewire\Community\Create as CommunityCreate;
 use App\Livewire\Community\Edit as CommunityEdit;
 use App\Livewire\Community\Show as CommunityShow;
 
-/** Premium */
-use App\Livewire\Premium\Checkout;
-
 /** Admin */
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Users;
@@ -44,7 +41,6 @@ use App\Livewire\Admin\Reports;
 */
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SocialAuthController;
-
 /*
 |--------------------------------------------------------------------------
 | PUBLIC
@@ -61,7 +57,7 @@ Route::get('/search', Search::class)->name('search');
 Route::get('/posts/{post}', PostShow::class)->name('posts.show');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/create-thread', PostCreate::class)->name('posts.create');
+        Route::get('/create-thread/{community?}', PostCreate::class)->name('posts.create');
     Route::get('/posts/{post}/edit', PostEdit::class)->name('posts.edit');
 });
 
@@ -83,13 +79,24 @@ Route::prefix('communities')->name('communities.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| PREMIUM
+| PREMIUM / MIDTRANS
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
-    Route::get('/checkout', Checkout::class)->name('checkout');
-    Route::post('/premium/pay', [PaymentController::class, 'pay']);
-});
+
+Route::middleware('auth')->post('/premium/pay', [PaymentController::class, 'pay']);
+Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
+
+Route::get('/checkout/success', function () {
+    return redirect('/')->with('success', 'Premium aktif 🎉');
+})->name('checkout.success');
+
+Route::get('/checkout/unfinish', function () {
+    return redirect('/')->with('error', 'Pembayaran dibatalkan');
+})->name('checkout.unfinish');
+
+Route::get('/checkout/error', function () {
+    return redirect('/')->with('error', 'Pembayaran gagal');
+})->name('checkout.error');
 
 /*
 |--------------------------------------------------------------------------
@@ -112,7 +119,7 @@ Route::post('/logout', function () {
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN (PROTECTED)
+| ADMIN PANEL
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')

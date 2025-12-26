@@ -27,7 +27,8 @@
 
             {{-- ACTIONS --}}
             <div class="ml-auto flex items-center gap-3">
-                <a href="{{ route('posts.create') }}"
+                {{-- Create Post dengan community_id otomatis --}}
+                <a href="{{ route('posts.create', ['community' => $community->id]) }}"
                    class="px-4 py-2 rounded-full bg-[#3e2b2c]
                           text-white font-semibold hover:bg-[#3e2b2c]">
                     + Create Post
