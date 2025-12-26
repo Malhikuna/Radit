@@ -30,6 +30,7 @@ use App\Livewire\Community\Show as CommunityShow;
 
 /** Premium */
 use App\Livewire\Premium\Checkout;
+use App\Livewire\Premium\Show as PremiumShow;
 
 /** Admin */
 use App\Livewire\Admin\Dashboard;
@@ -48,6 +49,7 @@ use App\Http\Controllers\WeatherPublicController;
 */
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\PaymentController;
+use Livewire\Livewire;
 
 /*
 |--------------------------------------------------------------------------
@@ -150,6 +152,14 @@ Route::middleware(['auth'])->group(function () {
 // Profil publik user berdasarkan ID
 Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
 
+/*
+|--------------------------------------------------------------------------
+| SHOW PREMIUM
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->group(function () {
+    Route::get('/premium', PremiumShow::class)->name('premium.show');
+});
 
 
 
