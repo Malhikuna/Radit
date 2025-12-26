@@ -10,12 +10,8 @@
 
             {{-- ICON --}}
             <div
-                <<<<<<< HEAD
-                class="w-16 h-16 rounded-full bg-purple-500 text-white flex items-center justify-center text-2xl font-bold">
-                =======
                 class="w-16 h-16 rounded-full bg-[#9966CC] border-[#7A49A6] text-white
                 flex items-center justify-center text-2xl font-bold">
-                >>>>>>> b6fc0963f8d5fcdaac5cf6e334062f6bab56b8dc
                 {{ strtoupper(substr($community->name, 0, 1)) }}
             </div>
 
