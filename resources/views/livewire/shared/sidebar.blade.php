@@ -7,12 +7,12 @@
             href="{{ route('home') }}"
             class="flex items-center gap-3 px-3 py-2 rounded-md font-medium 
                         {{ 
-                            request()->routeIs('home')
-                            ? 'bg-purple-50 text-purple-600'
-                            : 'text-purle-700 hover:bg-gray-100 hover:text-purple-600' 
+                            request()->routeIs('home') && !request()->has('sort')
+                            ? 'bg-[#9966cc70] text-black'
+                            : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
                         }}"
         >
-            <x-heroicon-o-home class="w-5 h-5" />
+            <x-lucide-home class="w-5"/>
             <span>Home</span>
         </a>
 
@@ -21,11 +21,11 @@
             class="flex items-center gap-3 px-3 py-2 rounded-md font-medium
                     {{ 
                         request('sort') === 'popular'
-                        ? 'bg-purple-50 text-purple-600'
-                        : 'text-purple-700 hover:bg-gray-100 hover:text-purple-600' 
+                        ? 'bg-[#9966cc70] text-black'
+                        : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
                     }}"
         >
-            <x-heroicon-o-fire class="w-5 h-5" />
+            <x-lucide-flame class="w-5"/>
             <span>Popular</span>
         </a>
     </div>
@@ -43,7 +43,7 @@
                 @forelse ($followingCommunities as $community)
                     <li>
                         <a href="{{ route('communities.show', $community) }}"
-                            class="flex items-center gap-3 px-3 py-1.5 rounded-md font-medium text-gray-700 hover:bg-gray-100 hover:text-purple-600"
+                            class="flex items-center gap-3 px-3 py-1.5 rounded-md font-medium text-gray-700 hover:bg-gray-100 hover:text-[#3e2b2c]"
                         >
 
                             <x-community-icon :community="$community" size="26" />
@@ -75,7 +75,7 @@
                 <li>
                     <a  
                         href="{{ route('communities.show', $community) }}"
-                        class="flex items-center gap-3 px-3 py-1.5 rounded-md text-gray-700 hover:bg-gray-100 hover:text-purple-600"
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md text-gray-700 hover:bg-gray-100 hover:text-[#3e2b2c]"
                     >
 
                         <x-community-icon :community="$community" size="26" />
@@ -96,15 +96,15 @@
         <div class="mt-4 space-y-2 px-3">
             <a  
                 href="{{ route('communities.index') }}"
-                class="flex items-center gap-2 text-purple-600 font-semibold hover:underline">
-                <x-heroicon-o-magnifying-glass class="w-4 h-4" />
+                class="flex items-center gap-2 text-[#3e2b2c] font-semibold hover:underline">
+                <x-lucide-search class="w-4"/>
                 Cari Community
             </a>
 
             @auth
                 <a 
                     href="{{ route('communities.create') }}"
-                    class="flex items-center gap-2 text-purple-600 font-semibold hover:underline">
+                    class="flex items-center gap-2 text-[#3e2b2c] font-semibold hover:underline">
                     <x-heroicon-o-plus-circle class="w-4 h-4" />
                     Create Community
                 </a>
@@ -114,6 +114,7 @@
 
     <div class="mt-10" >
            {{-- SIMPLE AD --}}
-    <livewire:simple-ad />
+        <x-ads />
+
     </div>
 </aside>

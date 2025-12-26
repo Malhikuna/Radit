@@ -4,8 +4,8 @@
         {{-- LOGO --}}
         <a  
             href="{{ route('home') }}"
-            class="flex items-center gap-2 font-bold text-purple-600 text-xl">
-            <img src="{{ asset('storage/icon/logo.png') }}" alt="Logo" class="h-14 -mx-7">
+            class="flex items-center gap-2 font-bold text-[#9966CC] text-xl">
+            <img src="{{ asset('storage/icon/logo.png') }}" alt="Logo" class="h-14 -mx-3">
             RADIT
         </a>
 
@@ -28,38 +28,37 @@
                     href="/"
                     class="flex items-center gap-3 px-2 py-2 rounded-full font-medium
                             {{ 
-                                request('sort') === 'popular'
+                                request('sort') === 'home'
                                 ? 'bg-purple-50 text-purple-600'
                                 : 'text-gray-700 hover:bg-gray-100 hover:text-purple-600' 
                             }}"
                 >
-                    <x-heroicon-o-chat-bubble-oval-left-ellipsis class="w-6 h-6" />
+                    <x-lucide-message-circle-more class="w-5"/>
                 </a>
 
                 <a 
                     href="/"
                     class="flex items-center gap-3 px-2 py-2 rounded-full font-medium
                             {{ 
-                                request('sort') === 'popular'
+                                request('sort') === 'home'
                                 ? 'bg-purple-50 text-purple-600'
                                 : 'text-gray-700 hover:bg-gray-100 hover:text-purple-600' 
                             }}"
                 >
-                    <x-heroicon-o-bell class="w-6 h-6" />
+                    <x-lucide-bell class="w-5"/>
                 </a>
                 
                 {{-- CREATE POST --}}
                 <a  
                     href="{{ route('posts.create') }}"
-                    class="flex gap-2 items-center px-3 py-1 rounded-full bg-purple-600 text-white font-semibold hover:bg-purple-700 transition">
-                    <x-heroicon-o-plus-circle class="w-5 h-5" />
-                    Create
+                    class="flex gap-2 items-center px-1 py-1 rounded-full bg-[#9966CC] text-white font-semibold hover:bg-[#7A49A6] transition">
+                    <x-lucide-circle-plus class="w-6"/>
                 </a>
 
                 {{-- USER DROPDOWN --}}
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open"
-                            class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold cursor-pointer hover:outline-none hover:ring-4 hover:ring-purple-600 hover:border-purple-600">
+                            class="w-8 h-8 rounded-full bg-[#9966CC] text-white flex items-center justify-center font-bold cursor-pointer hover:outline-none hover:ring-4 hover:ring-purple-600 hover:border-purple-600">
                         {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                     </button>
 
@@ -87,7 +86,7 @@
                         </a>
 
                         <a 
-                            href="{{ route('checkout') }}"
+                            href=""
                             class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-400">
                             Radit+
                         </a>

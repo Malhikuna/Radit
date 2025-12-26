@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
@@ -15,57 +14,45 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'is_premium',          // tambah kolom premium
-        'premium_expired_at',   // tambah kolom tanggal expired
+        'is_premium',
+        'premium_expired_at',
     ];
-
-    protected $hidden = ['password'];
 
     protected $casts = [
         'is_premium' => 'boolean',
         'premium_expired_at' => 'datetime',
     ];
 
-    // RELATIONS
-    // user memiliki banyak post
-    public function posts()
+    /* ================= PREMIUM ================= */
+
+    public function hasPremium(): bool
     {
-        return $this->hasMany(Post::class);
-    }
-    // user memiliki banyak komentar
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-    // user memiliki banyak vote
-    public function votes()
-    {
-        return $this->hasMany(Vote::class);
-    }
-    // komunitas yang diikuti user
-    public function communities()
-    {
-        return $this->belongsToMany(Community::class, 'community_members');
-    }
-    // Conversation yang dikirim user
-    public function sentConversations()
-    {
-        return $this->hasMany(Conversation::class, 'sender_id');
-    }
-    // Conversation yang diterima user
-    public function receivedConversations()
-    {
-        return $this->hasMany(Conversation::class, 'receiver_id');
-    }
-    // Pesan yang dikirim user
-    public function messages()
-    {
-        return $this->hasMany(Message::class);
+        return cache()->remember(
+            "user:{$this->id}:premium",
+            now()->addMinutes(5),
+            function () {
+                if (!$this->is_premium || !$this->premium_expired_at) {
+                    return false;
+                }
+
+                if ($this->premium_expired_at->isPast()) {
+                    $this->updateQuietly(['is_premium' => false]);
+                    $this->refreshPremiumCache();
+                    return false;
+                }
+
+                return true;
+            }
+        );
     }
 
-    // Helper untuk cek apakah user premium
-    public function isPremium(): bool
+    public function refreshPremiumCache(): void
     {
-        return $this->is_premium && $this->premium_expired_at && $this->premium_expired_at->isFuture();
+        cache()->forget("user:{$this->id}:premium");
+    }
+
+    public function getIsPremiumActiveAttribute(): bool
+    {
+        return $this->hasPremium();
     }
 }

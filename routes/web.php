@@ -14,7 +14,6 @@ use App\Livewire\Search\Show as SearchShow;
 
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
-use App\Livewire\Auth\AdminLogin;
 use App\Livewire\User\Profile;
 use App\Livewire\User\UserProfile;
 
@@ -30,10 +29,6 @@ use App\Livewire\Community\Index as CommunityIndex;
 use App\Livewire\Community\Create as CommunityCreate;
 use App\Livewire\Community\Edit as CommunityEdit;
 use App\Livewire\Community\Show as CommunityShow;
-
-/** Premium */
-
-use App\Livewire\Premium\Checkout;
 
 /** Admin */
 
@@ -57,9 +52,8 @@ use App\Http\Controllers\WeatherPublicController;
 | CONTROLLERS
 |--------------------------------------------------------------------------
 */
-use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\PaymentController;
-
+use App\Http\Controllers\SocialAuthController;
 /*
 |--------------------------------------------------------------------------
 | PUBLIC
@@ -85,7 +79,7 @@ Route::get('/search', SearchShow::class)->name('search');
 Route::get('/posts/{post}', PostShow::class)->name('posts.show');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/create-thread', PostCreate::class)->name('posts.create');
+    Route::get('/create-thread/{community?}', PostCreate::class)->name('posts.create');
     Route::get('/posts/{post}/edit', PostEdit::class)->name('posts.edit');
 });
 
@@ -107,13 +101,24 @@ Route::prefix('communities')->name('communities.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| PREMIUM / PAYMENT
+| PREMIUM / MIDTRANS
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
-    Route::get('/checkout', Checkout::class)->name('checkout');
-});
+
+Route::middleware('auth')->post('/premium/pay', [PaymentController::class, 'pay']);
 Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
+
+Route::get('/checkout/success', function () {
+    return redirect('/')->with('success', 'Premium aktif 🎉');
+})->name('checkout.success');
+
+Route::get('/checkout/unfinish', function () {
+    return redirect('/')->with('error', 'Pembayaran dibatalkan');
+})->name('checkout.unfinish');
+
+Route::get('/checkout/error', function () {
+    return redirect('/')->with('error', 'Pembayaran gagal');
+})->name('checkout.error');
 
 /*
 |--------------------------------------------------------------------------
@@ -136,29 +141,26 @@ Route::post('/logout', function () {
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN PANEL (LIVEWIRE)
+| ADMIN PANEL
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', Dashboard::class)->name('dashboard');
-    Route::get('/users', Users::class)->name('users');
-    Route::get('/posts', Posts::class)->name('posts');
-    Route::get('/communities', Communities::class)->name('communities');
-    Route::get('/reports', Reports::class)->name('reports');
-});
-
+Route::prefix('admin')
+    ->middleware(['auth', 'admin'])
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/', Dashboard::class)->name('dashboard');
+        Route::get('/users', Users::class)->name('users');
+        Route::get('/posts', Posts::class)->name('posts');
+        Route::get('/communities', Communities::class)->name('communities');
+        Route::get('/reports', Reports::class)->name('reports');
+    });
 
 /*
 |--------------------------------------------------------------------------
 | USER PROFILE
 |--------------------------------------------------------------------------
 */
-// Profil login user sendiri (private)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', Profile::class)->name('profile');
-});
-
-// Profil publik user berdasarkan ID
+Route::middleware('auth')->get('/profile', Profile::class)->name('profile');
 Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
 
 
