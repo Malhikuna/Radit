@@ -8,11 +8,11 @@
             class="flex items-center gap-3 px-3 py-2 rounded-md font-medium 
                         {{ 
                             request()->routeIs('home') && !request()->has('sort')
-                            ? 'bg-[#9966CC] text-black'
+                            ? 'bg-[#9966cc70] text-black'
                             : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
                         }}"
         >
-            <x-heroicon-o-home class="w-5 h-5" />
+            <x-lucide-home class="w-5"/>
             <span>Home</span>
         </a>
 
@@ -21,11 +21,11 @@
             class="flex items-center gap-3 px-3 py-2 rounded-md font-medium
                     {{ 
                         request('sort') === 'popular'
-                        ? 'bg-[#9966CC] text-black'
+                        ? 'bg-[#9966cc70] text-black'
                         : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
                     }}"
         >
-            <x-heroicon-o-fire class="w-5 h-5" />
+            <x-lucide-flame class="w-5"/>
             <span>Popular</span>
         </a>
     </div>
@@ -97,7 +97,7 @@
             <a  
                 href="{{ route('communities.index') }}"
                 class="flex items-center gap-2 text-[#3e2b2c] font-semibold hover:underline">
-                <x-heroicon-o-magnifying-glass class="w-4 h-4" />
+                <x-lucide-search class="w-4"/>
                 Cari Community
             </a>
 
