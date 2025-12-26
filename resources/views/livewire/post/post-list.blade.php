@@ -14,6 +14,12 @@
 @if(!auth()->check() || !auth()->user()->hasPremium())
     <x-ads />
 @endif
+<pre>
+Premium: {{ auth()->user()->hasPremium() ? 'YES' : 'NO' }}
+Expired: {{ auth()->user()->premium_expired_at }}
+</pre>
+
+
 
 </div>
 

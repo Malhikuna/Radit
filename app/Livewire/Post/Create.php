@@ -31,13 +31,25 @@ class Create extends Component
     public $pollOptions = [];
     public $pollQuestion = '';
 
-    public function mount()
+    /**
+     * Mount Livewire component
+     * @param int|null $community
+     */
+    public function mount($community = null)
     {
         $this->communities = [];
+
+        if ($community) {
+            $communityModel = Community::find($community);
+            if ($communityModel) {
+                $this->community_id = $communityModel->id;
+                $this->communitySearch = $communityModel->name;
+            }
+        }
     }
 
     /**
-     * LIVE SEARCH
+     * LIVE SEARCH COMMUNITY
      */
     public function updatedCommunitySearch()
     {
@@ -67,6 +79,9 @@ class Create extends Component
         $this->communities = [];
     }
 
+    /**
+     * Validation rules
+     */
     protected function rules()
     {
         return [
@@ -99,6 +114,9 @@ class Create extends Component
         ];
     }
 
+    /**
+     * Set post type
+     */
     public function setType($type)
     {
         $this->type = $type;
@@ -114,6 +132,9 @@ class Create extends Component
         }
     }
 
+    /**
+     * Poll options
+     */
     public function addPollOption()
     {
         $this->pollOptions[] = '';
@@ -125,6 +146,9 @@ class Create extends Component
         $this->pollOptions = array_values($this->pollOptions);
     }
 
+    /**
+     * Submit post
+     */
     public function post()
     {
         $this->validate();

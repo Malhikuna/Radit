@@ -24,27 +24,10 @@
         <div class="flex items-center gap-4">
 
             @auth
+                {{-- NOTIFICATION ICON --}}
                 <a 
                     href="/"
-                    class="flex items-center gap-3 px-2 py-2 rounded-full font-medium
-                            {{ 
-                                request('sort') === 'home'
-                                ? 'bg-purple-50 text-purple-600'
-                                : 'text-gray-700 hover:bg-gray-100 hover:text-purple-600' 
-                            }}"
-                >
-                    <x-heroicon-o-chat-bubble-oval-left-ellipsis class="w-6 h-6" />
-                </a>
-
-                <a 
-                    href="/"
-                    class="flex items-center gap-3 px-2 py-2 rounded-full font-medium
-                            {{ 
-                                request('sort') === 'home'
-                                ? 'bg-purple-50 text-purple-600'
-                                : 'text-gray-700 hover:bg-gray-100 hover:text-purple-600' 
-                            }}"
-                >
+                    class="flex items-center gap-3 px-2 py-2 rounded-full font-medium text-gray-700 hover:bg-gray-100 hover:text-purple-600">
                     <x-heroicon-o-bell class="w-6 h-6" />
                 </a>
                 
@@ -55,6 +38,44 @@
                     <x-heroicon-o-plus-circle class="w-5 h-5" />
                     Create
                 </a>
+
+                {{-- UPGRADE PREMIUM --}}
+<button id="pay-premium">Upgrade Premium</button>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ config('midtrans.client_key') }}"></script>
+
+<script>
+document.getElementById('pay-premium').addEventListener('click', async () => {
+    const res = await fetch('/premium/pay', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        }
+    });
+
+    const data = await res.json();
+
+    if (!data.token) {
+        alert('Terjadi kesalahan saat membuat pembayaran.');
+        return;
+    }
+
+    snap.pay(data.token, {
+        onSuccess: function () {
+            window.location.href = '/checkout/success';
+        },
+        onPending: function () {
+            window.location.href = '/checkout/unfinish';
+        },
+        onError: function () {
+            window.location.href = '/checkout/error';
+        }
+    });
+});
+</script>
+
 
                 {{-- USER DROPDOWN --}}
                 <div x-data="{ open: false }" class="relative">
@@ -73,22 +94,15 @@
                             Profile
                         </a>
 
-
-                        <a 
-                            href="#"
-                            class="block px-4 py-2 text-sm hover:bg-gray-100">
+                        <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">
                             Settings
                         </a>
 
-                        <a 
-                            href="#"
-                            class="block px-4 py-2 text-sm hover:bg-gray-100">
+                        <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">
                             Dark Mode
                         </a>
 
-                        <a 
-                            href="{{ route('checkout') }}"
-                            class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-400">
+                        <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 text-blue-400">
                             Radit+
                         </a>
 
