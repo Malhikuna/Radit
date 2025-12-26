@@ -10,7 +10,7 @@
             class="flex-1 border rounded-lg px-3 py-2 text-sm shadow focus:ring-2 focus:ring-blue-400"
         />
         <button wire:click="getWeather"
-                class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition flex-shrink-0">
+                class="bg-[#9966CC] text-white px-4 py-2 rounded-lg shadow hover:bg-[#7A49A6] transition flex-shrink-0">
             Cari
         </button>
     </div>
@@ -18,7 +18,7 @@
     {{-- Tombol Favorit --}}
     <div class="flex justify-end">
         <button wire:click="addFavorite"
-                class="bg-yellow-400 text-white px-3 py-2 rounded-lg shadow hover:bg-yellow-500 transition flex-shrink-0">
+                class="bg-[#9966CC] text-white px-3 py-2 rounded-lg shadow hover:bg-[#7A49A6] transition flex-shrink-0">
             ⭐ Tambah Favorit
         </button>
     </div>
