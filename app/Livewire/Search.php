@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Post;
+use Livewire\Attributes\Layout;
 
 class Search extends Component
 {
@@ -13,7 +14,8 @@ class Search extends Component
     {
         $this->query = request('q') ?: '';
     }
-
+    
+    #[Layout('layouts.app')]
     public function render()
     {
         $posts = [];
@@ -31,10 +33,8 @@ class Search extends Component
                 ->get();
         }
 
-
-        return view('livewire.pages.search', [
-            'posts' => $posts
-        ])->layout('components.layout', [
+        return view('livewire.search', [
+            'posts' => $posts,
             'title' => 'Search'
         ]);
     }

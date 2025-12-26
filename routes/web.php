@@ -11,17 +11,20 @@ use App\Livewire\Home;
 use App\Livewire\Search\Show as SearchShow;
 
 /** Auth */
+
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\User\Profile;
 use App\Livewire\User\UserProfile;
 
 /** Posts */
+
 use App\Livewire\Post\Create as PostCreate;
 use App\Livewire\Post\Show as PostShow;
 use App\Livewire\Post\Edit as PostEdit;
 
 /** Communities */
+
 use App\Livewire\Community\Index as CommunityIndex;
 use App\Livewire\Community\Create as CommunityCreate;
 use App\Livewire\Community\Edit as CommunityEdit;
@@ -32,11 +35,21 @@ use App\Livewire\Premium\Checkout;
 use App\Livewire\Premium\Show as PremiumShow;
 
 /** Admin */
+
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Users;
 use App\Livewire\Admin\Posts;
 use App\Livewire\Admin\Communities;
 use App\Livewire\Admin\Reports;
+
+/** Chat */
+
+use App\Livewire\Chat\Show as ChatShow;
+
+
+use App\Http\Controllers\WeatherPublicController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +83,7 @@ Route::get('/search', SearchShow::class)->name('search');
 Route::get('/posts/{post}', PostShow::class)->name('posts.show');
 
 Route::middleware('auth')->group(function () {
-        Route::get('/create-thread/{community?}', PostCreate::class)->name('posts.create');
+    Route::get('/create-thread/{community?}', PostCreate::class)->name('posts.create');
     Route::get('/posts/{post}/edit', PostEdit::class)->name('posts.edit');
 });
 
@@ -154,15 +167,15 @@ Route::prefix('admin')
 Route::middleware('auth')->get('/profile', Profile::class)->name('profile');
 Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
 
+
 /*
 |--------------------------------------------------------------------------
-| SHOW PREMIUM
+| CHAT
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
-    Route::get('/premium', PremiumShow::class)->name('premium.show');
+    Route::get('/chat', ChatShow::class)
+        ->name('chat.show');
 });
-
-
 
 // Route::get('/weather-public', WeatherPublicController::class);

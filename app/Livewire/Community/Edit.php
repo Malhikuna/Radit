@@ -4,6 +4,7 @@ namespace App\Livewire\Community;
 
 use Livewire\Component;
 use App\Models\Community;
+use Livewire\Attributes\Layout;
 
 class Edit extends Component
 {
@@ -33,9 +34,12 @@ class Edit extends Component
         return redirect()->route('communities.index');
     }
 
+
+    #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.pages.community.edit')
-            ->layout('components.layout', ['title' => 'Edit Community']);
+        return view('livewire.community.edit', [
+            'title' => 'Edit Community'
+        ]);
     }
 }

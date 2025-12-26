@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto">
 
     {{-- COMMUNITY HEADER --}}
-    <div class="bg-white rounded-lg border mb-6 overflow-hidden">
+    <div class="bg-white rounded-lg border border-gray-200 mb-6 overflow-hidden">
 
         {{-- BANNER --}}
         <div class="h-32 bg-gradient-to-r from-[#3e2b2c] to-[#3e2b2c]"></div>
