@@ -28,3 +28,28 @@
         background-color: rgb(var(59 130 246));
     }
 }
+
+@keyframes logo-bounce-fade {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-12px);
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+}
+
+.animate-logo-bounce-fade {
+    animation: logo-bounce-fade 1.6s ease-in-out infinite;
+}

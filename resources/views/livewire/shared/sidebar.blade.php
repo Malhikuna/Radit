@@ -8,7 +8,7 @@
             class="flex items-center gap-3 px-3 py-2 rounded-md font-medium 
                         {{ 
                             request()->routeIs('home') && !request()->has('sort')
-                            ? 'bg-[#9966CC] text-black'
+                            ? 'bg-[#9966CC] text-white'
                             : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
                         }}"
         >
@@ -21,7 +21,7 @@
             class="flex items-center gap-3 px-3 py-2 rounded-md font-medium
                     {{ 
                         request('sort') === 'popular'
-                        ? 'bg-[#9966CC] text-black'
+                        ? 'bg-[#9966CC] text-white'
                         : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
                     }}"
         >

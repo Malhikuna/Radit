@@ -16,8 +16,6 @@
 @endif
 
 </div>
-
-
     {{-- POSTS LIST --}}
     @foreach ($posts as $post)
         <livewire:components.card

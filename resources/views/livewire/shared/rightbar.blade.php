@@ -26,7 +26,7 @@
     </div>
 
     {{-- WEATHER (LIVEWIRE) --}}
-    <div class="bg-white rounded-xl ring ring-gray-200 p-4 shadow-sm hover:shadow-md transition">
+    <div class="bg-white rounded-xl ring ring-gray-200 p-4 shadow-sm hover:shadow-md transition relative">
         <h3 class="font-semibold mb-3 text-gray-800">Cuaca</h3>
         <livewire:weather-public />
     </div>

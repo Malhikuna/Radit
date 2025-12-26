@@ -1,17 +1,39 @@
-<div class="max-w-sm space-y-4">
+<div 
+    class="max-w-sm space-y-4"
+    wire:loading.class="pointer-events-none opacity-60"
+    wire:target="getWeather"
+>
+    <div 
+        wire:loading.flex 
+        wire:target="getWeather" 
+        class="absolute w-full h-full rounded-xl inset-0 z-50 bg-white/90 backdrop-blur-md flex items-center justify-center hidden"
+    >
+        <img
+            src="{{ asset('storage/icon/logo.png') }}"
+            alt="Logo"
+            class="h-20 animate-logo-bounce-fade"
+        />
+    </div>
 
     {{-- INPUT + CARI --}}
     <div class="flex gap-2">
-        <input
-            type="text"
-            wire:model.debounce.500ms="city"
-            wire:keydown.enter="getWeather"
-            placeholder="Cari daerah..."
-            class="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-400"
-        />
-        <button wire:click="getWeather"
-            class="bg-[#6395ee] text-white px-4 py-2 rounded-lg shadow hover:bg-[#4b6eab] transition flex-shrink-0 flex">
-            <x-lucide-search class="w-5"/>
+        <div class="flex w-full bg-gray-100 rounded-full relative">
+            <input
+                type="text"
+                wire:model.defer="city"
+                wire:keydown.enter="getWeather"
+                placeholder="Cari daerah..."
+                class="flex-1 w-full bg-gray-100 rounded-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <button 
+                wire:click="getWeather"
+                wire:loading.attr="disabled"
+                wire:target="getWeather"
+                class="cursor-pointer bg-[#6395ee] text-white px-2 py-2 rounded-full shadow
+                        hover:bg-[#4b6eab] transition
+                        disabled:opacity-50 disabled:cursor-not-allowed absolute right-1 absolute top-1/2 -translate-y-1/2">
+                    <x-lucide-search class="w-4"/>
+        </div>
     </button>
     </div>
 
@@ -19,7 +41,7 @@
     <div class="flex justify-end">
         <button wire:click="addFavorite"
         class="bg-[#9966CC] text-white px-3 py-2 rounded-lg shadow hover:bg-[#7A49A6] transition flex-shrink-0 flex">
-        <x-lucide-star class="w-5 flex"/>
+        <x-lucide-star class="w-5 flex text-[#FFEE8C]"/>
     </button>
     </div>
 
@@ -51,13 +73,6 @@
         </div>
     @endif
 
-    {{-- LOADING --}}
-    @if ($loading)
-        <div class="bg-gray-50 p-3 text-sm text-gray-500 rounded shadow animate-pulse">
-            Memuat cuaca...
-        </div>
-    @endif
-
     {{-- ERROR --}}
     @if ($error)
         <p class="text-red-500 text-sm">{{ $error }}</p>
@@ -65,18 +80,51 @@
 
     {{-- CURRENT WEATHER --}}
     @if ($weather)
-        <div class="bg-gradient-to-r from-blue-100 to-blue-200 p-4 rounded-xl shadow-lg space-y-1 text-sm">
-            <p class="font-bold text-lg">{{ $weatherIcon }} {{ $weatherText }}</p>
-            <p class="text-gray-700 flex items-center gap-1"><x-lucide-map-pin class="w-5"/>{{ $city }}</p>
-            <p class="text-gray-700 flex items-center gap-1"><x-lucide-thermometer class="w-5"/>{{ $weather['temperature'] }}°C</p>
-            <p class="text-gray-700 flex items-center gap-1"><x-lucide-wind class="w-5"/>{{ $weather['windspeed'] }} km/h</p>
-            <p class="text-xs text-gray-500">Update {{ $lastUpdated }} WIB</p>
+    <div class="max-w-sm rounded-2xl p-5 shadow-xl
+                bg-gradient-to-br from-sky-100 via-blue-100 to-indigo-100">
+
+        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
+            <x-lucide-map-pin class="w-4 h-4"/>
+            <span>{{ $city }}</span>
         </div>
+
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-5xl font-bold text-gray-800">
+                    {{ $weather['temperature'] }}°
+                </p>
+                <p class="text-gray-600 mt-1">
+                    {{ $weatherText }}
+                </p>
+            </div>
+
+            <div class="text-6xl">
+                {{ $weatherIcon }}
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mt-5 text-sm">
+            <div class="bg-white/70 backdrop-blur rounded-xl p-3 shadow">
+                <p class="text-gray-500 text-xs">Angin</p>
+                <p class="font-semibold text-gray-800">
+                    {{ $weather['windspeed'] }} km/h
+                </p>
+            </div>
+
+            <div class="bg-white/70 backdrop-blur rounded-xl p-3 shadow">
+                <p class="text-gray-500 text-xs">Update</p>
+                <p class="font-semibold text-gray-800">
+                    {{ $lastUpdated }} WIB
+                </p>
+            </div>
+        </div>
+    </div>
     @endif
 
+
     {{-- FORECAST --}}
-   @if ($forecast)
-    <div class="grid grid-cols-3 gap-2 text-xs">
+    @if ($forecast)
+    <div class="grid grid-cols-3 gap-3 mt-4">
         @foreach ($forecast['time'] as $i => $day)
             @php
                 $code = $forecast['weathercode'][$i] ?? 0;
@@ -106,65 +154,60 @@
                 };
             @endphp
 
-            <div class="bg-gradient-to-b from-blue-50 to-white border rounded-xl p-2 text-center shadow hover:scale-105 transition">
+            <div class="rounded-2xl p-3 text-center shadow-md
+                        bg-white/70 backdrop-blur
+                        hover:shadow-xl hover:-translate-y-1 transition-all">
 
-                <p class="font-semibold">
+                <p class="text-xs font-semibold text-gray-700">
                     {{ \Carbon\Carbon::parse($day)->format('D, d M') }}
                 </p>
 
-                {{-- ICON LUCIDE --}}
-                <div class="flex justify-center my-1">
+                <div class="flex justify-center my-3">
                     @switch($type)
                         @case('sun')
-                            <x-lucide-sun class="w-6 h-6 text-yellow-500"/>
+                            <x-lucide-sun class="w-8 h-8 text-yellow-500"/>
                             @break
-
                         @case('sun-cloud')
-                            <x-lucide-cloud-sun class="w-6 h-6 text-yellow-400"/>
+                            <x-lucide-cloud-sun class="w-8 h-8 text-yellow-400"/>
                             @break
-
                         @case('cloud')
-                            <x-lucide-cloud class="w-6 h-6 text-gray-500"/>
+                            <x-lucide-cloud class="w-8 h-8 text-gray-500"/>
                             @break
-
                         @case('fog')
-                            <x-lucide-cloud-fog class="w-6 h-6 text-gray-400"/>
+                            <x-lucide-cloud-fog class="w-8 h-8 text-gray-400"/>
                             @break
-
                         @case('drizzle')
-                            <x-lucide-cloud-drizzle class="w-6 h-6 text-blue-400"/>
+                            <x-lucide-cloud-drizzle class="w-8 h-8 text-blue-400"/>
                             @break
-
                         @case('rain')
-                            <x-lucide-cloud-rain class="w-6 h-6 text-blue-500"/>
+                            <x-lucide-cloud-rain class="w-8 h-8 text-blue-500"/>
                             @break
-
                         @case('snow')
-                            <x-lucide-cloud-snow class="w-6 h-6 text-sky-300"/>
+                            <x-lucide-cloud-snow class="w-8 h-8 text-sky-300"/>
                             @break
-
                         @case('storm')
-                            <x-lucide-cloud-lightning class="w-6 h-6 text-purple-500"/>
+                            <x-lucide-cloud-lightning class="w-8 h-8 text-purple-500"/>
                             @break
-
                         @default
-                            <x-lucide-help-circle class="w-6 h-6 text-gray-400"/>
+                            <x-lucide-help-circle class="w-8 h-8 text-gray-400"/>
                     @endswitch
                 </div>
 
-                <p class="text-blue-500 font-bold">
-                    ⬆ {{ $forecast['temperature_2m_max'][$i] }}°C
-                </p>
+                <div class="flex justify-center gap-3 text-sm font-semibold">
+                    <span class="text-blue-600">
+                        ↑ {{ $forecast['temperature_2m_max'][$i] }}°
+                    </span>
+                    <span class="text-blue-400">
+                        ↓ {{ $forecast['temperature_2m_min'][$i] }}°
+                    </span>
+                </div>
 
-                <p class="text-blue-400">
-                    ⬇ {{ $forecast['temperature_2m_min'][$i] }}°C
-                </p>
-
-                <p class="text-gray-500 text-xs">
+                <p class="mt-2 text-xs text-gray-500">
                     {{ $text }}
                 </p>
             </div>
         @endforeach
     </div>
-@endif
+    @endif
+
 </div>

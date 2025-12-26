@@ -39,16 +39,14 @@
             wire:model.live.debounce.300ms="communitySearch"
             placeholder="Choose a community"
             autocomplete="off"
-            class="flex-1 border-0 p-0 text-sm bg-transparent
-                   focus:outline-none focus:ring-0"
+            class="flex-1 border-0 p-0 text-sm bg-transparent focus:outline-none focus:ring-0"
         >
     </div>
 
     {{-- DROPDOWN --}}
     @if (count($communities) > 0)
         <div
-            class="absolute z-20 w-full mt-1 bg-white rounded-md shadow
-                   border border-gray-100 overflow-hidden"
+            class="absolute z-20 w-full mt-1 bg-white rounded-md shadow border border-gray-100 overflow-hidden"
         >
             @foreach ($communities as $community)
                 <button
@@ -70,8 +68,6 @@
     @endif
 </div>
 
-
-
             @error('community_id')
                 <p class="text-xs text-red-500">{{ $message }}</p>
             @enderror
@@ -88,7 +84,7 @@
                     <button
                         type="button"
                         wire:click="setType('{{ $key }}')"
-                        class="flex-1 py-2 flex items-center justify-center gap-2
+                        class="cursor-pointer flex-1 py-2 flex items-center justify-center gap-2
                             {{ $type === $key
                                 ? 'border-b-2 border-blue-600 font-medium text-blue-600'
                                 : 'text-gray-500 hover:text-gray-700' }}"
@@ -191,7 +187,7 @@
         <div class="px-4 py-3 border-t border border-gray-100 flex justify-end bg-gray-50">
             <button
                 wire:click="post"
-                class="bg-blue-600 text-white text-sm px-5 py-2 rounded-full hover:bg-blue-700"
+                class="cursor-pointer bg-[#6395ee] hover:bg-[#4b6eab] text-white text-sm px-5 py-2 rounded-full"
             >
                 Post
             </button>
