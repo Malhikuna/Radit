@@ -2,7 +2,7 @@
 
     {{-- CREATE COMMENT --}}
     @auth
-        <div class="bg-white border rounded-lg p-4 mb-6">
+        <div class="bg-white shadow rounded-lg p-4 mb-6">
             <textarea
                 wire:model.defer="content"
                 rows="3"
