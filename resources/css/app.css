@@ -9,6 +9,8 @@
     --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
+
+    --color-primary: 59 130 246;
 }
 
 @layer utilities {
@@ -18,5 +20,11 @@
     }
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
+    }
+}
+
+@layer utilities {
+    .debug-primary {
+        background-color: rgb(var(59 130 246));
     }
 }
