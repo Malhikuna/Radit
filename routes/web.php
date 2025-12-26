@@ -30,6 +30,10 @@ use App\Livewire\Community\Create as CommunityCreate;
 use App\Livewire\Community\Edit as CommunityEdit;
 use App\Livewire\Community\Show as CommunityShow;
 
+/** Premium */
+use App\Livewire\Premium\Checkout;
+use App\Livewire\Premium\Show as PremiumShow;
+
 /** Admin */
 
 use App\Livewire\Admin\Dashboard;

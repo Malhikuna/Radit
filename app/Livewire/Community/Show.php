@@ -12,21 +12,16 @@ class Show extends Component
 
     public function mount(Community $community): void
     {
-        $this->community = $community
-            ->loadCount('members')
-            ->load([
-                'posts.user',
-                'posts.images',
-                'posts.votes',
-            ]);
+        // Load data dasar community
+        $this->community = $community->loadCount('members');
     }
 
     #[Layout('layouts.app')]
     public function render()
     {
         return view('livewire.community.show', [
-            'posts' => $this->community->posts,
-            'title' => 'c/' . $this->community->name
+            'community' => $this->community,
+            'title' => 'r/' . $this->community->name
         ]);
     }
 }
