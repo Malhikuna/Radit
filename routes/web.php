@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| LIVEWIRE COMPONENTS
+| LIVEWIRE
 |--------------------------------------------------------------------------
 */
 use App\Livewire\Home;
@@ -13,7 +13,6 @@ use App\Livewire\Search;
 /** Auth */
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
-use App\Livewire\Auth\AdminLogin;
 use App\Livewire\User\Profile;
 use App\Livewire\User\UserProfile;
 
@@ -38,16 +37,13 @@ use App\Livewire\Admin\Posts;
 use App\Livewire\Admin\Communities;
 use App\Livewire\Admin\Reports;
 
-use App\Http\Controllers\WeatherPublicController;
-
-
 /*
 |--------------------------------------------------------------------------
 | CONTROLLERS
 |--------------------------------------------------------------------------
 */
-use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SocialAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,13 +83,13 @@ Route::prefix('communities')->name('communities.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| PREMIUM / PAYMENT
+| PREMIUM
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', Checkout::class)->name('checkout');
+    Route::post('/premium/pay', [PaymentController::class, 'pay']);
 });
-Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
 
 /*
 |--------------------------------------------------------------------------
@@ -116,36 +112,24 @@ Route::post('/logout', function () {
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN PANEL (LIVEWIRE)
+| ADMIN (PROTECTED)
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', Dashboard::class)->name('dashboard');
-    Route::get('/users', Users::class)->name('users');
-    Route::get('/posts', Posts::class)->name('posts');
-    Route::get('/communities', Communities::class)->name('communities');
-    Route::get('/reports', Reports::class)->name('reports');
-});
-
+Route::prefix('admin')
+    ->middleware(['auth', 'admin'])
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/', Dashboard::class)->name('dashboard');
+        Route::get('/users', Users::class)->name('users');
+        Route::get('/posts', Posts::class)->name('posts');
+        Route::get('/communities', Communities::class)->name('communities');
+        Route::get('/reports', Reports::class)->name('reports');
+    });
 
 /*
 |--------------------------------------------------------------------------
 | USER PROFILE
 |--------------------------------------------------------------------------
 */
-// Profil login user sendiri (private)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', Profile::class)->name('profile');
-});
-
-// Profil publik user berdasarkan ID
+Route::middleware('auth')->get('/profile', Profile::class)->name('profile');
 Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
-
-
-
-
-// Route::get('/weather-public', WeatherPublicController::class);
-
-
-
-

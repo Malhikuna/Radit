@@ -114,6 +114,7 @@
 
     <div class="mt-10" >
            {{-- SIMPLE AD --}}
-    <livewire:simple-ad />
+        <x-ads />
+
     </div>
 </aside>
