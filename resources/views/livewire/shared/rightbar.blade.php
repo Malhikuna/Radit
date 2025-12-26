@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <button class="mt-4 w-full bg-purple-600 text-white py-2 rounded-full font-semibold hover:bg-purple-900 transition">
+        <button class="mt-4 w-full bg-[#3e2b2c] text-white py-2 rounded-full font-semibold hover:bg-[#3e2b2c] transition">
             Join
         </button>
     </div>

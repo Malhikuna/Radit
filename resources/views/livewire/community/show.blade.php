@@ -4,13 +4,13 @@
     <div class="bg-white rounded-lg border mb-6 overflow-hidden">
 
         {{-- BANNER --}}
-        <div class="h-32 bg-gradient-to-r from-purple-500 to-purple-400"></div>
+        <div class="h-32 bg-gradient-to-r from-[#3e2b2c] to-[#3e2b2c]"></div>
 
         <div class="p-6 flex items-center gap-4">
 
             {{-- ICON --}}
             <div
-                class="w-16 h-16 rounded-full bg-purple-500 text-white
+                class="w-16 h-16 rounded-full bg-[#3e2b2c] text-white
                        flex items-center justify-center text-2xl font-bold">
                 {{ strtoupper(substr($community->name, 0, 1)) }}
             </div>
@@ -28,14 +28,14 @@
             {{-- ACTIONS --}}
             <div class="ml-auto flex items-center gap-3">
                 <a href="{{ route('posts.create') }}"
-                   class="px-4 py-2 rounded-full bg-purple-500
-                          text-white font-semibold hover:bg-purple-600">
+                   class="px-4 py-2 rounded-full bg-[#3e2b2c]
+                          text-white font-semibold hover:bg-[#3e2b2c]">
                     + Create Post
                 </a>
 
                 <button
-                    class="px-4 py-2 rounded-full border border-purple-500
-                           text-purple-500 font-semibold hover:bg-purple-50">
+                    class="px-4 py-2 rounded-full border border-[#3e2b2c]
+                           text-[#3e2b2c] font-semibold hover:bg-[#3e2b2c]">
                     Join
                 </button>
             </div>

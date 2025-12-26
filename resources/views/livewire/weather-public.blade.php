@@ -67,9 +67,9 @@
     @if ($weather)
         <div class="bg-gradient-to-r from-blue-100 to-blue-200 p-4 rounded-xl shadow-lg space-y-1 text-sm">
             <p class="font-bold text-lg">{{ $weatherIcon }} {{ $weatherText }}</p>
-            <p class="text-gray-700">📍 {{ $city }}</p>
-            <p class="text-gray-700">🌡 {{ $weather['temperature'] }}°C</p>
-            <p class="text-gray-700">💨 {{ $weather['windspeed'] }} km/h</p>
+            <p class="text-gray-700 flex items-center gap-1"><x-heroicon-o-map-pin class="h-5"/>{{ $city }}</p>
+            <p class="text-gray-700 flex items-center gap-1"><x-heroicon-o-eye-dropper class="h-5"/>{{ $weather['temperature'] }}°C</p>
+            <p class="text-gray-700 flex items-center gap-1"><x-heroicon-o-paper-airplane class="h-5"/>{{ $weather['windspeed'] }} km/h</p>
             <p class="text-xs text-gray-500">Update {{ $lastUpdated }} WIB</p>
         </div>
     @endif
@@ -83,7 +83,7 @@
                     [$text, $icon] = match (true) {
                         $code === 0 => ['Cerah', '☀️'],
                         in_array($code, [1,2]) => ['Cerah Berawan','🌤'],
-                        $code === 3 => ['Berawan','☁️'],
+                        $code === 3 => ['Berawan','p'],
                         in_array($code, [45,48]) => ['Berkabut','🌫'],
                         in_array($code, [51,53,55]) => ['Gerimis','🌦'],
                         in_array($code, [61,63,65]) => ['Hujan','🌧'],

@@ -136,6 +136,7 @@ class WeatherPublic extends Component
         $this->loading = false;
     }
 
+
     private function mapWeatherCode(int $code): array
     {
         return match (true) {
