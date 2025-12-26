@@ -1,6 +1,4 @@
 <div class="max-w-3xl mx-auto mt-6">
-
-<<<<<<< HEAD:resources/views/livewire/post/edit.blade.php
     <!-- COMMUNITY -->
     <div class="text-sm text-gray-500 mb-2">
         r/{{ $post->community->name ?? '-' }}
@@ -198,6 +196,4 @@
         </div>
 
     </form>
->>>>>>> a068ad99591de780c1e9d42585b862f42cb5ba36:resources/views/livewire/pages/post/edit.blade.php
-
 </div>

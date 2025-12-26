@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 use App\Livewire\Home;
-use App\Livewire\Search;
+use App\Livewire\Search\Show as SearchShow;
 
 /** Auth */
 use App\Livewire\Auth\Login;
@@ -54,8 +54,17 @@ use App\Http\Controllers\PaymentController;
 | PUBLIC
 |--------------------------------------------------------------------------
 */
-Route::get('/', Home::class)->name('home');
-Route::get('/search', Search::class)->name('search');
+
+Route::get('/', Home::class)
+    ->name('home');
+
+/*
+|--------------------------------------------------------------------------
+| SEARCH
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/search', SearchShow::class)->name('search');
 
 /*
 |--------------------------------------------------------------------------
@@ -145,7 +154,3 @@ Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
 
 
 // Route::get('/weather-public', WeatherPublicController::class);
-
-
-
-
