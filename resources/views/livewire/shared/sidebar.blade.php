@@ -8,8 +8,8 @@
             class="flex items-center gap-3 px-3 py-2 rounded-md font-medium 
                         {{ 
                             request()->routeIs('home') && !request()->has('sort')
-                            ? 'bg-[#e6dadb] text-black'
-                            : 'text-black hover:bg-gray-100 hover:text-[#3e2b2c]' 
+                            ? 'bg-[#9966CC] text-black'
+                            : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
                         }}"
         >
             <x-heroicon-o-home class="w-5 h-5" />
@@ -21,8 +21,8 @@
             class="flex items-center gap-3 px-3 py-2 rounded-md font-medium
                     {{ 
                         request('sort') === 'popular'
-                        ? 'bg-[#e6dadb] text-black'
-                        : 'text-black hover:bg-gray-100 hover:text-[#3e2b2c]' 
+                        ? 'bg-[#9966CC] text-black'
+                        : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
                     }}"
         >
             <x-heroicon-o-fire class="w-5 h-5" />
