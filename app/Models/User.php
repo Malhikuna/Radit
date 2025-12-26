@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
     use HasFactory;
 
     protected $fillable = [
-        'name', 
-        'email', 
-        'password', 
+        'name',
+        'email',
+        'password',
         'role',
-        'is_premium',          // tambah kolom premium
-        'premium_expired_at',   // tambah kolom tanggal expired
+        'is_premium',
+        'premium_expired_at',
     ];
 
     protected $hidden = ['password'];
@@ -32,9 +31,18 @@ class User extends Authenticatable
     public function votes() { return $this->hasMany(Vote::class); }
     public function communities() { return $this->belongsToMany(Community::class, 'community_members'); }
 
-    // Helper untuk cek apakah user premium
-    public function isPremium(): bool
+    // CEK PREMIUM
+    public function hasPremium(): bool
     {
-        return $this->is_premium && $this->premium_expired_at && $this->premium_expired_at->isFuture();
+        if (!$this->is_premium || !$this->premium_expired_at) {
+            return false;
+        }
+
+        if ($this->premium_expired_at->isPast()) {
+            $this->updateQuietly(['is_premium' => false]);
+            return false;
+        }
+
+        return true;
     }
 }

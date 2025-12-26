@@ -10,6 +10,13 @@
             Best
         </button>
     </div>
+    <div class="max-w-3xl mx-auto">
+@if(!auth()->check() || !auth()->user()->hasPremium())
+    <x-ads />
+@endif
+
+</div>
+
 
     {{-- POSTS LIST --}}
     @foreach ($posts as $post)
@@ -18,3 +25,4 @@
             :key="'post-'.$post->id" />
     @endforeach
 </div>
+

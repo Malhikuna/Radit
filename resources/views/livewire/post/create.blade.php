@@ -10,29 +10,67 @@
         {{-- BODY --}}
         <div class="p-4 space-y-4">
 
-            {{-- COMMUNITY SELECTOR --}}
-            <div class="relative">
-                <input
-                    wire:model="communitySearch"
-                    placeholder="Choose a community"
-                    class="w-full border border-gray-100 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-purple-500"
-                >
+        {{-- COMMUNITY SELECTOR --}}
+<div class="relative">
 
-                @if (count($communities))
-                    <div class="absolute z-20 bg-white border border-gray-100 rounded-md w-full mt-1 shadow">
-                        @foreach ($communities as $community)
-                            <button
-                                type="button"
-                                wire:click="selectCommunity({{ $community->id }})"
-                                class="flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-gray-100"
-                            >
-                                <x-community-icon :community="$community" size="18" />
-                                {{ $community->name }}
-                            </button>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
+    {{-- INPUT WRAPPER --}}
+    <div
+        class="
+            flex items-center gap-2 w-full rounded-md px-3 py-2 bg-white
+            border transition
+            {{ $community_id
+                ? 'border-purple-500 ring-1 ring-purple-200'
+                : 'border-gray-100' }}
+            focus-within:ring-1 focus-within:ring-purple-500
+        "
+    >
+
+        {{-- ICON --}}
+        @if ($community_id)
+            <x-community-icon
+                :community="\App\Models\Community::find($community_id)"
+                size="30"
+            />
+        @endif
+
+        {{-- INPUT --}}
+        <input
+            type="text"
+            wire:model.live.debounce.300ms="communitySearch"
+            placeholder="Choose a community"
+            autocomplete="off"
+            class="flex-1 border-0 p-0 text-sm bg-transparent
+                   focus:outline-none focus:ring-0"
+        >
+    </div>
+
+    {{-- DROPDOWN --}}
+    @if (count($communities) > 0)
+        <div
+            class="absolute z-20 w-full mt-1 bg-white rounded-md shadow
+                   border border-gray-100 overflow-hidden"
+        >
+            @foreach ($communities as $community)
+                <button
+                    type="button"
+                    wire:click="selectCommunity({{ $community->id }})"
+                    class="
+                        group flex items-center gap-2 w-full px-3 py-2 text-sm text-left
+                        border-l-4 transition
+                        {{ $community_id === $community->id
+                            ? 'border-purple-500 bg-purple-50'
+                            : 'border-transparent hover:border-purple-400 hover:bg-gray-50' }}
+                    "
+                >
+                    <x-community-icon :community="$community" size="30" />
+                    <span>{{ $community->name }}</span>
+                </button>
+            @endforeach
+        </div>
+    @endif
+</div>
+
+
 
             @error('community_id')
                 <p class="text-xs text-red-500">{{ $message }}</p>
