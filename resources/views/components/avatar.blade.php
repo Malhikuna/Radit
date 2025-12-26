@@ -1,5 +1,5 @@
 <div class="cursor-pointer">
-@if ($user->avatar)
+    @if ($user->avatar)
     <img
         src="{{ asset('storage/' . $user->avatar) }}"
         style="width: {{ $size }}px; height: {{ $size }}px"
@@ -12,5 +12,5 @@
     >
         {{ strtoupper(substr($user->name, 0, 1)) }}
     </div>
-@endif
+    @endif
 </div>

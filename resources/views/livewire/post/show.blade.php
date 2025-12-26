@@ -1,3 +1,7 @@
+@php
+    $isCommunityPage = request()->routeIs('communities.show');
+@endphp
+
 <div class="max-w-5xl mx-auto px-4 py-6">
 
     {{-- POST CARD --}}
@@ -25,11 +29,20 @@
 
                 {{-- Author Info --}}
                 <div class="text-xs text-gray-500">
-                    <span class="font-medium text-gray-700">
-                        u/{{ $post->user->name }}
-                    </span>
+                    @if($isCommunityPage)
+                        {{-- Community Show: user + community --}}
+                        <span class="font-medium text-gray-700">u/{{ $post->user->name }}</span>
+                        <span class="text-gray-400">in</span>
+                        <a href="{{ route('communities.show', $post->community->id) }}" class="font-medium text-gray-700 hover:underline">
+                            r/{{ $post->community->name }}
+                        </a>
+                    @else
+                        {{-- Post List: only community --}}
+                        <a href="{{ route('communities.show', $post->community->id) }}" class="font-medium text-gray-700 hover:underline">
+                            r/{{ $post->community->name }}
+                        </a>
+                    @endif
                     • {{ $post->created_at->diffForHumans() }}
-                    • r/{{ $post->community->name }}
                 </div>
             </div>
 

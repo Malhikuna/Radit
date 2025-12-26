@@ -6,23 +6,23 @@
         {{-- BANNER --}}
         <div class="h-32 bg-gradient-to-r from-[#3e2b2c] to-[#3e2b2c]"></div>
 
-        <div class="p-6 flex items-center gap-4">
+        <div class="p-6 flex items-center justify-between flex-wrap gap-4">
 
-            {{-- ICON --}}
-            <div
-                class="w-16 h-16 rounded-full bg-[#9966CC] border-[#7A49A6] text-white flex items-center justify-center text-2xl font-bold">
-                {{ strtoupper(substr($community->name, 0, 1)) }}
+            {{-- LEFT: ICON + NAME --}}
+            <div class="flex items-center gap-4">
+                {{-- ICON --}}
+                <div
+                    class="w-16 h-16 rounded-full bg-[#9966CC] border border-[#7A49A6] text-white flex items-center justify-center text-2xl font-bold">
+                    {{ strtoupper(substr($community->name, 0, 1)) }}
+                </div>
+
+                {{-- NAME + MEMBER COUNT --}}
+                <div class="flex flex-col">
+                    <h1 class="text-2xl font-bold">r/{{ $community->name }}</h1>
+                </div>
             </div>
 
-            {{-- TITLE --}}
-            <div>
-                <h1 class="text-2xl font-bold">
-                    c/{{ $community->name }}
-                </h1>
-                <p class="text-sm text-gray-500">
-                    {{ $community->members_count }} members
-                </p>
-            </div>
+            <span class="text-sm text-gray-500">{{ $community->members_count ?? 0 }} members</span>
 
             {{-- ACTIONS --}}
             <div class="ml-auto flex items-center gap-3">
@@ -41,9 +41,8 @@
         </div>
     </div>
 
-    {{-- POST FEED (FULL WIDTH) --}}
+    {{-- POST FEED --}}
     <div class="space-y-6">
-        {{-- Kirim communityId ke Livewire PostList --}}
         <livewire:community.post-list :communityId="$community->id" />
     </div>
 
