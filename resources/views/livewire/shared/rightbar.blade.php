@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <button class="mt-4 w-full bg-purple-600 text-white py-2 rounded-full font-semibold hover:bg-purple-900 transition">
+        <button class="mt-4 w-full bg-[#9966CC] text-white py-2 rounded-full font-semibold hover:bg-[#7A49A6] transition">
             Join
         </button>
     </div>
@@ -40,6 +40,11 @@
             <li class="hover:text-blue-500 cursor-pointer transition">#Unpas</li>
             <li class="hover:text-blue-500 cursor-pointer transition">#WebDev</li>
         </ul>
+
+        <pre>
+    AUTH: {{ auth()->check() ? 'YES' : 'NO' }}
+    PREMIUM: {{ auth()->check() ? (auth()->user()->hasPremium() ? 'YES' : 'NO') : '-' }}
+    </pre>
     </div>
 
     {{-- FOOTER --}}
