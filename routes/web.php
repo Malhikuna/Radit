@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| LIVEWIRE COMPONENTS
+| LIVEWIRE
 |--------------------------------------------------------------------------
 */
 use App\Livewire\Home;
-use App\Livewire\Search\Show as SearchShow;
+use App\Livewire\Search as SearchShow;
 
 /** Auth */
 
@@ -123,6 +123,9 @@ Route::get('/checkout/unfinish', function () {
 Route::get('/checkout/error', function () {
     return redirect('/')->with('error', 'Pembayaran gagal');
 })->name('checkout.error');
+
+Route::middleware('auth')->get('/premium', PremiumShow::class)->name('premium');
+
 
 /*
 |--------------------------------------------------------------------------

@@ -18,6 +18,7 @@ class WeatherPublic extends Component
     public array $favorites = [];
     public ?string $lastUpdated = null;
     public ?array $forecast = null;
+    public bool $isFetching = false;
 
     // AUTO REFRESH setiap 5 menit (opsional)
     protected $listeners = ['refreshWeather' => 'getWeather'];
@@ -81,6 +82,8 @@ class WeatherPublic extends Component
 
     public function getWeather()
     {
+        $this->isFetching = true;
+        
         if (trim($this->city) === '') {
             $this->error = 'Silakan masukkan nama daerah';
             return;
@@ -134,6 +137,8 @@ class WeatherPublic extends Component
         [$this->weatherText, $this->weatherIcon] = $this->mapWeatherCode($this->weather['weathercode']);
 
         $this->loading = false;
+
+        $this->isFetching = false;
     }
 
 
