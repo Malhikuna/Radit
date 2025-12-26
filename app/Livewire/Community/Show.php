@@ -26,7 +26,7 @@ class Show extends Component
     {
         return view('livewire.community.show', [
             'posts' => $this->community->posts,
-            'title' => 'r/' . $this->community->name
+            'title' => 'c/' . $this->community->name
         ]);
     }
 }

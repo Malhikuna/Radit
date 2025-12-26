@@ -1,9 +1,9 @@
+
 <div class="max-w-3xl mx-auto space-y-4">
 
     {{-- HEADER --}}
     <div class="flex items-center justify-between">
         <h1 class="text-xl font-bold">Communities</h1>
-
         <a 
             href="{{ route('communities.create') }}"
             class="px-4 py-1.5 rounded-full bg-purple-500
@@ -65,5 +65,4 @@
             </div>
         @endforelse
     </div>
-
 </div>
