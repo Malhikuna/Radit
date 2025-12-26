@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use MessageFormatter;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,6 +27,8 @@ class DatabaseSeeder extends Seeder
             VoteSeeder::class,
             LoginLogSeeder::class,
             PollOptionSeeder::class,
+            ConversationSeeder::class,
+            MessageSeeder::class,
         ]);
         // User::factory(10)->create();
 
