@@ -145,7 +145,3 @@ Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
 
 
 // Route::get('/weather-public', WeatherPublicController::class);
-
-
-
-
