@@ -10,19 +10,6 @@
             Best
         </button>
     </div>
-    <div class="max-w-3xl mx-auto">
-@if(!auth()->check() || !auth()->user()->hasPremium())
-    <x-ads />
-@endif
-<pre>
-Premium: {{ auth()->user()->hasPremium() ? 'YES' : 'NO' }}
-Expired: {{ auth()->user()->premium_expired_at }}
-</pre>
-
-
-
-</div>
-
 
     {{-- POSTS LIST --}}
     @foreach ($posts as $post)
@@ -31,4 +18,3 @@ Expired: {{ auth()->user()->premium_expired_at }}
             :key="'post-'.$post->id" />
     @endforeach
 </div>
-
