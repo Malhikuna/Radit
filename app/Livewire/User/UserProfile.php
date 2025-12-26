@@ -3,52 +3,39 @@
 namespace App\Livewire\User;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Vote;
 use Livewire\Attributes\Layout;
 
-class Profile extends Component
+class UserProfile extends Component
 {
-    public $user;
+    public User $user;
     public $posts;
     public $comments;
     public int $karma = 0;
 
-    public function mount()
+    public function mount(User $user)
     {
-        $this->user = Auth::user();
-        abort_if(! $this->user, 403);
+        $this->user = $user;
 
-        /**
-         * POSTS (WAJIB sesuai post-card)
-         */
-        $this->posts = Post::with([
-                'user',
-                'community',
-                'images',
-                'votes',
-            ])
+        $this->loadData();
+    }
+
+    protected function loadData()
+    {
+        $this->posts = Post::with(['community','images','votes'])
             ->withCount('comments')
             ->where('user_id', $this->user->id)
             ->latest()
             ->get();
 
-        /**
-         * COMMENTS
-         */
-        $this->comments = Comment::with([
-                'post',
-                'post.community',
-            ])
+        $this->comments = Comment::with('post')
             ->where('user_id', $this->user->id)
             ->latest()
             ->get();
 
-        /**
-         * KARMA (Reddit Style)
-         */
         $this->karma =
             Vote::whereIn('post_id', $this->posts->pluck('id'))->sum('value') +
             Vote::whereIn('comment_id', $this->comments->pluck('id'))->sum('value');
@@ -57,8 +44,8 @@ class Profile extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.user.profile', [
-            'title' => 'My Profile',
+        return view('livewire.user.user-profile', [
+            'title' => 'u/' . $this->user->name,
         ]);
     }
 }

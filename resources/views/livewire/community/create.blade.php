@@ -12,7 +12,7 @@
             <div>
                 <label class="block mb-1">Name Community</label>
                 <input type="text" wire:model="name"
-                    class="w-full border border-gray-200 rounded p-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="w-full border border-gray-200 rounded p-2 focus:outline-none focus:ring-1 focus:ring-purple-500">
 
                 @error('name')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -22,14 +22,14 @@
             <div>
                 <label class="block mb-1">Description</label>
                 <textarea wire:model="description"
-                    class="w-full border border-gray-200 rounded p-2 focus:outline-none focus:ring-1 focus:ring-orange-500"></textarea>
+                    class="w-full border border-gray-200 rounded p-2 focus:outline-none focus:ring-1 focus:ring-purple-500"></textarea>
 
                 @error('description')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
-            <button class="bg-orange-500 text-white px-4 py-2 rounded cursor-pointer">
+            <button class="bg-purple-500 text-white px-4 py-2 rounded cursor-pointer">
                 Create
             </button>
         </form>

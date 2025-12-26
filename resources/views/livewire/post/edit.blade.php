@@ -30,7 +30,7 @@
 
                         <!-- EDIT -->
                         <a href="{{ route('posts.edit', $post) }}"
-                           class="text-orange-600 hover:underline">
+                           class="text-purple-600 hover:underline">
                             Edit
                         </a>
 
@@ -78,7 +78,7 @@
                 <a href="{{ $post->url }}"
                    target="_blank"
                    rel="noopener noreferrer"
-                   class="text-orange-600 underline break-all">
+                   class="text-purple-600 underline break-all">
                     {{ $post->url }}
                 </a>
             </div>
@@ -185,7 +185,7 @@
         {{-- ACTION --}}
         <div class="flex gap-3">
             <button type="submit"
-                    class="px-5 py-2 bg-orange-600 text-white rounded-full font-semibold">
+                    class="px-5 py-2 bg-purple-600 text-white rounded-full font-semibold">
                 Update Post
             </button>
 

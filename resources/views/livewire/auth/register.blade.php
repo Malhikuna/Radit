@@ -8,7 +8,7 @@
                 src="https://cdn-icons-png.flaticon.com/512/888/888879.png"
                 class="w-16 mb-2"
                 alt="logo">
-            <span class="text-orange-500 font-bold text-xl">
+            <span class="text-purple-500 font-bold text-xl">
                 ENABLE 404
             </span>
         </div>
