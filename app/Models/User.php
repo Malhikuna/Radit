@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,31 +17,41 @@ class User extends Authenticatable
         'premium_expired_at',
     ];
 
-    protected $hidden = ['password'];
-
     protected $casts = [
         'is_premium' => 'boolean',
         'premium_expired_at' => 'datetime',
     ];
 
-    // RELATIONS
-    public function posts() { return $this->hasMany(Post::class); }
-    public function comments() { return $this->hasMany(Comment::class); }
-    public function votes() { return $this->hasMany(Vote::class); }
-    public function communities() { return $this->belongsToMany(Community::class, 'community_members'); }
+    /* ================= PREMIUM ================= */
 
-    // CEK PREMIUM
     public function hasPremium(): bool
     {
-        if (!$this->is_premium || !$this->premium_expired_at) {
-            return false;
-        }
+        return cache()->remember(
+            "user:{$this->id}:premium",
+            now()->addMinutes(5),
+            function () {
+                if (!$this->is_premium || !$this->premium_expired_at) {
+                    return false;
+                }
 
-        if ($this->premium_expired_at->isPast()) {
-            $this->updateQuietly(['is_premium' => false]);
-            return false;
-        }
+                if ($this->premium_expired_at->isPast()) {
+                    $this->updateQuietly(['is_premium' => false]);
+                    $this->refreshPremiumCache();
+                    return false;
+                }
 
-        return true;
+                return true;
+            }
+        );
+    }
+
+    public function refreshPremiumCache(): void
+    {
+        cache()->forget("user:{$this->id}:premium");
+    }
+
+    public function getIsPremiumActiveAttribute(): bool
+    {
+        return $this->hasPremium();
     }
 }

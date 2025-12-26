@@ -40,6 +40,11 @@
             <li class="hover:text-blue-500 cursor-pointer transition">#Unpas</li>
             <li class="hover:text-blue-500 cursor-pointer transition">#WebDev</li>
         </ul>
+
+        <pre>
+    AUTH: {{ auth()->check() ? 'YES' : 'NO' }}
+    PREMIUM: {{ auth()->check() ? (auth()->user()->hasPremium() ? 'YES' : 'NO') : '-' }}
+    </pre>
     </div>
 
     {{-- FOOTER --}}

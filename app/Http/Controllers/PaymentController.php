@@ -1,58 +1,74 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use Midtrans\Snap;
 use Midtrans\Config;
+use App\Models\Order;
+use App\Models\User;
 
-
-public function pay()
+class PaymentController extends Controller
 {
-    Config::$serverKey = config('midtrans.server_key');
-    Config::$isProduction = config('midtrans.is_production');
-    Config::$isSanitized = true;
-    Config::$is3ds = true;
+    public function callback(Request $request)
+    {
+        Config::$serverKey = config('midtrans.server_key');
 
-    $params = [
-        'transaction_details' => [
-            'order_id' => 'PREMIUM-' . uniqid(),
-            'gross_amount' => 25000,
-        ],
-        'customer_details' => [
-            'first_name' => auth()->user()->name,
-            'email' => auth()->user()->email,
-        ],
-        'custom_field1' => auth()->id(), // PENTING
-    ];
+        // VALIDASI SIGNATURE
+        $signatureKey = hash(
+            'sha512',
+            $request->order_id .
+            $request->status_code .
+            $request->gross_amount .
+            config('midtrans.server_key')
+        );
 
-    return response()->json([
-        'snap_token' => Snap::getSnapToken($params),
-    ]);
-}
+        if ($signatureKey !== $request->signature_key) {
+            return response()->json(['message' => 'Invalid signature'], 403);
+        }
 
-public function callback(Request $request)
-{
-    $signature = hash(
-        'sha512',
-        $request->order_id .
-        $request->status_code .
-        $request->gross_amount .
-        config('midtrans.server_key')
-    );
+        // CARI ORDER
+        $order = Order::where('order_id', $request->order_id)->first();
 
-    if ($signature !== $request->signature_key) {
-        abort(403);
+        if (!$order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        // ANTI DOUBLE CALLBACK
+        if ($order->status === 'paid') {
+            return response()->json(['message' => 'Already processed']);
+        }
+
+        // PEMBAYARAN SAH
+        if (in_array($request->transaction_status, ['settlement', 'capture'])) {
+
+            // Update status order
+            $order->update([
+                'status' => 'paid',
+                'paid_at' => now(),
+            ]);
+
+            // Jadikan user premium / extend premium
+            $user = User::find($order->user_id);
+
+            if ($user) {
+                // Jika premium_expired_at sudah ada dan masih aktif, extend
+                $current = $user->premium_expired_at && $user->premium_expired_at->isFuture()
+                    ? Carbon::parse($user->premium_expired_at)
+                    : Carbon::now();
+
+                $user->update([
+                    'is_premium' => true,
+                    'premium_expired_at' => $current->addDays(30),
+                ]);
+
+                // Bersihkan cache
+                $user->refreshPremiumCache();
+            }
+        }
+
+        return response()->json(['status' => 'ok']);
     }
-
-    if (in_array($request->transaction_status, ['capture', 'settlement'])) {
-        $user = User::findOrFail($request->custom_field1);
-
-        $user->update([
-            'is_premium' => true,
-            'premium_expired_at' => now()->addDays(30),
-        ]);
-    }
-
-    return response()->json(['status' => 'ok']);
 }
-
