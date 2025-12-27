@@ -6,7 +6,7 @@
 
     <title>{{ $title ?? 'Enable404' }}</title>
 
-   @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
 
@@ -27,15 +27,16 @@
         @endif
 
         {{-- MAIN CONTENT --}}
-        @if (!($hideSidebar ?? false))
-            <main role="main" class="flex-1 pt-24 px-6">
-                {{ $slot }}
-            </main>
-        @else
-            <main role="main" class="flex-1 pt-0 px-6">
-                {{ $slot }}
-            </main>
-        @endif
+        @php
+            $isPremium = request()->routeIs('premium');
+            $px = $isPremium ? 'px-0' : 'px-6';
+            $pt = ($hideSidebar ?? false) ? 'pt-0' : 'pt-24';
+        @endphp
+
+        <main role="main" class="flex-1 {{ $pt }} {{ $px }}">
+            {{ $slot }}
+        </main>
+
 
         {{-- SIDEBAR KANAN --}}
         @if (!($hideSidebar ?? false))

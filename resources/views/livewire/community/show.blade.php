@@ -12,8 +12,7 @@
             <div class="flex items-center gap-4">
                 {{-- ICON --}}
                 <div
-                    class="w-16 h-16 rounded-full bg-[#9966CC] border border-[#7A49A6] text-white
-                           flex items-center justify-center text-2xl font-bold">
+                    class="w-16 h-16 rounded-full bg-[#9966CC] border border-[#7A49A6] text-white flex items-center justify-center text-2xl font-bold">
                     {{ strtoupper(substr($community->name, 0, 1)) }}
                 </div>
 
@@ -25,16 +24,18 @@
 
             <span class="text-sm text-gray-500">{{ $community->members_count ?? 0 }} members</span>
 
-
-            {{-- RIGHT: ACTION BUTTONS --}}
-            <div class="flex items-center gap-3">
-                <a href="{{ route('posts.create', ['community' => $community->id]) }}"
-                   class="px-4 py-2 rounded-full bg-[#9966CC] text-white font-semibold hover:bg-[#7A49A6]">
+            {{-- ACTIONS --}}
+            <div class="ml-auto flex items-center gap-3">
+                <a 
+                    href="{{ route('posts.create', ['community' => $community->id]) }}"
+                    class="px-4 py-2 rounded-full bg-[#9966CC] text-white font-semibold hover:bg-[#7A49A6]">
                     + Create Post
                 </a>
 
-                {{-- JOIN BUTTON LIVEWIRE --}}
-                <livewire:community.join-community :community="$community" />
+                <button
+                    class="px-4 py-2 rounded-full border border-[#4480e7] text-white font-semibold hover:bg-[#4480e7] bg-[#6395ee]">
+                    Join
+                </button>
             </div>
 
         </div>
