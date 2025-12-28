@@ -15,19 +15,25 @@ class PostList extends Component
     public string $sort = 'new';
     public string $search = '';
 
+    public int $perPage = 10;
+    
     protected $queryString = ['sort'];
 
     #[On('searchUpdated')]
     public function updateSearch($search)
     {
         $this->search = $search;
-        $this->resetPage();
+        $this->perPage = 10;
     }
 
-    // 🔥 INI KUNCI FIX-NYA
     public function updatedSort()
     {
-        $this->resetPage();
+        $this->perPage = 10;
+    }
+
+    public function loadMore()
+    {
+        $this->perPage += 10;
     }
 
     public function render()
@@ -39,7 +45,7 @@ class PostList extends Component
         if ($this->search !== '') {
             $query->where(function ($q) {
                 $q->where('title', 'like', "%{$this->search}%")
-                  ->orWhere('content', 'like', "%{$this->search}%");
+                    ->orWhere('content', 'like', "%{$this->search}%");
             });
         }
 
