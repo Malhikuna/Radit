@@ -2,18 +2,28 @@
 
     <div class="bg-white w-[360px] p-8 rounded-xl border border-gray-300 shadow-sm">
 
-        {{-- Logo --}}
-        <div class="flex flex-col items-center mb-6">
-            <img
-                src="https://cdn-icons-png.flaticon.com/512/888/888879.png"
-                class="w-16 mb-2"
-                alt="logo">
-            <span class="text-purple-500 font-bold text-xl">
-                ENABLE 404
+        {{-- LOGO --}}
+        <a href="{{ route('home') }}" class="flex flex-col items-center mb-6">
+            <img 
+                src="{{ asset('storage/icon/logo.png') }}" 
+                alt="Logo RADIT"
+                class="h-14 mb-2"
+                style="
+                    filter:
+                        invert(59%)
+                        sepia(25%)
+                        saturate(750%)
+                        hue-rotate(230deg)
+                        brightness(96%)
+                        contrast(94%);
+                "
+            >
+            <span class="font-bold text-xl text-[#9966CC]">
+                RADIT
             </span>
-        </div>
+        </a>
 
-        {{-- Form Register --}}
+        {{-- FORM REGISTER --}}
         <form wire:submit.prevent="register">
 
             {{-- Nama --}}
@@ -71,7 +81,7 @@
             Sudah punya akun?
             <a
                 href="/login"
-                class="text-blue-400 font-semibold hover:text-blue-700 transition-colors">
+                class="text-[#9966CC] font-semibold hover:underline transition">
                 Login
             </a>
         </p>

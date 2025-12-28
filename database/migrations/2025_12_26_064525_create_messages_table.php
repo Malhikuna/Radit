@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('messages', function (Blueprint $table) {
-            $table->id(); // Primary key untuk setiap pesan
-            $table->foreignId('conversation_id')->constrained()->cascadeOnDelete(); // Relasi ke tabel conversations (pesan milik percakapan mana)
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete(); // User yang mengirim pesan
-            $table->text('body'); // Isi pesan chat
-            $table->boolean('is_read')->default(false);  // Status pesan: sudah dibaca atau belum
-            $table->timestamps();  // Waktu pesan dibuat & diupdate
+            $table->id();
+            $table->foreignId('conversation_id')->constrained()->cascadeOnDelete(); 
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->text('body');
+            $table->boolean('is_read')->default(false);
+            $table->timestamps();
         });
     }
 

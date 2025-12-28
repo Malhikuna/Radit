@@ -28,17 +28,14 @@
         <div class="flex items-center gap-4">
 
             @auth
-                <a 
-                    href="/"
-                    class="flex items-center gap-3 px-2 py-2 rounded-full font-medium
-                            {{ 
-                                request('sort') === 'home'
-                                ? 'bg-purple-50 text-purple-600'
-                                : 'text-gray-700 hover:bg-gray-100 hover:text-purple-600' 
-                            }}"
-                >
-                    <x-lucide-message-circle-more class="w-5"/>
-                </a>
+                {{-- CHAT --}}
+                @php
+                    $isChat = request()->routeIs('chat');
+                @endphp
+
+                @if (!$isChat)
+                    <livewire:chat.chat-widget />
+                @endif
 
                 <a 
                     href="/"

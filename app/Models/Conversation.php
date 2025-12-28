@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 class Conversation extends Model
 {
@@ -16,21 +17,27 @@ class Conversation extends Model
         'receiver_id',
     ];
 
-    // Satu conversation memiliki banyak pesan
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }
 
-    // Pengirim percakapan
     public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class, 'sender_id');
     }
 
-    // Penerima percakapan
     public function receiver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'receiver_id');
+    }
+
+    public function getReceiver()
+    {
+        if ($this->sender_id === Auth::id()) {
+            return $this->receiver;
+        } else {
+            return $this->sender;
+        }
     }
 }

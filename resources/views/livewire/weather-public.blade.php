@@ -31,7 +31,7 @@
                 wire:target="getWeather"
                 class="cursor-pointer bg-[#6395ee] text-white px-2 py-2 rounded-full shadow
                         hover:bg-[#4b6eab] transition
-                        disabled:opacity-50 disabled:cursor-not-allowed absolute right-1 absolute top-1/2 -translate-y-1/2">
+                        disabled:opacity-50 disabled:cursor-not-allowed absolute right-1 t ">
                     <x-lucide-search class="w-4"/>
         </div>
     </button>

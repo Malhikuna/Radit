@@ -12,18 +12,28 @@
     {{-- KOTAK LOGIN --}}
     <div class="bg-white w-[360px] p-8 rounded-xl border border-gray-300 shadow-sm">
 
-        {{-- Logo --}}
-        <div class="flex flex-col items-center mb-6">
-            <img
-                src="https://cdn-icons-png.flaticon.com/512/888/888879.png"
-                class="w-16 mb-2"
-                alt="logo">
-            <span class="text-purple-500 font-bold text-xl">
-                ENABLE 404
+        {{-- LOGO --}}
+        <a href="{{ route('home') }}" class="flex flex-col items-center mb-6">
+            <img 
+                src="{{ asset('storage/icon/logo.png') }}" 
+                alt="Logo RADIT"
+                class="h-14 mb-2"
+                style="
+                    filter:
+                        invert(59%)
+                        sepia(25%)
+                        saturate(750%)
+                        hue-rotate(230deg)
+                        brightness(96%)
+                        contrast(94%);
+                "
+            >
+            <span class="font-bold text-xl text-[#9966CC]">
+                RADIT
             </span>
-        </div>
+        </a>
 
-        {{-- Form Login --}}
+        {{-- FORM LOGIN --}}
         <form wire:submit.prevent="login">
 
             {{-- Email --}}
@@ -66,12 +76,10 @@
         <a
             href="/auth/google"
             class="flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-full mb-3 hover:bg-gray-50 transition">
-
             <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
                 class="w-5 h-5"
                 alt="Google">
-
             <span>Login dengan Google</span>
         </a>
 
@@ -79,12 +87,10 @@
         <a
             href="/auth/github"
             class="flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-full hover:bg-gray-50 transition">
-
             <img
                 src="https://www.svgrepo.com/show/512317/github-142.svg"
                 class="w-5 h-5"
                 alt="GitHub">
-
             <span>Login dengan GitHub</span>
         </a>
 
@@ -93,7 +99,7 @@
             Belum punya akun?
             <a  
                 href="/register"
-                class="text-blue-400 font-semibold hover:text-blue-700 transition">
+                class="text-[#9966CC] font-semibold hover:underline transition">
                 Daftar
             </a>
         </p>
