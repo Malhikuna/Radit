@@ -29,6 +29,8 @@ use App\Livewire\Community\Index as CommunityIndex;
 use App\Livewire\Community\Create as CommunityCreate;
 use App\Livewire\Community\Edit as CommunityEdit;
 use App\Livewire\Community\Show as CommunityShow;
+use App\Http\Controllers\CommunityController;
+
 
 /** Premium */
 use App\Livewire\Premium\Checkout;
@@ -106,6 +108,11 @@ Route::prefix('communities')->name('communities.')->group(function () {
 
     Route::get('/{community}', CommunityShow::class)->name('show');
 });
+
+
+Route::post('/community/{community}/join', [CommunityController::class, 'join'])
+    ->name('community.join')
+    ->middleware('auth'); // pastikan user login
 
 /*
 |--------------------------------------------------------------------------
