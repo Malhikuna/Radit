@@ -5,8 +5,9 @@ namespace App\Livewire\Notification;
 use Livewire\Component;
 use Illuminate\Bus\Queueable;
 use Livewire\Attributes\Layout;
+use Illuminate\Notifications\Notification;
 
-class PostVoteNotification extends Component
+class PostVoteNotification extends Notification
 {
     use Queueable; // antrian (queue)
 
