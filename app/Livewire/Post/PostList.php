@@ -6,14 +6,14 @@ use Livewire\Component;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
-use Livewire\WithPagination;
 
 class PostList extends Component
 {
-    use WithPagination;
-
     public string $sort = 'new';
     public string $search = '';
+
+    public int $limit = 10;
+    public bool $hasMore = true;
 
     protected $queryString = ['sort'];
 
@@ -21,16 +21,28 @@ class PostList extends Component
     public function updateSearch($search)
     {
         $this->search = $search;
-        $this->resetPage();
+        $this->resetList();
     }
 
-    // 🔥 INI KUNCI FIX-NYA
     public function updatedSort()
     {
-        $this->resetPage();
+        $this->resetList();
     }
 
-    public function render()
+    private function resetList()
+    {
+        $this->limit = 10;
+        $this->hasMore = true;
+    }
+
+    public function loadMore()
+    {
+        if ($this->hasMore) {
+            $this->limit += 10;
+        }
+    }
+
+    public function getPostsProperty()
     {
         $query = Post::with(['user', 'images', 'votes'])
             ->withCount('comments')
@@ -44,16 +56,17 @@ class PostList extends Component
         }
 
         match ($this->sort) {
-            'best'      => $query->orderByDesc('votes_sum_value'),
-            'top'       => $query->orderByDesc('votes_sum_value'),
-            'old'       => $query->orderBy('created_at'),
-            'discussed' => $query->orderByDesc('comments_count'),
-            default     => $query->latest(),
+            'best', 'top' => $query->orderByDesc('votes_sum_value'),
+            'old'         => $query->orderBy('created_at'),
+            'discussed'   => $query->orderByDesc('comments_count'),
+            default       => $query->latest(),
         };
 
-        return view('livewire.post.post-list', [
-            'posts' => $query->paginate(10),
-        ]);
+        $posts = $query->take($this->limit)->get();
+
+        $this->hasMore = $posts->count() >= $this->limit;
+
+        return $posts;
     }
 
     public function vote($postId, $value)
@@ -73,5 +86,12 @@ class PostList extends Component
                 'value'   => $value,
             ]);
         }
+    }
+
+    public function render()
+    {
+        return view('livewire.post.post-list', [
+            'posts' => $this->posts
+        ]);
     }
 }
