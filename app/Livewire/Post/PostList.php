@@ -16,6 +16,7 @@ class PostList extends Component
     public string $search = '';
 
     public int $perPage = 10;
+    public bool $hasMore = true;
     
     protected $queryString = ['sort'];
 
@@ -33,7 +34,9 @@ class PostList extends Component
 
     public function loadMore()
     {
-        $this->perPage += 10;
+        if ($this->hasMore) {
+            $this->perPage += 10;
+        }
     }
 
     public function render()
@@ -57,8 +60,13 @@ class PostList extends Component
             default     => $query->latest(),
         };
 
+        $posts = $query->take($this->perPage)->get();
+
+        $totalPosts = Post::count();
+        $this->hasMore = $posts->count() < $totalPosts;
+
         return view('livewire.post.post-list', [
-            'posts' => $query->paginate(10),
+            'posts' => $posts,
         ]);
     }
 
