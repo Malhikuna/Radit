@@ -14,16 +14,11 @@
         </div>
     </header>
 
-    {{-- HERO (FULL WIDTH, NO WHITE EDGE) --}}
-    <section
-        class="relative w-full min-h-[calc(100vh-64px)]
-               bg-gradient-to-r from-[#06799B] via-[#0A87A8] to-[#0A7F9F]
-               text-white flex items-center">
-
-        {{-- OVERLAY --}}
+    {{-- HERO --}}
+    <section class="relative w-full min-h-[calc(100vh-64px)]
+           bg-gradient-to-r from-[#06799B] via-[#0A87A8] to-[#0A7F9F]
+           text-white flex items-center">
         <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-black/10"></div>
-
-        {{-- CONTENT --}}
         <div class="relative z-10 w-full py-16 sm:py-20 lg:py-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 grid gap-12 lg:grid-cols-2 items-center">
 
@@ -58,15 +53,23 @@
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <button
-                            class="px-7 py-3 bg-white text-[#06799B]
-                                   font-semibold rounded-full shadow
-                                   hover:bg-white/90 transition">
-                            Rp 79.000 / Bulan
-                        </button>
+                        {{-- Form Bulanan --}}
+                        <form action="{{ route('premium.buys') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="duration" value="monthly">
+                            <button type="submit"
+                                class="px-7 py-3 bg-white text-[#06799B]
+                                       font-semibold rounded-full shadow
+                                       hover:bg-white/90 transition">
+                                Rp 79.000 / Bulan
+                            </button>
+                        </form>
 
-                        <div class="text-center sm:text-left">
-                            <button
+                        {{-- Form Tahunan --}}
+                        <form action="{{ route('premium.buys') }}" method="POST" class="text-center sm:text-left">
+                            @csrf
+                            <input type="hidden" name="duration" value="yearly">
+                            <button type="submit"
                                 class="px-7 py-3 bg-black text-white
                                        font-semibold rounded-full shadow-lg
                                        hover:bg-black/90 transition">
@@ -75,27 +78,22 @@
                             <p class="text-sm text-[#7CFFB2] mt-1">
                                 Hemat 2 bulan
                             </p>
-                        </div>
+                        </form>
                     </div>
                 </div>
 
                 {{-- VISUAL --}}
                 <div class="flex justify-center">
-                    <div
-                        class="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80
-                               rounded-3xl bg-white/10 backdrop-blur-xl
-                               flex items-center justify-center
-                               shadow-2xl ring-1 ring-white/20">
-
-                        <div
-                            class="absolute inset-0 rounded-3xl
-                                   bg-gradient-to-br from-white/20 to-transparent
-                                   blur-xl"></div>
-
-                        <span
-                            class="relative text-5xl sm:text-6xl font-extrabold
-                                   bg-gradient-to-br from-white to-white/70
-                                   bg-clip-text text-transparent">
+                    <div class="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80
+                                rounded-3xl bg-white/10 backdrop-blur-xl
+                                flex items-center justify-center
+                                shadow-2xl ring-1 ring-white/20">
+                        <div class="absolute inset-0 rounded-3xl
+                                    bg-gradient-to-br from-white/20 to-transparent
+                                    blur-xl"></div>
+                        <span class="relative text-5xl sm:text-6xl font-extrabold
+                                     bg-gradient-to-br from-white to-white/70
+                                     bg-clip-text text-transparent">
                             R<span class="text-2xl align-super">+</span>
                         </span>
                     </div>
@@ -113,22 +111,16 @@
                 Radit+
             </span>
         </h3>
-
         <div class="grid gap-8 md:grid-cols-3">
             @foreach ([
                 'Tanpa Iklan' => 'Pengalaman fokus tanpa gangguan.',
                 'Fitur Eksklusif' => 'Akses fitur khusus premium.',
                 'Lebih Ringan' => 'Performa cepat & stabil.'
             ] as $title => $desc)
-                <div
-                    class="bg-white p-7 rounded-2xl shadow-md
-                           hover:shadow-xl hover:-translate-y-1 transition">
-                    <h4 class="text-lg font-semibold mb-2 text-[#007BA7]">
-                        {{ $title }}
-                    </h4>
-                    <p class="text-gray-600 text-sm sm:text-base">
-                        {{ $desc }}
-                    </p>
+                <div class="bg-white p-7 rounded-2xl shadow-md
+                            hover:shadow-xl hover:-translate-y-1 transition">
+                    <h4 class="text-lg font-semibold mb-2 text-[#007BA7]">{{ $title }}</h4>
+                    <p class="text-gray-600 text-sm sm:text-base">{{ $desc }}</p>
                 </div>
             @endforeach
         </div>
@@ -146,5 +138,4 @@
             </div>
         </div>
     </footer>
-
 </div>

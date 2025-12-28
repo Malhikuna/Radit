@@ -51,12 +51,16 @@ use App\Http\Controllers\WeatherPublicController;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | CONTROLLERS
 |--------------------------------------------------------------------------
 */
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PremiumController;
+use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SocialAuthController;
 /*
 |--------------------------------------------------------------------------
@@ -109,20 +113,20 @@ Route::prefix('communities')->name('communities.')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->post('/premium/pay', [PaymentController::class, 'pay']);
-Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
+Route::middleware(['auth'])->group(function() {
+    Route::post('/premium/buys', [PremiumController::class, 'buys'])->name('premium.buys');
+    Route::get('/checkout/success', [PremiumController::class, 'success']);
+    Route::get('/checkout/unfinish', [PremiumController::class, 'unfinish']);
+    Route::get('/checkout/error', [PremiumController::class, 'error']);
+    Route::post('/midtrans/callback', [PremiumController::class, 'callback']);
 
-Route::get('/checkout/success', function () {
-    return redirect('/')->with('success', 'Premium aktif 🎉');
-})->name('checkout.success');
+});
 
-Route::get('/checkout/unfinish', function () {
-    return redirect('/')->with('error', 'Pembayaran dibatalkan');
-})->name('checkout.unfinish');
-
-Route::get('/checkout/error', function () {
-    return redirect('/')->with('error', 'Pembayaran gagal');
-})->name('checkout.error');
+/*
+|--------------------------------------------------------------------------
+|   REDIT ++
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->get('/premium', PremiumShow::class)->name('premium');
 
