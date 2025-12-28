@@ -109,8 +109,7 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <h3 class="text-2xl sm:text-3xl font-bold text-center mb-12">
             Keuntungan
-            <span class="bg-gradient-to-r from-[#007BA7] to-[#00B4D8]
-                         bg-clip-text text-transparent">
+            <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400 relative z-10">
                 Radit+
             </span>
         </h3>

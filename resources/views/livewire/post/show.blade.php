@@ -110,7 +110,7 @@
 
                 {{-- Views --}}
                 <div class="flex items-center gap-1">
-                    👁️ {{ $post->views }}
+                    <x-lucide-eye class="w-5"/> {{ $post->views }}
                 </div>
 
                 {{-- Delete --}}

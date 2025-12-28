@@ -8,14 +8,12 @@ use App\Models\Message;
 use App\Models\Conversation;
 use App\Events\MessageSent;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
-class Show extends Component
+class ChatWidget extends Component
 {
-    #[Layout('layouts.app', ['hideSidebar' => true])]
-
+    public $isOpen = false;
     public $view = 'welcome'; 
-
     public $activeConversationId = null;
     public $activeUserId = null;
     public $messageBody = '';
@@ -32,15 +30,9 @@ class Show extends Component
     public function receiveMessage($event)
     {
         $this->dispatch('$refresh');
-        if ($this->activeConversationId == $event['message']['conversation_id']) {
-            $this->dispatch('scroll-bottom');
-        }
-    }
 
-    public function mount()
-    {
-        if (request()->has('user_id')) {
-            $this->openRoom(request('user_id'));
+        if ($this->view === 'room' && $this->activeConversationId == $event['message']['conversation_id']) {
+            $this->dispatch('scroll-bottom');
         }
     }
 
@@ -59,20 +51,22 @@ class Show extends Component
         ]);
 
         $message->receiver_id = $this->activeUserId; 
-        broadcast(new MessageSent($message));
+        
+        broadcast(new MessageSent($message))->toOthers();
 
         $this->messageBody = '';
         $this->dispatch('scroll-bottom');
     }
 
-    public function clearChat()
+    public function openNewChat()
     {
-        if ($this->activeConversationId) {
-            $myId = Auth::id();
-            Message::where('conversation_id', $this->activeConversationId)->where('user_id', $myId)->update(['deleted_by_sender' => true]);
-            Message::where('conversation_id', $this->activeConversationId)->where('user_id', '!=', $myId)->update(['deleted_by_receiver' => true]);
-            $this->dispatch('scroll-bottom');
-        }
+        $this->view = 'new_chat';
+        $this->searchQuery = '';
+    }
+
+    public function cancelNewChat()
+    {
+        $this->view = 'welcome';
     }
 
     public function openRoom($targetUserId)
@@ -94,9 +88,8 @@ class Show extends Component
         }
 
         $this->activeConversationId = $conversation->id;
+        $this->view = 'room';
         
-        $this->view = 'room'; 
-
         Message::where('conversation_id', $conversation->id)
             ->where('user_id', '!=', $myId)
             ->update(['is_read' => true]);
@@ -104,25 +97,41 @@ class Show extends Component
         $this->dispatch('scroll-bottom');
     }
 
+    public function closeRoom()
+    {
+        $this->activeConversationId = null;
+        $this->activeUserId = null;
+        $this->view = 'welcome';
+    }
+
     public function getConversationsProperty()
     {
         $userId = Auth::id();
+
         $conversations = Conversation::where('sender_id', $userId)
             ->orWhere('receiver_id', $userId)
-            ->with(['messages' => function($q) { $q->latest()->limit(1); }, 'sender', 'receiver'])
+            ->with(['messages' => function($q) {
+                $q->latest()->limit(1);
+            }, 'sender', 'receiver'])
             ->get()
             ->sortByDesc(function($conversation) {
                 return $conversation->messages->first()->created_at ?? $conversation->created_at;
             });
 
-        return $conversations->map(function($chat) use ($userId) {
+        $mapped = $conversations->map(function($chat) use ($userId) {
             $lastMessage = $chat->messages->first();
             $partner = ($chat->sender_id == $userId) ? $chat->receiver : $chat->sender;
             
             $isDeletedByMe = false;
+            
             if ($lastMessage) {
-                if ($lastMessage->user_id == $userId && $lastMessage->deleted_by_sender) $isDeletedByMe = true;
-                elseif ($lastMessage->user_id != $userId && $lastMessage->deleted_by_receiver) $isDeletedByMe = true;
+                if ($lastMessage->user_id == $userId && $lastMessage->deleted_by_sender) {
+                    $isDeletedByMe = true; 
+                } elseif ($lastMessage->user_id != $userId && $lastMessage->deleted_by_receiver) {
+                    $isDeletedByMe = true; 
+                }
+            } else {
+                $isDeletedByMe = false; 
             }
 
             return (object) [
@@ -133,22 +142,30 @@ class Show extends Component
                 'created_at' => $lastMessage ? $lastMessage->created_at : $chat->created_at,
                 'read_at' => $lastMessage ? ($lastMessage->is_read ? 'read' : null) : 'read', 
                 'sender_id' => $lastMessage ? $lastMessage->user_id : null,
-                'is_deleted' => $isDeletedByMe,
+                'is_deleted' => $isDeletedByMe, 
             ];
-        })->reject(fn($c) => $c->is_deleted);
+        });
+
+        return $mapped->reject(function ($chat) {
+            return $chat->is_deleted; 
+        });
     }
 
     public function getActiveMessagesProperty()
     {
         if (!$this->activeConversationId) return collect();
+
         $myId = Auth::id();
 
         return Message::where('conversation_id', $this->activeConversationId)
         ->where(function($query) use ($myId) {
             $query->where(function($q) use ($myId) {
-                $q->where('user_id', $myId)->where('deleted_by_sender', false);
-            })->orWhere(function($q) use ($myId) {
-                $q->where('user_id', '!=', $myId)->where('deleted_by_receiver', false);
+                $q->where('user_id', $myId)
+                    ->where('deleted_by_sender', false);
+            })
+            ->orWhere(function($q) use ($myId) {
+                $q->where('user_id', '!=', $myId)
+                    ->where('deleted_by_receiver', false);
             });
         })
         ->orderBy('created_at', 'asc')
@@ -169,7 +186,32 @@ class Show extends Component
     public function getSearchResultsProperty()
     {
         if (strlen($this->searchQuery) < 2) return [];
+
         return User::where('id', '!=', Auth::id())
-            ->where('name', 'like', '%' . $this->searchQuery . '%')->take(5)->get();
+            ->where('name', 'like', '%' . $this->searchQuery . '%')
+            ->take(5)
+            ->get();
+    }
+
+    public function clearChat()
+    {
+        if ($this->activeConversationId) {
+            $myId = Auth::id();
+
+            Message::where('conversation_id', $this->activeConversationId)
+                ->where('user_id', $myId)
+                ->update(['deleted_by_sender' => true]);
+
+            Message::where('conversation_id', $this->activeConversationId)
+                ->where('user_id', '!=', $myId)
+                ->update(['deleted_by_receiver' => true]);
+
+            $this->dispatch('scroll-bottom');
+        }
+    }
+
+    public function render()
+    {
+        return view('livewire.chat.chat-widget');
     }
 }

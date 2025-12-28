@@ -28,8 +28,9 @@
 
         {{-- MAIN CONTENT --}}
         @php
+            $isChat = request()->routeIs('chat');
             $isPremium = request()->routeIs('premium');
-            $px = $isPremium ? 'px-0' : 'px-6';
+            $px = $isPremium || $isChat ? 'px-0' : 'px-6';
             $pt = ($hideSidebar ?? false) ? 'pt-0' : 'pt-24';
         @endphp
 
