@@ -11,12 +11,21 @@ class PostList extends Component
 {
     public $sort = 'new';
     public $search = '';
-    public $communityId; // ID community yang sedang dibuka
+    public $communityId;
+
+    public int $perPage = 10;
+    public bool $hasMore = true;
 
     #[On('searchUpdated')]
     public function updateSearch($search)
     {
         $this->search = $search;
+        $this->perPage = 10;
+    }
+
+    public function updatedSort() 
+    {
+        $this->perPage = 10;
     }
 
     public function mount($communityId)
@@ -24,26 +33,41 @@ class PostList extends Component
         $this->communityId = $communityId;
     }
 
+    public function loadMore()
+    {
+        if ($this->hasMore) {
+            $this->perPage += 10;
+        }
+    }
+
     public function render()
     {
         $query = Post::with(['user', 'images', 'votes'])
             ->withCount('comments')
             ->withSum('votes', 'value')
-            ->where('community_id', $this->communityId); // filter berdasarkan community
+            ->where('community_id', $this->communityId);
 
         if ($this->search !== '') {
             $query->where(function ($q) {
                 $q->where('title', 'like', "%{$this->search}%")
-                  ->orWhere('content', 'like', "%{$this->search}%");
+                    ->orWhere('content', 'like', "%{$this->search}%");
             });
         }
 
-        $this->sort === 'best'
-            ? $query->orderByDesc('votes_sum_value')
-            : $query->orderByDesc('created_at');
+        match ($this->sort) {
+            'best' => $query->orderByDesc('votes_sum_value'),
+            default => $query->latest(),
+        };
+
+        $countQuery = clone $query;
+        $totalPosts = $countQuery->count();
+
+        $posts = $query->take($this->perPage)->get();    
+            
+        $this->hasMore = $posts->count() < $totalPosts;
 
         return view('livewire.community.post-list', [
-            'posts' => $query->paginate(10),
+            'posts' => $posts,
         ]);
     }
 
