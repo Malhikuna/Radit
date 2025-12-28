@@ -176,9 +176,10 @@ Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
 | CHAT
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
-    Route::get('/chat', ChatShow::class)
-        ->name('chat.show');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chat', ChatShow::class)->name('chat');
 });
+
+
 
 // Route::get('/weather-public', WeatherPublicController::class);

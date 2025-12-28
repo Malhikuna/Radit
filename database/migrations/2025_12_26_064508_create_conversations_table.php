@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('conversations', function (Blueprint $table) {
-            $table->id(); // Primary key percakapan
-            $table->foreignId('sender_id')->constrained('users')->cascadeOnDelete();  // User yang memulai percakapan
-            $table->foreignId('receiver_id')->constrained('users')->cascadeOnDelete();  // User penerima percakapan
-            $table->timestamps();  // Waktu percakapan dibuat & diupdate
+            $table->id();
+            $table->foreignId('sender_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('receiver_id')->constrained('users')->cascadeOnDelete();
+            $table->timestamps();  
         });
     }
 
