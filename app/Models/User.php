@@ -4,38 +4,56 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory;
-
-    protected $table = 'users';
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
         'email',
         'password',
         'role',
+        'is_premium',
+        'premium_expired_at',
     ];
 
-    protected $hidden = [
-        'password',
+    protected $casts = [
+        'is_premium' => 'boolean',
+        'premium_expired_at' => 'datetime',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Helper
-    |--------------------------------------------------------------------------
-    */
-    public function isAdmin(): bool
+    /* ================= PREMIUM ================= */
+
+    public function hasPremium(): bool
     {
-        return $this->role === 'admin';
+        return cache()->remember(
+            "user:{$this->id}:premium",
+            now()->addMinutes(5),
+            function () {
+                if (!$this->is_premium || !$this->premium_expired_at) {
+                    return false;
+                }
+
+                if ($this->premium_expired_at->isPast()) {
+                    $this->updateQuietly(['is_premium' => false]);
+                    $this->refreshPremiumCache();
+                    return false;
+                }
+
+                return true;
+            }
+        );
     }
 
-    public function communities()
+    public function refreshPremiumCache(): void
     {
-        return $this->belongsToMany(Community::class, 'community_members')
-            ->withPivot('role')
-            ->withTimestamps();
+        cache()->forget("user:{$this->id}:premium");
+    }
+
+    public function getIsPremiumActiveAttribute(): bool
+    {
+        return $this->hasPremium();
     }
 }

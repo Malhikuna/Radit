@@ -19,6 +19,11 @@
 /storage/*.key
 /storage/pail
 /vendor
+/database/database.sqlite
 Homestead.json
 Homestead.yaml
+<<<<<<< HEAD
 Thumbs.db
+=======
+Thumbs.db/vendor
+>>>>>>> e9e83b789d0974e860c0b37a7c6e093eb392d32d
