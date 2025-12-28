@@ -4,14 +4,14 @@
         <button
             wire:click="$set('sort','new')"
             class="px-3 py-1 rounded
-                   {{ $sort === 'new' ? 'font-bold underline' : '' }}">
+                    {{ $sort === 'new' ? 'font-bold underline' : '' }}">
             New
         </button>
 
         <button
             wire:click="$set('sort','best')"
             class="px-3 py-1 rounded
-                   {{ $sort === 'best' ? 'font-bold underline' : '' }}">
+                    {{ $sort === 'best' ? 'font-bold underline' : '' }}">
             Best
         </button>
     </div>
