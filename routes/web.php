@@ -162,16 +162,12 @@ Route::post('/logout', function () {
 | ADMIN PANEL
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin')
-    ->middleware(['auth', 'admin'])
-    ->name('admin.')
-    ->group(function () {
-        Route::get('/', Dashboard::class)->name('dashboard');
-        Route::get('/users', Users::class)->name('users');
-        Route::get('/posts', Posts::class)->name('posts');
-        Route::get('/communities', Communities::class)->name('communities');
-        Route::get('/reports', Reports::class)->name('reports');
-    });
+
+        Route::get('/admin', Dashboard::class)->name('admin.dashboard');
+        Route::get('/users', Users::class)->name('admin.users');
+        Route::get('/posts', Posts::class)->name('admin.posts');
+        Route::get('/communities', Communities::class)->name('admin.communities');
+        Route::get('/reports', Reports::class)->name('admin.reports');
 
 /*
 |--------------------------------------------------------------------------
