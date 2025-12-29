@@ -1,4 +1,4 @@
-<aside class="fixed top-20 right-0 w-80 h-[calc(100vh-5rem)] pr-6 py-6 space-y-6 overflow-y-auto scrollbar-hide">
+<aside class="fixed top-15 right-0 w-80 h-[calc(100vh)] pr-6 py-6 space-y-6 overflow-y-auto scrollbar-hide">
 
     {{-- COMMUNITY INFO --}}
     <div class="bg-white rounded-xl ring ring-gray-200 p-4 shadow-sm hover:shadow-md transition">

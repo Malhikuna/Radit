@@ -2,7 +2,10 @@
     $isCommunityPage = request()->routeIs('communities.show');
 @endphp
 
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4 hover:border-gray-300 transition duration-150 cursor-pointer">
+<div 
+    class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4 hover:border-gray-300 transition duration-150 cursor-pointer"
+    onclick="window.location='{{ route('posts.show', $post) }}'"
+>
 
     {{-- CONTENT COLUMN --}}
     <div class="flex-1 p-4 flex flex-col">
@@ -44,7 +47,7 @@
 
         {{-- TITLE --}}
         <a href="{{ route('posts.show', $post->id) }}">
-            <h2 class="font-bold text-lg leading-snug mb-1 transition duration-150">
+            <h2 class="font-semibold text-lg leading-snug mb-1 transition duration-150">
                 {{ $post->title }}
             </h2>
         </a>
@@ -61,8 +64,7 @@
         {{-- CONTENT --}}
         @if ($post->content)
             <p class="text-sm text-gray-800 mb-3 line-clamp-4">
-                {!! \Illuminate\Support\Str::of($post->content)
-                    ->replaceMatches('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank" class="text-blue-600 hover:underline">$1</a>') !!}
+                {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 200) }}
             </p>
         @endif
 
@@ -70,13 +72,13 @@
         @if ($post->type === 'image' && $post->images && $post->images->count())
             <img 
                 src="{{ asset('storage/'.$post->images->first()->file_path) }}"
-                class="rounded-lg max-h-[420px] w-full object-cover mb-3"
+                class="rounded-lg max-h-105 w-full object-cover mb-3"
                 alt="post image">
         @endif
 
         {{-- VIDEO --}}
         @if ($post->type === 'video' && $post->images && $post->images->count())
-            <video controls class="rounded-lg max-h-[420px] w-full mb-3">
+            <video controls class="rounded-lg max-h-105 w-full mb-3">
                 <source src="{{ asset('storage/'.$post->images->first()->file_path) }}" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -101,12 +103,15 @@
         <div class="flex items-center gap-4 text-sm text-gray-500 mt-auto">
 
             {{-- Vote --}}
-            <div class="flex items-center gap-1 select-none">
+            <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100">
                 <livewire:components.vote :post="$post" :key="'vote-'.$post->id" />
             </div>
 
             {{-- Comments --}}
-            <a href="{{ route('posts.show', $post) }}">
+            <a 
+                href="{{ route('posts.show', $post) }}"
+                class="flex items-center justify-center px-2 py-2 rounded-full bg-gray-100"
+            >
                 <div class="flex items-center gap-1 hover:text-gray-700 cursor-pointer">
                     <x-heroicon-s-chat-bubble-bottom-center class="w-4 h-4" />
                     {{ $post->comments_count ?? 0 }} Comments
@@ -115,25 +120,42 @@
 
             {{-- Share --}}
             <div class="flex items-center gap-1 hover:text-gray-700 cursor-pointer relative" x-data="{ open: false }">
-                <x-heroicon-s-share class="w-4 h-4" />
-                <span @click="open = !open">Share</span>
+                <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100"">
+                    <x-heroicon-s-share class="w-4 h-4" />
+    
+                    <span @click="open = !open">Share</span>
+                </div>
+
+                @php
+                    $postUrl = route('posts.show', $post->id);
+                @endphp
+
 
                 <div 
                     x-show="open" @click.away="open = false"
-                    class="absolute z-10 mt-1 bg-white border shadow-lg rounded-md p-2 text-xs">
+                    class="flex flex-col absolute z-10 mt-1 bg-white shadow-lg rounded-md text-md">
+
                     <a 
-                        href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->fullUrl()) }}"
-                        target="_blank" class="block hover:bg-gray-100 px-2 py-1 rounded">
+                        href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($postUrl) }}"
+                        target="_blank"
+                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded">
+                        <x-lucide-facebook class="w-4 h-4 text-blue-600" />
                         Facebook
                     </a>
+
                     <a 
-                        href="https://twitter.com/intent/tweet?url={{ urlencode(request()->fullUrl()) }}"
-                        target="_blank" class="block hover:bg-gray-100 px-2 py-1 rounded">
+                        href="href="https://twitter.com/intent/tweet?url={{ urlencode($postUrl) }}&text={{ urlencode($post->title) }}"
+                        target="_blank"
+                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded">
+                        <x-lucide-twitter class="w-4 h-4 text-sky-500" />
                         Twitter
                     </a>
+
                     <a 
-                        href="https://wa.me/?text={{ urlencode(request()->fullUrl()) }}"
-                        target="_blank" class="block hover:bg-gray-100 px-2 py-1 rounded">
+                        href="https://wa.me/?text={{ urlencode($postUrl) }}"
+                        target="_blank"
+                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded">
+                        <x-lucide-message-circle class="w-4 h-4 text-green-500" />
                         WhatsApp
                     </a>
                 </div>

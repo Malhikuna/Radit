@@ -6,7 +6,7 @@
     <div 
         wire:loading.flex 
         wire:target="getWeather" 
-        class="absolute w-full h-full rounded-xl inset-0 z-50 bg-white/90 backdrop-blur-md flex items-center justify-center hidden"
+        class="absolute w-full h-full rounded-xl inset-0 z-50 bg-white/90 backdrop-blur-md flex items-center justify-center"
     >
         <img
             src="{{ asset('storage/icon/logo.png') }}"
@@ -17,7 +17,7 @@
 
     {{-- INPUT + CARI --}}
     <div class="flex gap-2">
-        <div class="flex w-full bg-gray-100 rounded-full relative">
+        <div class="flex items-center w-full bg-gray-100 rounded-full relative">
             <input
                 type="text"
                 wire:model.defer="city"
@@ -32,7 +32,8 @@
                 class="cursor-pointer bg-[#6395ee] text-white px-2 py-2 rounded-full shadow
                         hover:bg-[#4b6eab] transition
                         disabled:opacity-50 disabled:cursor-not-allowed absolute right-1 t ">
-                    <x-lucide-search class="w-4"/>
+                    <x-lucide-search class="w-4"
+            />
         </div>
     </button>
     </div>
@@ -40,7 +41,7 @@
     {{-- Tombol Favorit --}}
     <div class="flex justify-end">
         <button wire:click="addFavorite"
-        class="bg-[#9966CC] text-white px-3 py-2 rounded-lg shadow hover:bg-[#7A49A6] transition flex-shrink-0 flex">
+        class="bg-[#9966CC] text-white px-3 py-2 rounded-lg shadow hover:bg-[#7A49A6] transition shrink-0 flex">
         <x-lucide-star class="w-5 flex text-[#FFEE8C]"/>
     </button>
     </div>
@@ -81,7 +82,7 @@
     {{-- CURRENT WEATHER --}}
     @if ($weather)
     <div class="max-w-sm rounded-2xl p-5 shadow-xl
-                bg-gradient-to-br from-sky-100 via-blue-100 to-indigo-100">
+                bg-linear-to-br from-sky-100 via-blue-100 to-indigo-100">
 
         <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
             <x-lucide-map-pin class="w-4 h-4"/>
