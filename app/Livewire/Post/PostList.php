@@ -17,6 +17,9 @@ class PostList extends Component
 
     public int $perPage = 10;
     public bool $hasMore = true;
+
+    public $userId = null;
+    public $communityId = null;    
     
     protected $queryString = ['sort'];
 
@@ -32,6 +35,12 @@ class PostList extends Component
         $this->perPage = 10;
     }
 
+    public function mount($userId = null, $communityId = null)
+    {
+        $this->userId = $userId;
+        $this->communityId = $communityId;
+    }
+
     public function loadMore()
     {
         if ($this->hasMore) {
@@ -44,6 +53,14 @@ class PostList extends Component
         $query = Post::with(['user', 'images', 'votes'])
             ->withCount('comments')
             ->withSum('votes', 'value');
+
+        if ($this->userId) {
+            $query->where('user_id', $this->userId);
+        }
+
+        if ($this->communityId) {
+            $query->where('community_id', $this->communityId);
+        }
 
         if ($this->search !== '') {
             $query->where(function ($q) {
@@ -60,9 +77,11 @@ class PostList extends Component
             default     => $query->latest(),
         };
 
+        $countQuery = clone $query;
+        $totalPosts = $countQuery->count();
+
         $posts = $query->take($this->perPage)->get();
 
-        $totalPosts = Post::count();
         $this->hasMore = $posts->count() < $totalPosts;
 
         return view('livewire.post.post-list', [
