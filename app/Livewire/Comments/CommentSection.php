@@ -13,16 +13,26 @@ class CommentSection extends Component
 
     public $post;
 
-    /** create / reply */
+    /* =========================
+     | CREATE / REPLY
+     ========================= */
     public $content = '';
     public $parentId = null;
+    public $replyToUser = null; // 🔥 TAMBAHAN
 
-    /** edit */
+    /* =========================
+     | EDIT
+     ========================= */
     public $editId = null;
     public $editContent = '';
 
+    /* =========================
+     | TOGGLE REPLIES
+     ========================= */
+    public array $openReplies = [];
+
     protected $rules = [
-        'content' => 'required|min:3|max:1000',
+        'content' => 'required|min:1|max:1000',
     ];
 
     /* =========================
@@ -39,21 +49,53 @@ class CommentSection extends Component
             'content'   => $this->content,
         ]);
 
-        $this->reset(['content', 'parentId']);
+        // 🔥 auto buka replies setelah balas
+        if ($this->parentId) {
+            $this->openReplies[$this->parentId] = true;
+        }
+
+        $this->reset([
+            'content',
+            'parentId',
+            'replyToUser',
+        ]);
     }
 
     /* =========================
      | SET REPLY TARGET
      ========================= */
-    public function reply($id)
-    {
-        $this->parentId = $id;
-        $this->content = '';
-    }
+        public function reply($commentId)
+        {
+            $comment = Comment::with('user')->findOrFail($commentId);
+
+            $this->parentId = $commentId;
+            $this->replyToUser = $comment->user->name;
+
+            // ✅ textarea tetap kosong
+            $this->content = '';
+
+            // biar edit & reply nggak bentrok
+            $this->reset(['editId', 'editContent']);
+        }
+
+
 
     public function cancelReply()
     {
-        $this->reset(['parentId', 'content']);
+        $this->reset([
+            'parentId',
+            'replyToUser',
+            'content',
+        ]);
+    }
+
+    /* =========================
+     | TOGGLE SHOW / HIDE REPLIES
+     ========================= */
+    public function toggleReplies($commentId)
+    {
+        $this->openReplies[$commentId] =
+            !($this->openReplies[$commentId] ?? false);
     }
 
     /* =========================
@@ -66,6 +108,9 @@ class CommentSection extends Component
 
         $this->editId = $id;
         $this->editContent = $comment->content;
+
+        // matikan reply mode
+        $this->reset(['parentId', 'replyToUser']);
     }
 
     public function update()
@@ -98,7 +143,6 @@ class CommentSection extends Component
 
     /* =========================
      | VOTE COMMENT
-     | value: 1 / -1
      ========================= */
     public function voteComment($commentId, $value)
     {
@@ -106,7 +150,6 @@ class CommentSection extends Component
 
         $comment = Comment::findOrFail($commentId);
 
-        // jangan vote komentar yang dihapus
         if ($comment->deleted_at) return;
 
         Vote::updateOrCreate(
@@ -116,8 +159,7 @@ class CommentSection extends Component
                 'post_id'    => null,
             ],
             [
-                'value'      => $value,
-                'created_at' => now(),
+                'value' => $value,
             ]
         );
     }
@@ -127,12 +169,14 @@ class CommentSection extends Component
      ========================= */
     public function render()
     {
-        return view('livewire.comments.comment-section', [
+        return view('livewire.comments.index', [
             'comments' => Comment::with([
                     'user',
+                    'votes',
                     'replies.user',
-                    'replies.replies', // recursive eager load
-                    'votes'
+                    'replies.votes',
+                    'replies.replies.user',
+                    'replies.replies.votes',
                 ])
                 ->where('post_id', $this->post->id)
                 ->whereNull('parent_id')
