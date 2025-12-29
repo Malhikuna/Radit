@@ -45,7 +45,7 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 translate-y-2"
-        class="fixed right-5 bottom-0 w-[650px] h-[500px] bg-white border border-gray-200 rounded-lg shadow-2xl overflow-hidden z-50 flex"
+        class="fixed right-5 bottom-0 w-162.5 h-125 bg-white border border-gray-200 rounded-t-lg shadow-2xl overflow-hidden z-50 flex"
         style="display: none;"
     >
         

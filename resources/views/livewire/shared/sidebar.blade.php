@@ -1,5 +1,5 @@
 <aside
-    class="fixed top-20 left-0 w-64 h-[calc(100vh-5rem)] bg-white border-r border-gray-200 px-4 py-6 overflow-y-auto z-40 text-sm overflow-y-auto scrollbar-hide">
+    class="fixed top-15 left-0 w-64 h-[calc(100vh)] bg-white border-r border-gray-200 px-4 py-6 overflow-y-auto z-40 text-sm overflow-y-auto scrollbar-hide">
 
     {{-- MAIN NAV --}}
     <div class="space-y-1">
@@ -96,7 +96,7 @@
         <div class="mt-4 space-y-2 px-3">
             <a  
                 href="{{ route('communities.index') }}"
-                class="flex items-center gap-2 text-[#3e2b2c] font-semibold hover:underline">
+                class="flex items-center gap-2 text-[#9966CC] font-semibold hover:underline">
                 <x-heroicon-o-magnifying-glass class="w-4 h-4" />
                 Cari Community
             </a>
@@ -104,7 +104,7 @@
             @auth
                 <a 
                     href="{{ route('communities.create') }}"
-                    class="flex items-center gap-2 text-[#3e2b2c] font-semibold hover:underline">
+                    class="flex items-center gap-2 text-[#9966CC] font-semibold hover:underline">
                     <x-heroicon-o-plus-circle class="w-4 h-4" />
                     Create Community
                 </a>

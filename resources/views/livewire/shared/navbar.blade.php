@@ -1,27 +1,17 @@
-<nav class="fixed top-0 left-0 right-0 h-20 bg-white ring ring-gray-200 z-50">
+<nav class="fixed top-0 left-0 right-0 h-15 bg-white ring ring-gray-200 z-50">
     <div class="max-w-7xl mx-auto h-full flex items-center gap-6 px-6">
 
         {{-- LOGO --}}
         <a  
             href="{{ route('home') }}"
-            class="flex items-center gap-2 font-bold text-[#9966CC] text-xl">
-            <img src="{{ asset('storage/icon/logo.png') }}" alt="Logo" class="h-14 -mx-3">
-            RADIT
+            class="flex items-center gap-1 font-bold text-[#9966CC]">
+            <img src="{{ asset('storage/icon/logo.png') }}" alt="Logo" class="h-14">
+            <span class="text-3xl text-shadow-[0_0_1px_#b598d1]">radit</span>
         </a>
 
         {{-- SEARCH --}}
         <form action="{{ route('search') }}" method="GET" class="flex-1">
-            <input
-                type="text"
-                name="q"
-                value="{{ request('q') }}"
-                placeholder="Cari disini..."
-                autocomplete="off"
-                autocorrect="off"
-                autocapitalize="off"
-                spellcheck="false"
-                class="w-full bg-gray-100 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            >
+            <livewire:search.global-search />
         </form>
 
         {{-- RIGHT --}}
@@ -67,28 +57,28 @@
                         x-show="open"
                         @click.outside="open = false"
                         x-transition
-                        class="absolute flex flex-col gap-2 right-0 mt-2 w-50 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                        class="absolute flex flex-col right-0 mt-2 w-50 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
 
-                        <a href="{{ route('profile') }}" class="flex gap-4 px-4 py-2 text-sm hover:bg-gray-100">
+                        <a href="{{ route('profile') }}" class="flex gap-4 px-4 py-4 text-sm hover:bg-gray-100">
                             <x-lucide-circle-user class="w-5"/> Profile
                         </a>
                         
                         
                         <a 
                         href="#"
-                        class="flex gap-4 px-4 py-2 text-sm hover:bg-gray-100">
+                        class="flex gap-4 px-4 py-4 text-sm hover:bg-gray-100">
                             <x-lucide-settings class="w-5"/> Settings
                         </a>
                         
                         <a 
                         href="#"
-                        class="flex gap-4 px-4 py-2 text-sm hover:bg-gray-100">
+                        class="flex gap-4 px-4 py-4 text-sm hover:bg-gray-100">
                             <x-lucide-moon class="w-5"/> Dark Mode
                         </a>
                         
                         <a 
                             href="{{ route('premium') }}"
-                            class="relative group flex items-center gap-4 px-4 py-2 text-sm overflow-hidden hover:bg-blue-50 transition-all duration-300"
+                            class="relative group flex items-center gap-4 px-4 py-4 text-sm overflow-hidden hover:bg-blue-50 transition-all duration-300"
                         >
                             <span class="absolute right-3 top-2 w-1.5 h-1.5 bg-blue-400 rounded-full animate-ping opacity-75"></span>
 
@@ -102,7 +92,7 @@
 
                             <x-lucide-diamond-plus class="w-5 text-blue-600 relative z-10 group-hover:rotate-12 group-hover:scale-110 transition-all duration-300"/>
                             
-                            <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400 relative z-10">
+                            <span class="font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-cyan-400 relative z-10">
                                 Radit+
                             </span>
                         </a>
@@ -112,7 +102,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit"
-                            class="border-t border-black/10 flex gap-4 w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600">
+                            class="cursor-pointer border-t border-black/10 flex gap-4 w-full text-left px-4 py-4 text-sm hover:bg-gray-100 text-red-600">
                             <x-lucide-log-out class="w-5"/> Logout
                             </button>
                         </form>
@@ -123,13 +113,13 @@
             @guest
                 <a 
                     href="{{ route('login') }}"
-                    class="text-sm font-semibold text-gray-600 hover:text-purple-600">
+                    class="text-sm font-semibold text-gray-600 hover:text-[#9966CC]">
                     Login
                 </a>
 
                 <a 
                     href="{{ route('register') }}"
-                    class="px-4 py-2 rounded-full border font-semibold hover:bg-gray-100">
+                    class="bg-[#9966CC] text-white px-4 py-2 rounded-full border font-semibold hover:bg-[#9966CC]/90">
                     Register
                 </a>
             @endguest

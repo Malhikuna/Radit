@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+
     <title>{{ $title ?? 'Enable404' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -30,8 +32,10 @@
         @php
             $isChat = request()->routeIs('chat');
             $isPremium = request()->routeIs('premium');
-            $px = $isPremium || $isChat ? 'px-0' : 'px-6';
-            $pt = ($hideSidebar ?? false) ? 'pt-0' : 'pt-24';
+            $isLogin = request()->routeIs('login');
+            $isRegister = request()->routeIs('register');
+            $px = $isPremium || $isChat || $isLogin || $isRegister ? 'px-0' : 'px-6';
+            $pt = ($hideSidebar ?? false) ? 'pt-0' : 'pt-20';
         @endphp
 
         <main role="main" class="flex-1 {{ $pt }} {{ $px }}">
