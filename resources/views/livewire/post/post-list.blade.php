@@ -13,9 +13,10 @@
     </div>
 
     <div class="max-w-3xl mx-auto">
-        @if(!auth()->check() || !auth()->user()->hasPremium())
-            <x-ads />
-        @endif
+@ads
+    <x-ad-banner />
+@endads
+
     </div>
     
     {{-- POSTS LIST --}}

@@ -26,34 +26,16 @@ class User extends Authenticatable
 
     /* ================= PREMIUM ================= */
 
-    public function hasPremium(): bool
-    {
-        return cache()->remember(
-            "user:{$this->id}:premium",
-            now()->addMinutes(5),
-            function () {
-                if (!$this->is_premium || !$this->premium_expired_at) {
-                    return false;
-                }
+   public function orders()
+{
+    return $this->hasMany(Order::class);
+}
 
-                if ($this->premium_expired_at->isPast()) {
-                    $this->updateQuietly(['is_premium' => false]);
-                    $this->refreshPremiumCache();
-                    return false;
-                }
+public function isPremiumActive(): bool
+{
+    return $this->is_premium &&
+           $this->premium_expired_at &&
+           $this->premium_expired_at->isFuture();
+}
 
-                return true;
-            }
-        );
-    }
-
-    public function refreshPremiumCache(): void
-    {
-        cache()->forget("user:{$this->id}:premium");
-    }
-
-    public function getIsPremiumActiveAttribute(): bool
-    {
-        return $this->hasPremium();
-    }
 }

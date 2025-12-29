@@ -113,8 +113,9 @@
     </div>
 
     <div class="mt-10" >
-        {{-- SIMPLE AD --}}
-        <x-ads />
+    @ads
+    <x-ad-banner />
+@endads
 
     </div>
 </aside>
