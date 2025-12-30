@@ -1,11 +1,14 @@
-<div class="max-w-6xl mx-auto px-4 py-6">
+<div class="max-w-6xl mx-auto py-6">
 
     {{-- ================= HEADER ================= --}}
     <div class="flex items-center gap-4 mb-6">
         <div
             class="w-16 h-16 rounded-full bg-purple-500
-                   flex items-center justify-center
-                   text-white font-bold text-xl">
+                    flex items-center justify-center
+                    text-white font-bold text-xl relative">
+            <button class="flex items-center justify-center cursor-pointer absolute h-7 w-7 rounded-full -bottom-0.5 -right-1 bg-gray-400 hover:bg-gray-300 transition">
+                <x-lucide-image class="w-4"/>
+            </button>
             {{ strtoupper(substr($user->name, 0, 1)) }}
         </div>
 
@@ -42,8 +45,8 @@
         {{-- CREATE POST --}}
         <div class="mb-6">
             <a href="{{ route('posts.create') }}"
-               class="inline-flex items-center gap-2 px-4 py-2 rounded-full
-                      border text-sm font-semibold hover:bg-gray-100">
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full
+                        border text-sm font-semibold hover:bg-gray-100">
                 ➕ Create Post
             </a>
         </div>
@@ -56,61 +59,7 @@
 
                     @foreach ($posts as $post)
                         {{-- ===== POST CARD ===== --}}
-                        <div class="bg-white border rounded-lg p-4 hover:border-gray-300">
-
-                            {{-- AUTHOR --}}
-                            <div class="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                                <span class="font-medium text-gray-700">
-                                    u/{{ $post->user->name }}
-                                </span>
-                                • {{ $post->created_at->diffForHumans() }}
-                                • r/{{ $post->community->name }}
-                            </div>
-
-                            {{-- TITLE --}}
-                            <h2 class="font-bold text-lg mb-2">
-                                <a href="{{ route('posts.show', $post->id) }}"
-                                   class="hover:underline">
-                                    {{ $post->title }}
-                                </a>
-                            </h2>
-
-                            {{-- CONTENT --}}
-                            @if ($post->content)
-                                <p class="text-sm text-gray-800 mb-3">
-                                    {{ Str::limit($post->content, 180) }}
-                                </p>
-                            @endif
-{{-- CONTENT --}}
-@if ($post->content)
-    <p class="text-sm text-gray-800 mb-3">
-        {{ Str::limit($post->content, 180) }}
-    </p>
-@endif
-
-{{-- IMAGE --}}
-@if ($post->type === 'image' && $post->images->count())
-    <img
-        src="{{ asset('storage/'.$post->images->first()->file_path) }}"
-        class="rounded-lg max-h-[520px] w-full object-contain mb-3">
-@endif
-
-{{-- VIDEO --}}
-@if ($post->type === 'video' && $post->images->count())
-    <video controls class="rounded-lg max-h-[520px] w-full mb-3">
-        <source
-            src="{{ asset('storage/'.$post->images->first()->file_path) }}"
-            type="video/mp4">
-    </video>
-@endif
-
-
-                            {{-- FOOTER --}}
-                            <div class="flex gap-4 text-xs text-gray-500">
-                                <span>💬 {{ $post->comments_count }} comments</span>
-                                <span>⬆ {{ $post->votes->sum('value') }}</span>
-                            </div>
-                        </div>
+                        <livewire:post.post-list :user-id="$user->id" />
                     @endforeach
 
                 </div>
@@ -124,8 +73,8 @@
                         Once you post to a community, it’ll show up here.
                     </p>
                     <a href="{{ route('posts.create') }}"
-                       class="px-6 py-2 bg-blue-600 text-white rounded-full
-                              text-sm font-semibold hover:bg-blue-700">
+                        class="px-6 py-2 bg-blue-600 text-white rounded-full
+                                text-sm font-semibold hover:bg-blue-700">
                         Create Your First Post
                     </a>
                 </div>
@@ -142,7 +91,7 @@
                                 Commented {{ $comment->created_at->diffForHumans() }}
                                 on
                                 <a href="{{ route('posts.show', $comment->post->id) }}"
-                                   class="text-blue-600 hover:underline">
+                                    class="text-blue-600 hover:underline">
                                     {{ $comment->post->title }}
                                 </a>
                             </p>
@@ -154,7 +103,7 @@
                 </div>
             @else
                 <div class="py-20 text-center text-gray-500">
-                    You haven’t commented yet
+                    You haven't commented yet
                 </div>
             @endif
         </div>
