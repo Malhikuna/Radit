@@ -1,4 +1,4 @@
-<div class="max-w-2xl mx-auto mt-8">
+<div class="max-w-2xl mx-auto mt-8 px-4"> {{-- Lebih sempit dari max-w-2xl --}}
     <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
 
         {{-- HEADER --}}
@@ -46,7 +46,7 @@
             </div>
 
             {{-- TABS --}}
-            <div class="flex bg-gray-50 rounded-xl p-1 text-sm">
+            <div class="flex flex-wrap bg-gray-50 rounded-xl p-1 text-sm gap-1"> {{-- flex-wrap supaya tombol tidak melebihi lebar --}}
                 @foreach (['text'=>'pencil-square','image'=>'photo','video'=>'video-camera','link'=>'link','poll'=>'chart-bar'] as $key=>$icon)
                     <button type="button" wire:click="setType('{{ $key }}')"
                         class="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg transition
@@ -64,35 +64,13 @@
                 @error('title')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
             </div>
 
-            {{-- CONTENT (Rich Text Editor) --}}
-            @if ($type === 'text')
-                <div>
+            {{-- TEXT --}}
+            @if($type === 'text')
+                <div wire:ignore>
                     <label class="text-xs font-medium text-gray-600 mb-1 block">Content</label>
-                    <div wire:ignore>
-                        <textarea id="editor" wire:model.defer="content" class="w-full rounded-xl border border-gray-200"></textarea>
-                    </div>
+                    <x-trix-input id="content" name="content" wire:model.defer="content" />
                     @error('content')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
                 </div>
-
-                @push('scripts')
-                    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-                    <script>
-                        document.addEventListener('livewire:load', function () {
-                            tinymce.init({
-                                selector: '#editor',
-                                height: 250,
-                                menubar: false,
-                                plugins: 'lists link image preview',
-                                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist | link image',
-                                setup: function(editor) {
-                                    editor.on('Change KeyUp', function () {
-                                        @this.set('content', editor.getContent());
-                                    });
-                                }
-                            });
-                        });
-                    </script>
-                @endpush
             @endif
 
             {{-- LINK --}}
