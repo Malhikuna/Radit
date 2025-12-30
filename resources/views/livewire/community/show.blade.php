@@ -32,10 +32,18 @@
                     + Create Post
                 </a>
 
-                <button
-                    class="px-4 py-2 rounded-full border border-[#4480e7] text-white font-semibold hover:bg-[#4480e7] bg-[#6395ee]">
-                    Join
-                </button>
+        <button 
+            wire:click="toggleJoin"
+            class="px-4 py-2 rounded-full font-semibold 
+                @if($joined)
+                    bg-gray-400 border-gray-500 text-white cursor-not-allowed
+                @else
+                    bg-[#6395ee] border border-[#4480e7] text-white hover:bg-[#4480e7]
+                @endif">
+            {{ $joined ? 'Joined' : 'Join' }}
+        </button>
+
+
             </div>
 
         </div>
@@ -43,7 +51,7 @@
 
     {{-- POST FEED --}}
     <div class="space-y-6">
-        <livewire:community.post-list :communityId="$community->id" />
+        <livewire:post.post-list :community-id="$community->id" />
     </div>
 
 </div>

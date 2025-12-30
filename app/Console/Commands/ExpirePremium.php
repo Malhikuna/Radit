@@ -3,31 +3,24 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class ExpirePremium extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'app:expire-premium';
+    protected $description = 'Expire premium users whose subscription has ended';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+    public function handle()
+    {
+        $expiredCount = User::where('is_premium', true)
+            ->where('premium_expired_at', '<', now())
+            ->update([
+                'is_premium' => false,
+                'premium_expired_at' => null,
+            ]);
 
-    /**
-     * Execute the console command.
-     */
-        public function handle()
-        {
-            User::where('is_premium', true)
-                ->where('premium_expired_at', '<', now())
-                ->update(['is_premium' => false]);
-        }
-
+        Log::info("ExpirePremium: $expiredCount user expired");
+        $this->info("ExpirePremium: $expiredCount user expired");
+    }
 }

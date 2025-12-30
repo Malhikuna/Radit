@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -22,38 +23,48 @@ class User extends Authenticatable
     protected $casts = [
         'is_premium' => 'boolean',
         'premium_expired_at' => 'datetime',
+        'banned_at' => 'datetime',
     ];
+
 
     /* ================= PREMIUM ================= */
 
-    public function hasPremium(): bool
+    public function orders()
     {
-        return cache()->remember(
-            "user:{$this->id}:premium",
-            now()->addMinutes(5),
-            function () {
-                if (!$this->is_premium || !$this->premium_expired_at) {
-                    return false;
-                }
-
-                if ($this->premium_expired_at->isPast()) {
-                    $this->updateQuietly(['is_premium' => false]);
-                    $this->refreshPremiumCache();
-                    return false;
-                }
-
-                return true;
-            }
-        );
+        return $this->hasMany(Order::class);
     }
 
-    public function refreshPremiumCache(): void
+    public function isPremiumActive(): bool
     {
-        cache()->forget("user:{$this->id}:premium");
+        return $this->is_premium &&
+            $this->premium_expired_at &&
+            $this->premium_expired_at->isFuture();
     }
 
-    public function getIsPremiumActiveAttribute(): bool
+    /* ================= Banned ================= */
+
+    public function ban(string $duration): void
     {
-        return $this->hasPremium();
+        $this->banned_at = match ($duration) {
+            '3_days'   => now()->addDays(3),
+            '7_days'   => now()->addDays(7),
+            '30_days'  => now()->addDays(30),
+            '3_months' => now()->addMonths(3),
+            '1_year'   => now()->addYear(),
+            default    => null,
+        };
+
+        $this->save();
+    }
+
+    public function isBanned(): bool
+    {
+        return $this->banned_at !== null && $this->banned_at->isFuture();
+    }
+
+    public function unban(): void
+    {
+        $this->banned_at = null;
+        $this->save();
     }
 }
