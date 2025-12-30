@@ -7,7 +7,8 @@
 </head>
 <body class="bg-gray-100">
 
-<div class="min-h-screen flex items-center justify-center bg-[#9966CC]/15">
+<div class="min-h-screen flex items-center justify-center
+            bg-gradient-to-br from-[#9966CC]/40 to-[#E6D9F2]">
 
     {{-- KOTAK LOGIN --}}
     <div class="bg-white w-[360px] p-8 rounded-xl border border-gray-300 shadow-sm">
@@ -42,7 +43,8 @@
                     wire:model.defer="email"
                     type="email"
                     placeholder="Email *"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-gray-400">
+                    class="w-full px-4 py-2 border border-gray-300 rounded-full 
+                           focus:outline-none focus:border-gray-400">
             </div>
 
             {{-- Password --}}
@@ -51,18 +53,21 @@
                     wire:model.defer="password"
                     type="password"
                     placeholder="Password *"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-full pr-12 focus:outline-none focus:border-gray-400">
+                    class="w-full px-4 py-2 border border-gray-300 rounded-full pr-12
+                           focus:outline-none focus:border-gray-400">
             </div>
 
             {{-- Lupa Password --}}
-            <p class="text-sm font-semibold mb-4 text-center text-blue-400 hover:text-blue-700 cursor-pointer">
+            <p class="text-sm font-semibold mb-4 text-center 
+                      text-blue-400 hover:text-blue-700 cursor-pointer">
                 Lupa Password
             </p>
 
             {{-- Button Login --}}
             <button
                 type="submit"
-                class="w-full border border-gray-300 rounded-full py-2 font-bold hover:bg-gray-100 transition">
+                class="w-full border border-gray-300 rounded-full py-2 
+                       font-bold hover:bg-gray-100 transition">
                 Login
             </button>
         </form>
@@ -75,7 +80,8 @@
         {{-- Login Google --}}
         <a
             href="/auth/google"
-            class="flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-full mb-3 hover:bg-gray-50 transition">
+            class="flex items-center justify-center gap-3 border border-gray-300 
+                   py-2 rounded-full mb-3 hover:bg-gray-50 transition">
             <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
                 class="w-5 h-5"
@@ -86,7 +92,8 @@
         {{-- Login GitHub --}}
         <a
             href="/auth/github"
-            class="flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-full hover:bg-gray-50 transition">
+            class="flex items-center justify-center gap-3 border border-gray-300 
+                   py-2 rounded-full hover:bg-gray-50 transition">
             <img
                 src="https://www.svgrepo.com/show/512317/github-142.svg"
                 class="w-5 h-5"
