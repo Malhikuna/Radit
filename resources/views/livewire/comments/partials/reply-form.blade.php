@@ -25,7 +25,7 @@
     <textarea
         wire:model.defer="content"
         rows="2"
-        class="w-full border rounded-lg p-2 text-sm focus:ring-1 focus:ring-purple-500"
+        class="w-full border border-gray-300 focus:outline-none rounded-lg p-2 text-sm focus:ring-1 focus:ring-purple-500"
         placeholder="Tulis balasan..."
     ></textarea>
 
@@ -33,7 +33,7 @@
     <div class="flex justify-end mt-1">
         <button
             wire:click="store"
-            class="bg-purple-600 text-white px-3 py-1 rounded-md text-xs hover:bg-purple-700"
+            class="cursor-pointer bg-[#6395ee] rounded-full text-sm text-white px-3 py-1 hover:bg-[#6395ee]/90"
             type="button"
         >
             Kirim

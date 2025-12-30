@@ -2,7 +2,7 @@
     $isCommunityPage = request()->routeIs('communities.show');
 @endphp
 
-<div class="max-w-5xl mx-auto px-4 py-6">
+<div class="w-full mx-auto py-4">
 
     {{-- POST CARD --}}
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4 hover:border-gray-300 transition duration-150">
@@ -126,22 +126,24 @@
 
 
             {{-- FOOTER / ACTIONS --}}
-            <div class="flex items-center gap-5 text-sm text-gray-500 border-t pt-3">
+            <div class="flex items-center gap-5 text-sm text-gray-500 border-t border-gray-200 pt-3">
 
                 {{-- Vote --}}
-                <livewire:components.vote
-                    :post="$post"
-                    :key="'vote-'.$post->id"
-                />
+                <div class="flex items-center justify-center px-2 py-2 rounded-full bg-gray-100 hover:bg-gray-100/70">
+                    <livewire:components.vote
+                        :post="$post"
+                        :key="'vote-'.$post->id"
+                    />
+                </div>
 
                 {{-- Comments --}}
-                <div class="flex items-center gap-1">
+                <div class="cursor-pointer flex items-center gap-1 justify-center px-2 py-2 rounded-full bg-gray-100 hover:bg-gray-100/70">
                     <x-heroicon-s-chat-bubble-bottom-center class="w-4 h-4" />
                     {{ $post->comments_count }} Comments
                 </div>
 
                 {{-- Views --}}
-                <div class="flex items-center gap-1">
+                <div class="flex items-center gap-1 justify-center px-2 py-2 rounded-full bg-gray-100">
                     <x-lucide-eye class="w-5"/> {{ $post->views }}
                 </div>
 
@@ -160,6 +162,11 @@
             </div>
         </div>
     </div>
+
+    {{-- ADS --}}
+    @ads
+        <x-ad-banner />
+    @endads
 
     {{-- COMMENT SECTION --}}
     <livewire:comments.comment-section :post="$post" />
