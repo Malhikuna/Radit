@@ -22,22 +22,21 @@ class PostList extends Component
 
     protected $queryString = ['sort'];
 
-    /* ================= SEARCH ================= */
-
-    #[On('searchUpdated')]
+    /* #[On('searchUpdated')]
     public function updateSearch($search)
     {
         $this->search = $search;
         $this->perPage = 10;
-    }
+    } */
 
     public function updatedSort()
     {
         $this->perPage = 10;
     }
 
-    public function mount($userId = null, $communityId = null)
+    public function mount($search = '', $userId = null, $communityId = null)
     {
+        $this->search = $search;
         $this->userId = $userId;
         $this->communityId = $communityId;
     }

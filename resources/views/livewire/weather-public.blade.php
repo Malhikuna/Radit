@@ -23,7 +23,7 @@
                 wire:model.defer="city"
                 wire:keydown.enter="getWeather"
                 placeholder="Cari daerah..."
-                class="flex-1 w-full bg-gray-100 rounded-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                class="flex-1 w-full bg-gray-100 dark:bg-gray-800 rounded-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:placeholder-gray-500 dark:text-gray-200"
             />
             <button 
                 wire:click="getWeather"
@@ -82,7 +82,7 @@
     {{-- CURRENT WEATHER --}}
     @if ($weather)
     <div class="max-w-sm rounded-2xl p-5 shadow-xl
-                bg-linear-to-br from-sky-100 via-blue-100 to-indigo-100">
+                bg-linear-to-b from-sky-100 via-blue-100 to-indigo-100">
 
         <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
             <x-lucide-map-pin class="w-4 h-4"/>
@@ -156,17 +156,17 @@
             @endphp
 
             <div class="rounded-2xl p-3 text-center shadow-md
-                        bg-white/70 backdrop-blur
+                        bg-white/70  dark:bg-gray-400 backdrop-blur
                         hover:shadow-xl hover:-translate-y-1 transition-all">
 
-                <p class="text-xs font-semibold text-gray-700">
+                <p class="text-xs font-semibold text-gray-700 dark:text-white">
                     {{ \Carbon\Carbon::parse($day)->format('D, d M') }}
                 </p>
 
                 <div class="flex justify-center my-3">
                     @switch($type)
                         @case('sun')
-                            <x-lucide-sun class="w-8 h-8 text-yellow-500"/>
+                            <x-lucide-sun class="w-8 h-8 text-yellow-500 dark:text-yellow-100"/>
                             @break
                         @case('sun-cloud')
                             <x-lucide-cloud-sun class="w-8 h-8 text-yellow-400"/>
@@ -195,15 +195,15 @@
                 </div>
 
                 <div class="flex justify-center gap-3 text-sm font-semibold">
-                    <span class="text-blue-600">
+                    <span class="text-blue-600 dark:text-blue-100">
                         ↑ {{ $forecast['temperature_2m_max'][$i] }}°
                     </span>
-                    <span class="text-blue-400">
+                    <span class="text-blue-400 dark:text-blue-200">
                         ↓ {{ $forecast['temperature_2m_min'][$i] }}°
                     </span>
                 </div>
 
-                <p class="mt-2 text-xs text-gray-500">
+                <p class="mt-2 text-xs text-gray-500  dark:text-gray-200">
                     {{ $text }}
                 </p>
             </div>

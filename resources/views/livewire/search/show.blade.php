@@ -28,15 +28,15 @@
         {{-- SECTION: COMMUNITIES / PEOPLE (Tampil jika filter All atau People) --}}
         @if(in_array($filter, ['all', 'people']) && !empty($users))
             <div>
-                <h2 class="text-lg font-semibold mb-3">People</h2>
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 space-y-4">
+                <h2 class="text-lg font-semibold mb-3 dark:text-white">People</h2>
+                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-900 p-4 space-y-4">
                     @foreach($users as $user)
                         <div class="flex items-center gap-4">
                             <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : 'https://ui-avatars.com/api/?name='.$user->name }}" 
                                     class="w-10 h-10 rounded-full object-cover">
                             <div>
-                                <h3 class="font-semibold text-gray-900">{{ $user->name }}</h3>
-                                <p class="text-sm text-gray-500">u/{{ $user->username ?? $user->name }}</p>
+                                <h3 class="font-semibold text-gray-900 dark:text-white">{{ $user->name }}</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 ">u/{{ $user->username ?? $user->name }}</p>
                             </div>
                         </div>
                     @endforeach
@@ -48,27 +48,19 @@
         @if(in_array($filter, ['all', 'posts']))
             <div>
                 <div class="flex justify-between items-center mb-3">
-                    <h2 class="text-lg font-semibold">Posts</h2>
+                    <h2 class="text-lg font-semibold dark:text-white">Posts</h2>
                 </div>
 
                 @if(empty($query))
-                    <div class="text-center py-10 text-gray-500">
+                    <div class="text-center py-10 text-gray-500 dark:text-gray-400">
                         Ketik sesuatu untuk mencari...
-                    </div>
-                @elseif($posts->isEmpty())
-                    <div class="text-center py-10 text-gray-500 bg-gray-50 rounded-lg">
-                        Tidak ada postingan ditemukan untuk "{{ $query }}".
                     </div>
                 @else
                     <div class="space-y-4">
-                        {{-- Loop Postingan --}}
-                        @foreach ($posts as $post)
-                            {{-- Gunakan Component Card agar rapi --}}
-                            <livewire:components.card 
-                                :post="$post" 
-                                :key="'post-'.$post->id" 
-                            />
-                        @endforeach
+                        <livewire:post.post-list 
+                            :search="$query"
+                            :key="'search-'.$filter.'-'.$query"
+                        />
                     </div>
                 @endif
             </div>
