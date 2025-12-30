@@ -104,7 +104,7 @@
         <div class="flex items-center gap-4 text-sm text-gray-500 mt-auto">
 
             {{-- Vote --}}
-            <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100 dark:bg-gray-700">
+            <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600">
                 <livewire:components.vote :post="$post" :key="'vote-'.$post->id" />
             </div>
 
@@ -121,10 +121,12 @@
 
             {{-- Share --}}
             <div class="flex items-center gap-1 hover:text-gray-700 cursor-pointer relative" x-data="{ open: false }">
-                <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100 dark:bg-gray-700 dark:text-gray-200"">
+                <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200"
+                    @click.stop="open = !open"
+                >
                     <x-heroicon-s-share class="w-4 h-4" />
     
-                    <span @click="open = !open">Share</span>
+                    <span @click.stop="open = !open">Share</span>
                 </div>
 
                 @php
@@ -134,29 +136,32 @@
 
                 <div 
                     x-show="open" @click.away="open = false"
-                    class="flex flex-col absolute z-10 mt-1 bg-white shadow-lg rounded-md text-md">
+                    class="flex flex-col absolute z-10 mt-1 bg-white dark:bg-gray-700 shadow-lg rounded-md text-md">
 
                     <a 
+                        @click.stop
                         href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($postUrl) }}"
                         target="_blank"
-                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded">
-                        <x-lucide-facebook class="w-4 h-4 text-blue-600" />
+                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded dark:text-gray-200 dark:hover:bg-gray-600">
+                        <x-lucide-facebook class="w-4 h-4 text-blue-600 dark:text-gray-200" />
                         Facebook
                     </a>
 
                     <a 
+                        @click.stop
                         href="href="https://twitter.com/intent/tweet?url={{ urlencode($postUrl) }}&text={{ urlencode($post->title) }}"
                         target="_blank"
-                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded">
-                        <x-lucide-twitter class="w-4 h-4 text-sky-500" />
+                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded dark:text-gray-200 dark:hover:bg-gray-600">
+                        <x-lucide-twitter class="w-4 h-4 text-sky-500 dark:text-gray-200" />
                         Twitter
                     </a>
 
                     <a 
+                        @click.stop
                         href="https://wa.me/?text={{ urlencode($postUrl) }}"
                         target="_blank"
-                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded">
-                        <x-lucide-message-circle class="w-4 h-4 text-green-500" />
+                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded dark:text-gray-200 dark:hover:bg-gray-600">
+                        <x-lucide-message-circle class="w-4 h-4 text-green-500 dark:text-gray-200" />
                         WhatsApp
                     </a>
                 </div>

@@ -9,7 +9,7 @@
         class="absolute w-full h-full rounded-xl inset-0 z-50 bg-white/90 backdrop-blur-md flex items-center justify-center"
     >
         <img
-            src="{{ asset('storage/icon/logo.png') }}"
+            src="{{ asset('icon/logo.png') }}"
             alt="Logo"
             class="h-20 animate-logo-bounce-fade"
         />

@@ -5,7 +5,7 @@
         <a  
             href="{{ route('home') }}"
             class="flex items-center gap-1 font-bold text-[#9966CC] dark:text-white">
-            <img src="{{ asset('storage/icon/logo.png') }}" alt="Logo" class="h-14">
+            <img src="{{ asset('icon/logo.png') }}" alt="Logo" class="h-14">
             <span class="text-3xl text-shadow-[0_0_1px_#b598d1]">radit</span>
         </a>
 
@@ -16,9 +16,7 @@
 
         {{-- RIGHT --}}
         <div class="flex items-center gap-4">
-
             @auth
-                {{-- CHAT --}}
                 @php
                     $isChat = request()->routeIs('chat');
                 @endphp
@@ -38,11 +36,10 @@
                 >
                     <x-lucide-bell class="w-5"/>
                 </a>
-                
-                {{-- CREATE POST --}}
+
                 <a  
                     href="{{ route('posts.create') }}"
-                    class="flex gap-2 items-center px-1 py-1 rounded-full bg-[#9966CC] text-white font-semibold hover:bg-[#7A49A6] transition">
+                    class="flex items-center px-1 py-1 rounded-full bg-[#9966CC] text-white hover:bg-[#7A49A6]">
                     <x-lucide-circle-plus class="w-6"/>
                 </a>
 
@@ -57,7 +54,7 @@
                         x-show="open"
                         @click.outside="open = false"
                         x-transition
-                        class="absolute flex flex-col right-0 mt-2 w-50 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-500 rounded-lg shadow-lg overflow-hidden">
+                        class="absolute flex flex-col right-0 mt-2 w-50 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-900 rounded-lg shadow-lg overflow-hidden">
 
                         <a href="{{ route('profile') }}" class="flex gap-4 px-4 py-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-white">
                             <x-lucide-circle-user class="w-5 dark:text-white"/> Profile
@@ -82,7 +79,7 @@
                         
                         <a 
                             href="{{ route('premium') }}"
-                            class="relative group flex items-center gap-4 px-4 py-4 text-sm overflow-hidden hover:bg-blue-50 transition-all duration-300 dark:text-white"
+                            class="relative group flex items-center gap-4 px-4 py-4 text-sm overflow-hidden hover:bg-blue-50 dark:hover:bg-blue-50/60 transition-all duration-300 dark:text-white"
                         >
                             <span class="absolute right-3 top-2 w-1.5 h-1.5 bg-blue-400 dark:bg-white rounded-full animate-ping opacity-75"></span>
 
@@ -94,9 +91,9 @@
                             
                             <span class="absolute left-10 bottom-1 w-1 h-1 bg-cyan-500 rounded-full animate-bounce delay-100 opacity-50 dark:bg-white"></span>
 
-                            <x-lucide-diamond-plus class="w-5 text-blue-600 relative z-10 group-hover:rotate-12 group-hover:scale-110 transition-all duration-300 dark:hover:text-blue-600"/>
+                            <x-lucide-diamond-plus class="w-5 text-blue-600 relative z-10 group-hover:rotate-12 group-hover:scale-110 transition-all duration-300 dark:text-cyan-300 dark:hover:text-cyan-300"/>
                             
-                            <span class="font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-cyan-400 relative z-10">
+                            <span class="font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-cyan-400 dark:from-cyan-300 dark:to-blue-500 relative z-10">
                                 Radit+
                             </span>
                         </a>
@@ -127,7 +124,10 @@
                     Register
                 </a>
             @endguest
-
         </div>
+
     </div>
 </nav>
+
+
+

@@ -76,7 +76,7 @@
                 @foreach($this->conversations as $chat)
                     <button 
                         wire:click="openRoom({{ $chat->id == auth()->id() ? $chat->sender_id : $chat->id }})" 
-                        class="cursor-pointer w-full text-left flex gap-3 px-2 py-2 rounded-lg hover:bg-gray-200 transition group 
+                        class="cursor-pointer w-full text-left flex gap-3 px-2 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition group 
                         {{ $activeUserId == ($chat->id == auth()->id() ? $chat->sender_id : $chat->id) ? 'bg-purple-50 dark:bg-gray-600' : '' }}"
                     >
                         <div class="relative shrink-0">
@@ -87,10 +87,10 @@
                                 <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
                             @endif
                         </div>
-                        <div class="flex-1 min-w-0 overflow-hidden  text-gray-900 dark:hover:text-gray-700 dark:text-white">
+                        <div class="flex-1 min-w-0 overflow-hidden dark:hover:text-gray-700 dark:text-white">
                             <div class="flex justify-between items-baseline ">
-                                <span class="text-sm font-medium truncate ">{{ $chat->name }}</span>
-                                <span class="text-[10px] text-gray-400">{{ $chat->created_at->format('H:i') }}</span>
+                                <span class="text-sm font-medium text-gray-900 truncate dark:text-white">{{ $chat->name }}</span>
+                                <span class="text-[10px] text-gray-400 dark:text-white">{{ $chat->created_at->format('H:i') }}</span>
                             </div>
                             <p class="text-xs text-gray-500 truncate {{ !$chat->read_at && $chat->sender_id != auth()->id() ? 'font-bold text-gray-900' : '' }}">
                                 {{ $chat->sender_id == auth()->id() ? 'You: ' : '' }}{{ $chat->message }}
@@ -108,12 +108,12 @@
             @if($view === 'welcome')
                 <div class="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
                     <div class="w-24 h-24 bg-[#9966CC] rounded-full flex items-center justify-center mb-2">
-                        <img src="{{ asset('storage/icon/logo.png') }}" alt="Logo" class="w-16">
+                        <img src="{{ asset('icon/logo.png') }}" alt="Logo" class="w-16">
                     </div>
                     
                     <div>
                         <h2 class="text-lg font-bold text-gray-900 dark:text-white">Welcome to chat!</h2>
-                        <p class="text-sm text-gray-500 mt-1 max-w-[200px] mx-auto dark:text-gray-200">Start a direct or group chat with other redditors.</p>
+                        <p class="text-sm text-gray-500 mt-1 max-w-50 mx-auto dark:text-gray-200">Start a direct or group chat with other redditors.</p>
                     </div>
 
                     <button 

@@ -89,7 +89,7 @@
             {{-- Jika Loading --}}
             <div wire:loading class="w-full text-center py-4 text-gray-500">
                 <img
-                    src="{{ asset('storage/icon/logo.png') }}"
+                    src="{{ asset('icon/logo.png') }}"
                     alt="Logo"
                     class="m-auto h-20 animate-logo-bounce-fade"
                 />
