@@ -1,5 +1,5 @@
 <aside
-    class="fixed top-20 left-0 w-64 h-[calc(100vh-5rem)] bg-white border-r border-gray-200 px-4 py-6 overflow-y-auto z-40 text-sm overflow-y-auto scrollbar-hide">
+    class="fixed top-15 left-0 w-64 h-[calc(100vh)] bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 px-4 py-6 overflow-y-auto z-40 text-sm scrollbar-hide">
 
     {{-- MAIN NAV --}}
     <div class="space-y-1">
@@ -8,8 +8,8 @@
             class="flex items-center gap-3 px-3 py-2 rounded-md font-medium 
                         {{ 
                             request()->routeIs('home') && !request()->has('sort')
-                            ? 'bg-[#9966CC] text-white'
-                            : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
+                            ? 'bg-[#9966CC] dark:bg-white text-white dark:text-gray-800'
+                            : 'text-black dark:text-gray-100 hover:bg-gray-100 hover:text-[#7A49A6]' 
                         }}"
         >
             <x-heroicon-o-home class="w-5 h-5" />
@@ -22,7 +22,7 @@
                     {{ 
                         request('sort') === 'popular'
                         ? 'bg-[#9966CC] text-white'
-                        : 'text-black hover:bg-gray-100 hover:text-[#7A49A6]' 
+                        : 'text-black dark:text-gray-100 hover:bg-gray-100 hover:text-[#7A49A6]' 
                     }}"
         >
             <x-heroicon-o-fire class="w-5 h-5" />
@@ -30,12 +30,12 @@
         </a>
     </div>
 
-    <div class="border-b my-5 border-black/10 w-full"></div>
+    <div class="border-b my-5 border-black/10 w-full dark:border-gray-600"></div>
 
     {{-- FOLLOWING COMMUNITIES --}}
     @auth
         <div>
-            <h3 class="px-3 mb-2 text-xs font-semibold uppercase text-gray-500">
+            <h3 class="px-3 mb-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-100">
                 Following Communities
             </h3>
 
@@ -54,19 +54,19 @@
                         </a>
                     </li>
                 @empty
-                    <li class="px-3 text-xs text-gray-400 italic">
+                    <li class="px-3 text-xs text-gray-400 dark:text-gray-300 italic">
                         Belum mengikuti community
                     </li>
                 @endforelse
             </ul>
         </div>
 
-        <div class="border-b my-5 border-black/10 w-full"></div>
+        <div class="border-b my-5 border-black/10 w-full dark:border-gray-600"></div>
     @endauth
 
     {{-- DISCOVER COMMUNITIES --}}
     <div>
-        <h3 class="px-3 mb-2 text-xs font-semibold uppercase text-gray-500">
+        <h3 class="px-3 mb-2 text-xs font-semibold uppercase text-gray-500 dark:text-gray-100">
             Discover Communities
         </h3>
 
@@ -75,7 +75,7 @@
                 <li>
                     <a  
                         href="{{ route('communities.show', $community) }}"
-                        class="flex items-center gap-3 px-3 py-1.5 rounded-md text-gray-700 hover:bg-gray-100 hover:text-[#3e2b2c]"
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md text-gray-700 dark:text-gray-100 hover:bg-gray-100 hover:text-[#3e2b2c]"
                     >
 
                         <x-community-icon :community="$community" size="26" />
@@ -94,17 +94,19 @@
 
         {{-- ACTIONS --}}
         <div class="mt-4 space-y-2 px-3">
+            {{--
             <a  
-                href="{{ route('communities.index') }}"
-                class="flex items-center gap-2 text-[#3e2b2c] font-semibold hover:underline">
+                href=""
+                class="flex items-center gap-2 text-[#9966CC] font-semibold hover:underline">
                 <x-heroicon-o-magnifying-glass class="w-4 h-4" />
                 Cari Community
             </a>
+            --}}
 
             @auth
                 <a 
                     href="{{ route('communities.create') }}"
-                    class="flex items-center gap-2 text-[#3e2b2c] font-semibold hover:underline">
+                    class="flex items-center gap-2 text-[#9966CC] dark:text-gray-100 font-semibold hover:underline">
                     <x-heroicon-o-plus-circle class="w-4 h-4" />
                     Create Community
                 </a>
@@ -113,8 +115,8 @@
     </div>
 
     <div class="mt-10" >
-        {{-- SIMPLE AD --}}
-        <x-ads />
-
+        @ads
+            <x-ad-banner />
+        @endads
     </div>
 </aside>

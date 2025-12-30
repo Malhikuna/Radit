@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -22,38 +23,40 @@ class User extends Authenticatable
     protected $casts = [
         'is_premium' => 'boolean',
         'premium_expired_at' => 'datetime',
+        'banned_at' => 'datetime',
     ];
 
-    /* ================= PREMIUM ================= */
-
-    public function hasPremium(): bool
+    // Relasi
+    public function orders()
     {
-        return cache()->remember(
-            "user:{$this->id}:premium",
-            now()->addMinutes(5),
-            function () {
-                if (!$this->is_premium || !$this->premium_expired_at) {
-                    return false;
-                }
-
-                if ($this->premium_expired_at->isPast()) {
-                    $this->updateQuietly(['is_premium' => false]);
-                    $this->refreshPremiumCache();
-                    return false;
-                }
-
-                return true;
-            }
-        );
+        return $this->hasMany(Order::class);
     }
 
-    public function refreshPremiumCache(): void
+    public function isPremiumActive(): bool
     {
-        cache()->forget("user:{$this->id}:premium");
+        return $this->is_premium &&
+               $this->premium_expired_at &&
+               $this->premium_expired_at->isFuture();
     }
 
-    public function getIsPremiumActiveAttribute(): bool
+    public function comments()
     {
-        return $this->hasPremium();
+        return $this->hasMany(Comment::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'community_members')
+                    ->withPivot('role', 'joined_at');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
     }
 }

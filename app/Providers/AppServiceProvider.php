@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use App\Models\Community;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // IKlan Premim
+    Blade::if('ads', function () {
+        return !auth()->check() || !auth()->user()->isPremiumActive();
+    });
+
         View::composer('livewire.shared.sidebar', function ($view) {
 
             $userId = Auth::id();

@@ -19,7 +19,8 @@
         "livewire/livewire": "^3.7",
         "mallardduck/blade-lucide-icons": "^1.26",
         "midtrans/midtrans-php": "^2.6",
-        "pusher/pusher-php-server": "*"
+        "pusher/pusher-php-server": "*",
+        "tonysm/rich-text-laravel": "^3.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

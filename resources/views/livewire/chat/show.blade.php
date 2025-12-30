@@ -1,6 +1,6 @@
-<div class="flex w-screen h-screen bg-white pt-20 overflow-hidden">
+<div class="flex w-screen h-screen bg-white pt-15 overflow-hidden">
     <div 
-        class="flex w-full h-full bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden relative"
+        class="flex w-full h-full bg-white border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden relative"
         x-data
         @scroll-bottom.window="
             setTimeout(() => {
@@ -9,11 +9,11 @@
             }, 100);
         "
     >
-        <div class="w-1/3 border-r border-gray-100 flex flex-col bg-gray-50/50">
-            <div class="px-4 h-16 flex items-center justify-between border-b border-gray-100 bg-white">
-                <h3 class="font-bold text-gray-800 text-lg">Chats</h3>
+        <div class="w-1/3 border-r border-gray-100 dark:border-gray-700 flex flex-col bg-gray-50/50 dark:bg-gray-800">
+            <div class="px-4 h-16 flex items-center justify-between border-b dark:border-gray-700 border-gray-100 bg-white dark:bg-gray-600">
+                <h3 class="font-bold text-gray-800 text-lg dark:text-white">Chats</h3>
                 <div class="flex gap-2">
-                    <button wire:click="$set('view', 'new_chat')" class="cursor-pointer p-2 hover:bg-gray-200 rounded-full text-gray-500 hover:text-black transition">
+                    <button wire:click="$set('view', 'new_chat')" class="cursor-pointer p-2 hover:bg-gray-200 rounded-xl text-gray-500 hover:text-black transition dark:text-white">
                         <x-lucide-plus class="w-5 h-5"/>
                     </button>
                 </div>
@@ -27,10 +27,10 @@
                 @foreach($this->conversations as $chat)
                     <button 
                         wire:click="openRoom({{ $chat->id == auth()->id() ? $chat->sender_id : $chat->id }})" 
-                        class="cursor-pointer w-full text-left flex gap-3 px-3 py-3 rounded-xl hover:bg-gray-200 transition group 
-                        {{ $activeUserId == ($chat->id == auth()->id() ? $chat->sender_id : $chat->id) ? 'bg-purple-50 ring-1 ring-purple-100' : '' }}"
+                        class="cursor-pointer w-full text-left flex gap-3 px-3 py-3 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition group 
+                        {{ $activeUserId == ($chat->id == auth()->id() ? $chat->sender_id : $chat->id) ? 'bg-purple-50 dark:bg-gray-600' : '' }}"
                     >
-                        <div class="relative flex-shrink-0">
+                        <div class="relative shrink-0">
                             <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-bold text-sm">
                                 {{ substr($chat->name, 0, 2) }}
                             </div>
@@ -38,10 +38,10 @@
                                 <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
                             @endif
                         </div>
-                        <div class="flex-1 min-w-0 overflow-hidden">
+                        <div class="flex-1 min-w-0 overflow-hidden dark:hover:text-gray-700 dark:text-white">
                             <div class="flex justify-between items-baseline">
-                                <span class="text-sm font-bold text-gray-900 truncate">{{ $chat->name }}</span>
-                                <span class="text-[11px] text-gray-400">{{ $chat->created_at->format('H:i') }}</span>
+                                <span class="text-sm font-bold text-gray-900 dark:text-white truncate">{{ $chat->name }}</span>
+                                <span class="text-[11px] text-gray-400 dark:text-white">{{ $chat->created_at->format('H:i') }}</span>
                             </div>
                             <p class="text-xs text-gray-500 truncate {{ !$chat->read_at && $chat->sender_id != auth()->id() ? 'font-bold text-gray-900' : '' }}">
                                 {{ $chat->sender_id == auth()->id() ? 'You: ' : '' }}{{ $chat->message }}
@@ -52,17 +52,17 @@
             </div>
         </div>
 
-        <div class="flex-1 flex flex-col bg-white relative">
+        <div class="flex-1 flex flex-col bg-white  dark:bg-gray-600 relative">
             
             @if(!$activeConversationId && $view !== 'new_chat')
                 <div class="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
                     <div class="w-24 h-24 bg-[#9966CC] rounded-full flex items-center justify-center mb-2 shadow-lg">
-                        <img src="{{ asset('storage/icon/logo.png') }}" alt="Logo" class="w-16">
+                        <img src="{{ asset('icon/logo.png') }}" alt="Logo" class="w-16">
                     </div>
                     
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Welcome to chat!</h2>
-                        <p class="text-gray-500 mt-2 max-w-sm mx-auto">Start a direct or group chat with other redditors.</p>
+                        <h2 class="text-2xl font-bold dark:text-white text-gray-900">Welcome to chat!</h2>
+                        <p class="text-gray-500 mt-2 max-w-sm mx-auto dark:text-gray-200">Start a direct or group chat with other redditors.</p>
                     </div>
 
                     <button 
@@ -76,8 +76,8 @@
 
             @if($view === 'new_chat')
                 <div class="h-full flex flex-col">
-                    <div class="px-6 h-16 flex items-center justify-between border-b border-gray-100">
-                        <h3 class="font-bold text-gray-800 text-lg">New Chat</h3>
+                    <div class="px-6 h-16 flex items-center justify-between border-b border-gray-100 dark:border-gray-700">
+                        <h3 class="font-bold text-gray-800 text-lg dark:text-white">New Chat</h3>
                         <button wire:click="$set('view', 'welcome')" class="p-2 hover:bg-gray-100 rounded-full text-gray-500">
                             <x-lucide-x class="w-5 h-5"/>
                         </button>
@@ -120,13 +120,13 @@
 
             @if($activeUserId && $view === 'room')
                 <div class="h-full flex flex-col">
-                    <div class="px-6 h-16 flex items-center justify-between border-b border-gray-100 bg-white">
+                    <div class="px-6 h-16 flex items-center justify-between border-b border-gray-100 bg-white dark:bg-gray-600 dark:border-gray-700">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-sm">
                                 {{ substr($this->activeUser->name ?? 'U', 0, 2) }}
                             </div>
                             <div>
-                                <div class="font-bold text-gray-800">{{ $this->activeUser->name ?? 'User' }}</div>
+                                <div class="font-bold text-gray-800 dark:text-white">{{ $this->activeUser->name ?? 'User' }}</div>
                                 {{-- <div class="text-xs text-green-500 flex items-center gap-1">● Online</div> --}}
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                             <button 
                                 wire:click="clearChat"
                                 wire:confirm="Bersihkan chat? Pesan akan hilang dari tampilan Anda."
-                                class="cursor-pointer hover:bg-red-50 hover:text-red-600 p-2 rounded-full transition"
+                                class="cursor-pointer hover:bg-red-50 hover:text-red-600 p-2 rounded-full transition dark:text-white"
                                 title="Delete for Me"
                             >
                                 <x-lucide-trash-2 class="w-5 h-5"/>
@@ -145,7 +145,7 @@
                     {{-- Isi Chat --}}
                     <div 
                         id="page-message-container"
-                        class="flex-1 bg-white p-6 overflow-y-auto flex flex-col gap-3 scrollbar-hide"
+                        class="flex-1 bg-white p-6 dark:bg-gray-700 overflow-y-auto flex flex-col gap-3 scrollbar-hide"
                     >
                         @foreach($this->activeMessages as $msg)
                             <div class="{{ $msg->sender_id == auth()->id() ? 'self-end' : 'self-start' }} max-w-[80%]">
@@ -162,14 +162,14 @@
                         @endforeach
                     </div>
                     
-                    <div class="p-4 border-t border-gray-100 bg-white">
+                    <div class="p-4 border-t border-gray-100 bg-white dark:bg-gray-700 dark:border-gray-900">
                         <form wire:submit.prevent="sendMessage" class="flex gap-2 items-end max-w-4xl mx-auto w-full">
                             <div class="w-full flex bg-gray-100 rounded-2xl relative">
                                 <textarea 
                                     wire:model="messageBody"
                                     rows="1"
                                     placeholder="Message..." 
-                                    class="w-full bg-gray-100 rounded-2xl pl-4 pr-12 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none overflow-y-auto max-h-32"
+                                    class="w-full bg-gray-100 dark:bg-gray-400 rounded-2xl pl-4 pr-12 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none overflow-y-auto max-h-32"
                                     x-data="{ 
                                         resize() { 
                                             $el.style.height = 'auto'; 

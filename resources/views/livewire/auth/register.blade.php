@@ -1,11 +1,11 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
+<div class="min-h-screen flex items-center justify-center bg-[#9966CC]/15">
 
     <div class="bg-white w-[360px] p-8 rounded-xl border border-gray-300 shadow-sm">
 
         {{-- LOGO --}}
         <a href="{{ route('home') }}" class="flex flex-col items-center mb-6">
             <img 
-                src="{{ asset('storage/icon/logo.png') }}" 
+                src="{{ asset('icon/logo.png') }}" 
                 alt="Logo RADIT"
                 class="h-14 mb-2"
                 style="
@@ -19,7 +19,7 @@
                 "
             >
             <span class="font-bold text-xl text-[#9966CC]">
-                RADIT
+                radit
             </span>
         </a>
 

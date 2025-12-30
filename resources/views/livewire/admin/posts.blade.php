@@ -1,34 +1,45 @@
-<div>
-    <h1 class="text-3xl font-bold mb-6">Posts</h1>
+<div class="space-y-6">
+    <h1 class="text-2xl font-bold text-[#7A49A6]">Posts</h1>
 
     @if($posts->count())
-        <table class="w-full border border-gray-300 rounded-lg">
-            <thead class="bg-gray-200">
-                <tr>
-                    <th class="p-2 border">ID</th>
-                    <th class="p-2 border">Title</th>
-                    <th class="p-2 border">User</th>
-                    <th class="p-2 border">Community</th>
-                    <th class="p-2 border">Type</th>
-                    <th class="p-2 border">Status</th>
-                    <th class="p-2 border">Created At</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($posts as $post)
-                    <tr class="hover:bg-gray-100">
-                        <td class="p-2 border">{{ $post->id }}</td>
-                        <td class="p-2 border">{{ $post->title }}</td>
-                        <td class="p-2 border">{{ $post->user->name }}</td>
-                        <td class="p-2 border">{{ $post->community->name }}</td>
-                        <td class="p-2 border">{{ $post->type }}</td>
-                        <td class="p-2 border">{{ $post->status }}</td>
-                        <td class="p-2 border">{{ $post->created_at->format('d M Y H:i') }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-[#9966CC]/10 text-[#7A49A6]">
+                        <tr>
+                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">Title</th>
+                            <th class="px-4 py-3">User</th>
+                            <th class="px-4 py-3">Community</th>
+                            <th class="px-4 py-3">Type</th>
+                            <th class="px-4 py-3">Status</th>
+                            <th class="px-4 py-3">Created</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        @foreach($posts as $post)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3">{{ $post->id }}</td>
+                                <td class="px-4 py-3 font-medium">{{ $post->title }}</td>
+                                <td class="px-4 py-3">{{ $post->user->name }}</td>
+                                <td class="px-4 py-3">{{ $post->community->name }}</td>
+                                <td class="px-4 py-3">{{ $post->type }}</td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2 py-1 rounded text-xs
+                                        bg-green-100 text-green-700">
+                                        {{ $post->status }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-gray-500">
+                                    {{ $post->created_at->format('d M Y H:i') }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     @else
-        <p>Tidak ada postingan.</p>
+        <p class="text-gray-500">Tidak ada postingan.</p>
     @endif
 </div>

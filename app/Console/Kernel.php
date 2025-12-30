@@ -1,3 +1,7 @@
 <?php
 
-$schedule->command('premium:expire')->daily();
+protected function schedule(Schedule $schedule)
+{
+    $schedule->command('app:expire-premium')->daily();
+}
+

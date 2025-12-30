@@ -10,11 +10,11 @@ return new class extends Migration {
         Schema::create('comments', function (Blueprint $table) {
             $table->id(); // primary key
             $table->foreignId('post_id')->constrained()->cascadeOnDelete(); 
-            // post terkait
             $table->foreignId('user_id')->constrained()->cascadeOnDelete(); 
-            // user pembuat
-            $table->foreignId('parent_id')->nullable()->constrained('comments')->cascadeOnDelete(); 
-            // parent comment, null jika comment root
+            
+            $table->unsignedBigInteger('parent_id')->nullable(); 
+            $table->foreign('parent_id')->references('id')->on('comments')->cascadeOnDelete();
+            
             $table->text('content'); // isi comment
             $table->timestamps(); // created_at & updated_at
             $table->index('post_id'); // index untuk query cepat

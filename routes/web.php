@@ -29,6 +29,8 @@ use App\Livewire\Community\Index as CommunityIndex;
 use App\Livewire\Community\Create as CommunityCreate;
 use App\Livewire\Community\Edit as CommunityEdit;
 use App\Livewire\Community\Show as CommunityShow;
+use App\Http\Controllers\CommunityController;
+
 
 /** Premium */
 use App\Livewire\Premium\Checkout;
@@ -46,9 +48,9 @@ use App\Livewire\Admin\Reports;
 
 use App\Livewire\Chat\Show as ChatShow;
 
+/** Notifications */
 
-use App\Http\Controllers\WeatherPublicController;
-
+use App\Livewire\Notification\Show as NotifShow;
 
 
 /*
@@ -57,6 +59,9 @@ use App\Http\Controllers\WeatherPublicController;
 |--------------------------------------------------------------------------
 */
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PremiumController;
+use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SocialAuthController;
 /*
 |--------------------------------------------------------------------------
@@ -103,26 +108,32 @@ Route::prefix('communities')->name('communities.')->group(function () {
     Route::get('/{community}', CommunityShow::class)->name('show');
 });
 
+
+
+Route::post('/community/{community}/join', [CommunityController::class, 'join'])
+    ->name('community.join')
+    ->middleware('auth'); // pastikan user login
+
 /*
 |--------------------------------------------------------------------------
 | PREMIUM / MIDTRANS
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->post('/premium/pay', [PaymentController::class, 'pay']);
-Route::post('/midtrans/callback', [PaymentController::class, 'callback']);
+Route::middleware(['auth'])->group(function() {
+    Route::post('/premium/buys', [PremiumController::class, 'buys'])->name('premium.buys');
+    Route::get('/checkout/success', [PremiumController::class, 'success']);
+    Route::get('/checkout/unfinish', [PremiumController::class, 'unfinish']);
+    Route::get('/checkout/error', [PremiumController::class, 'error']);
+    Route::post('/midtrans/callback', [PremiumController::class, 'callback']);
 
-Route::get('/checkout/success', function () {
-    return redirect('/')->with('success', 'Premium aktif 🎉');
-})->name('checkout.success');
+});
 
-Route::get('/checkout/unfinish', function () {
-    return redirect('/')->with('error', 'Pembayaran dibatalkan');
-})->name('checkout.unfinish');
-
-Route::get('/checkout/error', function () {
-    return redirect('/')->with('error', 'Pembayaran gagal');
-})->name('checkout.error');
+/*
+|--------------------------------------------------------------------------
+|   REDIT ++
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->get('/premium', PremiumShow::class)->name('premium');
 
@@ -151,16 +162,12 @@ Route::post('/logout', function () {
 | ADMIN PANEL
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin')
-    ->middleware(['auth', 'admin'])
-    ->name('admin.')
-    ->group(function () {
-        Route::get('/', Dashboard::class)->name('dashboard');
-        Route::get('/users', Users::class)->name('users');
-        Route::get('/posts', Posts::class)->name('posts');
-        Route::get('/communities', Communities::class)->name('communities');
-        Route::get('/reports', Reports::class)->name('reports');
-    });
+
+        Route::get('/admin', Dashboard::class)->name('admin.dashboard');
+        Route::get('/users', Users::class)->name('admin.users');
+        Route::get('/posts', Posts::class)->name('admin.posts');
+        Route::get('/communities', Communities::class)->name('admin.communities');
+        Route::get('/reports', Reports::class)->name('admin.reports');
 
 /*
 |--------------------------------------------------------------------------
@@ -180,6 +187,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/chat', ChatShow::class)->name('chat');
 });
 
-
-
-// Route::get('/weather-public', WeatherPublicController::class);
+/*
+|--------------------------------------------------------------------------
+| CHAT
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notification', NotifShow::class)->name('notification.show');
+});
