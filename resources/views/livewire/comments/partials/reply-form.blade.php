@@ -25,7 +25,7 @@
     <textarea
         wire:model.defer="content"
         rows="2"
-        class="w-full border border-gray-300 focus:outline-none rounded-lg p-2 text-sm focus:ring-1 focus:ring-purple-500"
+        class="w-full border-2 dark:text-gray-200 border-gray-300 dark:border-gray-600 focus:outline-none rounded-lg p-2 text-sm dark:focus:border-white dark:placeholder-gray-500"
         placeholder="Tulis balasan..."
     ></textarea>
 

@@ -89,7 +89,7 @@
                         flex items-center justify-center"
                 >
                     <img
-                        src="{{ asset('storage/icon/logo.png') }}"
+                        src="{{ asset('icon/logo.png') }}"
                         alt="Logo"
                         class="block h-10 animate-pulse"
                     />

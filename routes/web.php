@@ -52,10 +52,6 @@ use App\Livewire\Chat\Show as ChatShow;
 
 use App\Livewire\Notification\Show as NotifShow;
 
-use App\Http\Controllers\WeatherPublicController;
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -198,7 +194,3 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/notification', NotifShow::class)->name('notification.show');
 });
-
-
-
-// Route::get('/weather-public', WeatherPublicController::class);

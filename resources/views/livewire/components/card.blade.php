@@ -135,14 +135,14 @@
 
                 <div 
                     x-show="open" @click.away="open = false"
-                    class="flex flex-col absolute z-10 mt-1 bg-white shadow-lg rounded-md text-md">
+                    class="flex flex-col absolute z-10 mt-1 bg-white dark:bg-gray-700 shadow-lg rounded-md text-md">
 
                     <a 
                         @click.stop
                         href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($postUrl) }}"
                         target="_blank"
-                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded">
-                        <x-lucide-facebook class="w-4 h-4 text-blue-600" />
+                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded dark:text-gray-200 dark:hover:bg-gray-600">
+                        <x-lucide-facebook class="w-4 h-4 text-blue-600 dark:text-gray-200" />
                         Facebook
                     </a>
 
@@ -150,8 +150,8 @@
                         @click.stop
                         href="href="https://twitter.com/intent/tweet?url={{ urlencode($postUrl) }}&text={{ urlencode($post->title) }}"
                         target="_blank"
-                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded">
-                        <x-lucide-twitter class="w-4 h-4 text-sky-500" />
+                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded dark:text-gray-200 dark:hover:bg-gray-600">
+                        <x-lucide-twitter class="w-4 h-4 text-sky-500 dark:text-gray-200" />
                         Twitter
                     </a>
 
@@ -159,8 +159,8 @@
                         @click.stop
                         href="https://wa.me/?text={{ urlencode($postUrl) }}"
                         target="_blank"
-                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded">
-                        <x-lucide-message-circle class="w-4 h-4 text-green-500" />
+                        class="flex items-center gap-2 hover:bg-gray-100 px-2 py-3 rounded dark:text-gray-200 dark:hover:bg-gray-600">
+                        <x-lucide-message-circle class="w-4 h-4 text-green-500 dark:text-gray-200" />
                         WhatsApp
                     </a>
                 </div>

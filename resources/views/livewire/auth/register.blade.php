@@ -5,7 +5,7 @@
         {{-- LOGO --}}
         <a href="{{ route('home') }}" class="flex flex-col items-center mb-6">
             <img 
-                src="{{ asset('storage/icon/logo.png') }}" 
+                src="{{ asset('icon/logo.png') }}" 
                 alt="Logo RADIT"
                 class="h-14 mb-2"
                 style="
