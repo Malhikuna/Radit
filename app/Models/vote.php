@@ -8,10 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Vote extends Model
 {
     use HasFactory;
-    public $timestamps = false;
-    protected $fillable = ['user_id','post_id','comment_id','value'];
 
-    public function user() { return $this->belongsTo(User::class); }
-    public function post() { return $this->belongsTo(Post::class); }
-    public function comment() { return $this->belongsTo(Comment::class); }
+    public $timestamps = false;
+
+    protected $fillable = ['user_id', 'post_id', 'comment_id', 'value'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    public function comment()
+    {
+        return $this->belongsTo(Comment::class);
+    }
 }
