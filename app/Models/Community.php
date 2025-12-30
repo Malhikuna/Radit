@@ -8,8 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Community extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description'];
+    protected $fillable = [
+        'name',
+        'description',
+        'profile_image', // gambar profil komunitas
+        'banner_image',  // banner komunitas
+    ];
 
-    public function members() { return $this->belongsToMany(User::class, 'community_members'); }
-    public function posts() { return $this->hasMany(Post::class); }
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'community_members');
+    }
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }
