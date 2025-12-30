@@ -28,27 +28,32 @@
 
         <a href="{{ route('admin.dashboard') }}"
            class="{{ $menuClass }} {{ request()->routeIs('admin.dashboard') ? $active : $hover }}">
-            📊 <span>Dashboard</span>
+            <x-lucide-layout-dashboard class="w-5"/>
+            <span>Dashboard</span>
         </a>
 
         <a href="{{ route('admin.users') }}"
            class="{{ $menuClass }} {{ request()->routeIs('admin.users') ? $active : $hover }}">
-            👤 <span>Users</span>
+           <x-lucide-users class="w-5"/> 
+           <span>Users</span>
         </a>
 
         <a href="{{ route('admin.posts') }}"
            class="{{ $menuClass }} {{ request()->routeIs('admin.posts') ? $active : $hover }}">
-            📝 <span>Posts</span>
+           <x-lucide-sticky-note class="w-5"/> 
+           <span>Posts</span>
         </a>
 
         <a href="{{ route('admin.communities') }}"
            class="{{ $menuClass }} {{ request()->routeIs('admin.communities') ? $active : $hover }}">
-            🌐 <span>Communities</span>
+           <x-lucide-globe class="w-5"/> 
+           <span>Communities</span>
         </a>
 
         <a href="{{ route('admin.reports') }}"
            class="{{ $menuClass }} {{ request()->routeIs('admin.reports') ? $active : $hover }}">
-            🚨 <span>Reports</span>
+           <x-lucide-flag class="w-5"/>  
+           <span>Reports</span>
         </a>
     </nav>
 
