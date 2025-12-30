@@ -190,7 +190,7 @@ class Create extends Component
     }
 
     /* =========================
-     * SUBMIT
+     * SUBMIT POST
      * ========================= */
     public function post()
     {
