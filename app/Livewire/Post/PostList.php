@@ -17,6 +17,9 @@ class PostList extends Component
     public string $sort = 'new';
     public string $search = '';
 
+    public $userId ;
+    public $communityId;
+
     public int $perPage = 10;
     public bool $hasMore = true;
 
