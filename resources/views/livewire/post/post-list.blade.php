@@ -35,10 +35,22 @@
     <div
         x-data
         x-intersect="$wire.loadMore()"
-        class="h-10 flex items-center justify-center mt-4"
+        class="h-10 flex justify-center mt-10"
     >
         @if($hasMore)
-            <span wire:loading>Loading...</span>
+            <div
+                wire:loading
+                class="w-20 h-20
+                    flex items-center justify-center
+                    rounded-full
+                    bg-[#9966CC]"
+            >
+                <img
+                    src="{{ asset('storage/icon/logo.png') }}"
+                    alt="Logo"
+                    class="block h-10 animate-pulse"
+                />
+            </div>
         @endif
     </div>
 </div>

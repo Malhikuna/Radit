@@ -44,7 +44,6 @@
         </button>
 
 
-
             </div>
 
         </div>
@@ -52,7 +51,7 @@
 
     {{-- POST FEED --}}
     <div class="space-y-6">
-        <livewire:community.post-list :communityId="$community->id" />
+        <livewire:post.post-list :community-id="$community->id" />
     </div>
 
 </div>

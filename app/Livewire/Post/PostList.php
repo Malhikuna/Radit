@@ -36,6 +36,12 @@ class PostList extends Component
         $this->perPage = 10;
     }
 
+    public function mount($userId = null, $communityId = null)
+    {
+        $this->userId = $userId;
+        $this->communityId = $communityId;
+    }
+
     public function loadMore()
     {
         if ($this->hasMore) {
@@ -120,6 +126,14 @@ public function votePoll($optionId)
             ->withCount('comments')
             ->withSum('votes', 'value');
 
+        if ($this->userId) {
+            $query->where('user_id', $this->userId);
+        }
+
+        if ($this->communityId) {
+            $query->where('community_id', $this->communityId);
+        }
+
         if ($this->search !== '') {
             $query->where(function ($q) {
                 $q->where('title', 'like', "%{$this->search}%")
@@ -133,6 +147,9 @@ public function votePoll($optionId)
             'discussed'   => $query->orderByDesc('comments_count'),
             default       => $query->latest(),
         };
+
+        $countQuery = clone $query;
+        $totalPosts = $countQuery->count();
 
         $posts = $query->take($this->perPage)->get();
 
