@@ -16,9 +16,7 @@
 
         {{-- RIGHT --}}
         <div class="flex items-center gap-4">
-
             @auth
-                {{-- CHAT --}}
                 @php
                     $isChat = request()->routeIs('chat');
                 @endphp
@@ -38,11 +36,10 @@
                 >
                     <x-lucide-bell class="w-5"/>
                 </a>
-                
-                {{-- CREATE POST --}}
+
                 <a  
                     href="{{ route('posts.create') }}"
-                    class="flex gap-2 items-center px-1 py-1 rounded-full bg-[#9966CC] text-white font-semibold hover:bg-[#7A49A6] transition">
+                    class="flex items-center px-1 py-1 rounded-full bg-[#9966CC] text-white hover:bg-[#7A49A6]">
                     <x-lucide-circle-plus class="w-6"/>
                 </a>
 
@@ -127,7 +124,10 @@
                     Register
                 </a>
             @endguest
-
         </div>
+
     </div>
 </nav>
+
+
+
