@@ -26,9 +26,7 @@ class User extends Authenticatable
         'banned_at' => 'datetime',
     ];
 
-
-    /* ================= PREMIUM ================= */
-
+    // Relasi
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -37,34 +35,28 @@ class User extends Authenticatable
     public function isPremiumActive(): bool
     {
         return $this->is_premium &&
-            $this->premium_expired_at &&
-            $this->premium_expired_at->isFuture();
+               $this->premium_expired_at &&
+               $this->premium_expired_at->isFuture();
     }
 
-    /* ================= Banned ================= */
-
-    public function ban(string $duration): void
+    public function comments()
     {
-        $this->banned_at = match ($duration) {
-            '3_days'   => now()->addDays(3),
-            '7_days'   => now()->addDays(7),
-            '30_days'  => now()->addDays(30),
-            '3_months' => now()->addMonths(3),
-            '1_year'   => now()->addYear(),
-            default    => null,
-        };
-
-        $this->save();
+        return $this->hasMany(Comment::class);
     }
 
-    public function isBanned(): bool
+    public function posts()
     {
-        return $this->banned_at !== null && $this->banned_at->isFuture();
+        return $this->hasMany(Post::class);
     }
 
-    public function unban(): void
+    public function communities()
     {
-        $this->banned_at = null;
-        $this->save();
+        return $this->belongsToMany(Community::class, 'community_members')
+                    ->withPivot('role', 'joined_at');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
     }
 }

@@ -14,16 +14,44 @@ class Post extends Model
     ];
 
     // Relasi
-    public function user() { return $this->belongsTo(User::class); }
-    public function community() { return $this->belongsTo(Community::class); }
-    public function comments() { return $this->hasMany(Comment::class); }
-    public function images() { return $this->hasMany(Image::class); }
-    public function votes() { return $this->hasMany(Vote::class); }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-    // Like / Dislike count
-    public function getLikesCountAttribute() { return $this->votes()->where('value', 1)->count(); }
-    public function getDislikesCountAttribute() { return $this->votes()->where('value', -1)->count(); }
+    public function community()
+    {
+        return $this->belongsTo(Community::class);
+    }
 
-    // Poll options (optional)
-    public function pollOptions() { return $this->hasMany(PollOption::class); }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function pollOptions()
+    {
+        return $this->hasMany(PollOption::class);
+    }
+
+    // Hitung like/dislike
+    public function getLikesCountAttribute()
+    {
+        return $this->votes()->where('value', 1)->count();
+    }
+
+    public function getDislikesCountAttribute()
+    {
+        return $this->votes()->where('value', -1)->count();
+    }
 }

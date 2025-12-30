@@ -109,6 +109,7 @@ Route::prefix('communities')->name('communities.')->group(function () {
 });
 
 
+
 Route::post('/community/{community}/join', [CommunityController::class, 'join'])
     ->name('community.join')
     ->middleware('auth'); // pastikan user login

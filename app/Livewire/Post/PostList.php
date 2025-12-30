@@ -15,35 +15,39 @@ class PostList extends Component
     use WithPagination;
 
     public string $sort = 'new';
-    public string $search = '';
-
-    public $userId ;
-    public $communityId;
-
+    public string $search = '';  // default search
     public int $perPage = 10;
     public bool $hasMore = true;
 
+    public ?int $userId = null;
+    public ?int $communityId = null;
+
     protected $queryString = ['sort'];
 
-    /* #[On('searchUpdated')]
+    // ================= SEARCH =================
+    #[On('searchUpdated')]
     public function updateSearch($search)
     {
         $this->search = $search;
         $this->perPage = 10;
-    } */
+        $this->resetPage();
+    }
 
     public function updatedSort()
     {
         $this->perPage = 10;
+        $this->resetPage();
     }
 
-    public function mount($search = '', $userId = null, $communityId = null)
+    // ================= MOUNT =================
+    public function mount($userId = null, $communityId = null)
     {
-        $this->search = $search;
         $this->userId = $userId;
         $this->communityId = $communityId;
+        // $this->search sudah default ''
     }
 
+    // ================= LOAD MORE =================
     public function loadMore()
     {
         if ($this->hasMore) {
@@ -51,8 +55,7 @@ class PostList extends Component
         }
     }
 
-    /* ================= POST VOTE (UP/DOWN) ================= */
-
+    // ================= POST VOTE =================
     public function vote($postId, $value)
     {
         if (!Auth::check()) return;
@@ -60,63 +63,52 @@ class PostList extends Component
         $post = Post::find($postId);
         if (!$post) return;
 
-        $vote = $post->votes()
-            ->where('user_id', Auth::id())
-            ->first();
+        $vote = $post->votes()->where('user_id', Auth::id())->first();
 
         if ($vote) {
-            $vote->value == $value
-                ? $vote->delete()
-                : $vote->update(['value' => $value]);
+            $vote->value == $value ? $vote->delete() : $vote->update(['value' => $value]);
         } else {
             $post->votes()->create([
                 'user_id' => Auth::id(),
-                'value'   => $value,
+                'value' => $value,
             ]);
         }
     }
 
-    /* ================= POLL VOTE (1 USER = 1 VOTE / POST) ================= */
+    // ================= POLL VOTE =================
+    public function votePoll($optionId)
+    {
+        if (!Auth::check()) return;
 
-public function votePoll($optionId)
-{
-    if (!Auth::check()) return;
+        $option = PollOption::find($optionId);
+        if (!$option) return;
 
-    $option = PollOption::find($optionId);
-    if (!$option) return;
+        $existingVote = PollVote::where('user_id', Auth::id())
+            ->whereHas('pollOption', fn($q) => $q->where('post_id', $option->post_id))
+            ->first();
 
-    $existingVote = \App\Models\PollVote::where('user_id', Auth::id())
-        ->whereHas('pollOption', function ($q) use ($option) {
-            $q->where('post_id', $option->post_id);
-        })->first();
+        if ($existingVote && $existingVote->poll_option_id === $option->id) {
+            $existingVote->delete();
+            $option->decrement('votes');
+            return;
+        }
 
-    // batal vote
-    if ($existingVote && $existingVote->poll_option_id === $option->id) {
-        $existingVote->delete();
-        $option->decrement('votes');
-        return;
-    }
+        if ($existingVote) {
+            PollOption::where('id', $existingVote->poll_option_id)->decrement('votes');
+            $existingVote->update(['poll_option_id' => $option->id]);
+            $option->increment('votes');
+            return;
+        }
 
-    // ganti vote
-    if ($existingVote) {
-        PollOption::where('id', $existingVote->poll_option_id)->decrement('votes');
-        $existingVote->update(['poll_option_id' => $option->id]);
+        PollVote::create([
+            'poll_option_id' => $option->id,
+            'user_id' => Auth::id(),
+        ]);
+
         $option->increment('votes');
-        return;
     }
 
-    // vote baru
-    \App\Models\PollVote::create([
-        'poll_option_id' => $option->id,
-        'user_id' => Auth::id(),
-    ]);
-
-    $option->increment('votes');
-}
-
-
-    /* ================= RENDER ================= */
-
+    // ================= RENDER =================
     public function render()
     {
         $query = Post::with([
@@ -137,24 +129,18 @@ public function votePoll($optionId)
         }
 
         if ($this->search !== '') {
-            $query->where(function ($q) {
-                $q->where('title', 'like', "%{$this->search}%")
-                  ->orWhere('content', 'like', "%{$this->search}%");
-            });
+            $query->where(fn($q) => $q->where('title', 'like', "%{$this->search}%")
+                                       ->orWhere('content', 'like', "%{$this->search}%"));
         }
 
         match ($this->sort) {
             'best', 'top' => $query->orderByDesc('votes_sum_value'),
-            'old'         => $query->orderBy('created_at'),
-            'discussed'   => $query->orderByDesc('comments_count'),
-            default       => $query->latest(),
+            'old' => $query->orderBy('created_at'),
+            'discussed' => $query->orderByDesc('comments_count'),
+            default => $query->latest(),
         };
 
-        $countQuery = clone $query;
-        $totalPosts = $countQuery->count();
-
         $posts = $query->take($this->perPage)->get();
-
         $this->hasMore = $posts->count() >= $this->perPage;
 
         return view('livewire.post.post-list', [
