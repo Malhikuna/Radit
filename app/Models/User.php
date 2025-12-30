@@ -24,18 +24,37 @@ class User extends Authenticatable
         'premium_expired_at' => 'datetime',
     ];
 
-    /* ================= PREMIUM ================= */
+    // Relasi
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 
-   public function orders()
-{
-    return $this->hasMany(Order::class);
-}
+    public function isPremiumActive(): bool
+    {
+        return $this->is_premium &&
+               $this->premium_expired_at &&
+               $this->premium_expired_at->isFuture();
+    }
 
-public function isPremiumActive(): bool
-{
-    return $this->is_premium &&
-           $this->premium_expired_at &&
-           $this->premium_expired_at->isFuture();
-}
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'community_members')
+                    ->withPivot('role', 'joined_at');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
 }
