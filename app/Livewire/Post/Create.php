@@ -19,26 +19,22 @@ class Create extends Component
     public $communities = [];
 
     public $title = '';
-    public $content = '';
+    public $content = ''; // hanya content
     public $url = '';
     public $image;
     public $video;
 
-    // ENUM posts.type
     public $type = 'text';
 
     // poll
-    public $pollOptions = [];
     public $pollQuestion = '';
+    public $pollOptions = ['', ''];
 
-    /**
-     * Mount Livewire component
-     * @param int|null $community
-     */
+    /* =========================
+     * MOUNT
+     * ========================= */
     public function mount($community = null)
     {
-        $this->communities = [];
-
         if ($community) {
             $communityModel = Community::find($community);
             if ($communityModel) {
@@ -48,9 +44,9 @@ class Create extends Component
         }
     }
 
-    /**
-     * LIVE SEARCH COMMUNITY
-     */
+    /* =========================
+     * COMMUNITY SEARCH
+     * ========================= */
     public function updatedCommunitySearch()
     {
         if (strlen($this->communitySearch) < 1) {
@@ -58,11 +54,6 @@ class Create extends Component
             return;
         }
 
-        $this->loadCommunities();
-    }
-
-    public function loadCommunities()
-    {
         $this->communities = Community::query()
             ->where('name', 'like', '%' . $this->communitySearch . '%')
             ->orderBy('name')
@@ -79,65 +70,117 @@ class Create extends Component
         $this->communities = [];
     }
 
-    /**
-     * Validation rules
-     */
+    /* =========================
+     * REALTIME VALIDATION
+     * ========================= */
+    public function updated($property)
+    {
+        $this->validateOnly($property);
+    }
+
+    public function updatedImage()
+    {
+        $this->validateOnly('image');
+    }
+
+    public function updatedVideo()
+    {
+        $this->validateOnly('video');
+    }
+
+    /* =========================
+     * RULES
+     * ========================= */
     protected function rules()
     {
-        return [
+        $rules = [
             'community_id' => 'required|exists:communities,id',
-            'title' => 'required|string|max:255',
+            'title'        => 'required|string|min:3|max:255',
+            'type'         => 'required|in:text,image,video,link,poll',
+        ];
 
-            'content' => $this->type === 'text'
-                ? 'nullable|string'
-                : 'nullable',
+        if ($this->type === 'text') {
+            $rules['content'] = 'required|string|min:5';
+        }
 
-            'url' => $this->type === 'link'
-                ? 'required|url|max:500'
-                : 'nullable',
+        if ($this->type === 'link') {
+            $rules['url'] = 'required|url|max:500';
+        }
 
-            'image' => $this->type === 'image'
-                ? 'required|image|max:2048'
-                : 'nullable',
+        if ($this->type === 'image') {
+            $rules['image'] = ['required','image','mimes:jpg,jpeg,png,webp','max:2048'];
+        }
 
-            'video' => $this->type === 'video'
-                ? 'required|mimetypes:video/mp4,video/quicktime|max:10240'
-                : 'nullable',
+        if ($this->type === 'video') {
+            $rules['video'] = ['required','file','mimetypes:video/mp4,video/webm,video/ogg','max:20480'];
+        }
 
-            'pollQuestion' => $this->type === 'poll'
-                ? 'required|string|max:255'
-                : 'nullable',
+        if ($this->type === 'poll') {
+            $rules['pollQuestion']  = 'required|string|min:5|max:255';
+            $rules['pollOptions']   = 'required|array|min:2|max:6';
+            $rules['pollOptions.*'] = 'required|string|min:1|max:100';
+        }
 
-            'pollOptions.*' => $this->type === 'poll'
-                ? 'required|string|max:255'
-                : 'nullable',
+        return $rules;
+    }
+
+    protected function messages()
+    {
+        return [
+            'community_id.required' => 'Pilih community terlebih dahulu',
+            'title.required'        => 'Title wajib diisi',
+            'title.min'             => 'Title minimal 3 karakter',
+            'title.max'             => 'Title maksimal 255 karakter',
+
+            'content.required'      => 'Konten tidak boleh kosong',
+            'url.required'          => 'Link wajib diisi',
+            'url.url'               => 'Format URL tidak valid',
+
+            'image.required'        => 'Gambar wajib diupload',
+            'image.image'           => 'File harus berupa gambar',
+            'image.max'             => 'Ukuran gambar maksimal 2 MB',
+
+            'video.required'        => 'Video wajib diupload',
+            'video.mimetypes'       => 'Format video tidak didukung',
+            'video.max'             => 'Ukuran video maksimal 20 MB',
+
+            'pollQuestion.required' => 'Pertanyaan poll wajib diisi',
+            'pollOptions.min'       => 'Minimal 2 opsi poll',
+            'pollOptions.max'       => 'Maksimal 6 opsi poll',
+            'pollOptions.*.required'=> 'Opsi poll tidak boleh kosong',
         ];
     }
 
-    /**
-     * Set post type
-     */
+    /* =========================
+     * SET TYPE
+     * ========================= */
     public function setType($type)
     {
+        $this->resetErrorBag();
         $this->type = $type;
 
-        if ($type !== 'text')  $this->content = '';
-        if ($type !== 'link')  $this->url = '';
-        if ($type !== 'image') $this->image = null;
-        if ($type !== 'video') $this->video = null;
+        $this->content = '';
+        $this->url     = '';
+        $this->image   = null;
+        $this->video   = null;
 
-        if ($type !== 'poll') {
+        if ($type === 'poll') {
             $this->pollQuestion = '';
-            $this->pollOptions = [];
+            $this->pollOptions  = ['', ''];
+        } else {
+            $this->pollQuestion = '';
+            $this->pollOptions  = [];
         }
     }
 
-    /**
-     * Poll options
-     */
+    /* =========================
+     * POLL
+     * ========================= */
     public function addPollOption()
     {
-        $this->pollOptions[] = '';
+        if (count($this->pollOptions) < 6) {
+            $this->pollOptions[] = '';
+        }
     }
 
     public function removePollOption($index)
@@ -146,12 +189,16 @@ class Create extends Component
         $this->pollOptions = array_values($this->pollOptions);
     }
 
-    /**
-     * Submit post
-     */
+    /* =========================
+     * SUBMIT
+     * ========================= */
     public function post()
     {
-        $this->validate();
+        $validated = $this->validate();
+
+        if ($this->type === 'poll') {
+            $this->pollOptions = array_values(array_unique(array_filter($this->pollOptions)));
+        }
 
         $post = Post::create([
             'user_id'      => Auth::id(),
@@ -164,36 +211,19 @@ class Create extends Component
             'views'        => 0,
         ]);
 
-        // IMAGE
         if ($this->type === 'image' && $this->image) {
             $path = $this->image->store('posts', 'public');
-
-            $post->images()->create([
-                'file_path' => $path,
-                'type'      => 'image',
-            ]);
+            $post->images()->create(['file_path'=>$path,'type'=>'image']);
         }
 
-        // VIDEO
         if ($this->type === 'video' && $this->video) {
             $path = $this->video->store('posts', 'public');
-
-            $post->images()->create([
-                'file_path' => $path,
-                'type'      => 'video',
-            ]);
+            $post->images()->create(['file_path'=>$path,'type'=>'video']);
         }
 
-        // POLL
         if ($this->type === 'poll') {
             foreach ($this->pollOptions as $option) {
-                if ($option) {
-                    PollOption::create([
-                        'post_id'    => $post->id,
-                        'option_text'=> $option,
-                    
-                    ]);
-                }
+                PollOption::create(['post_id'=>$post->id,'option_text'=>$option]);
             }
         }
 
@@ -203,8 +233,6 @@ class Create extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('livewire.post.create', [
-            'title' => 'Create Post'
-        ]);
+        return view('livewire.post.create', ['title'=>'Create Post']);
     }
 }
