@@ -53,5 +53,4 @@
     <div class="space-y-6">
         <livewire:post.post-list :community-id="$community->id" />
     </div>
-
 </div>

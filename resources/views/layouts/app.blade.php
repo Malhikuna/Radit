@@ -22,7 +22,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-
     <title>{{ $title ?? 'Enable404' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/libs/trix.js'])
@@ -31,8 +30,7 @@
     <x-rich-text::styles theme="richtextlaravel" data-turbo-track="false" />
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-800 antialiased"
->
+<body class="bg-gray-100 dark:bg-gray-800 antialiased">
 
     {{-- NAVBAR --}}
     @if (!($hideNavbar ?? false))
@@ -62,11 +60,11 @@
             {{ $slot }}
         </main>
 
-
         {{-- SIDEBAR KANAN --}}
         @if (!(($hideSidebar ?? false) || ($hideRightbar ?? false)))
             <div class="hidden lg:block lg:w-80">
-                <livewire:shared.rightbar />
+                {{-- Hanya panggil satu Rightbar, otomatis cek community --}}
+                <livewire:shared.rightbar :community-id="($community->id ?? null)" />
             </div>
         @endif
 
@@ -76,5 +74,4 @@
     @stack('scripts')
     
 </body>
-
 </html>
