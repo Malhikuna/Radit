@@ -191,7 +191,7 @@ class Create extends Component
                     PollOption::create([
                         'post_id'    => $post->id,
                         'option_text'=> $option,
-                        'votes'      => 0,
+                    
                     ]);
                 }
             }

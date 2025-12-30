@@ -10,12 +10,12 @@ class PollOptionFactory extends Factory
 {
     protected $model = PollOption::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
-            'post_id' => Post::factory(),
-            'option_text' => $this->faker->word,
-            'votes' => 0,
+            'post_id'     => Post::factory(),
+            'option_text' => $this->faker->words(2, true),
+            'user_id'     => null,
         ];
     }
 }

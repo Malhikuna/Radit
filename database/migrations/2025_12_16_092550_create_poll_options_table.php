@@ -7,19 +7,21 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        // Membuat tabel poll_options
-        Schema::create('poll_options', function (Blueprint $table) {
-            $table->id(); // primary key
-            $table->foreignId('post_id')->constrained()->cascadeOnDelete(); 
-            // foreign key ke posts.id, jika post dihapus → opsi ikut terhapus
-            $table->string('option_text'); // isi opsi poll
-            $table->integer('votes')->default(0); // jumlah vote awal = 0
-        });
+Schema::create('poll_options', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('post_id')->constrained()->cascadeOnDelete();
+    $table->string('option_text');
+    $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
+    $table->timestamps();
+
+    // mencegah user vote lebih dari 1 kali di post yang sama
+    $table->unique(['post_id', 'user_id']);
+});
+
     }
 
     public function down(): void
     {
-        // Hapus tabel saat rollback
         Schema::dropIfExists('poll_options');
     }
 };

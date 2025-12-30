@@ -93,6 +93,38 @@
                 </video>
             @endif
 
+            
+{{-- POLL --}}
+@if ($post->type === 'poll' && $post->pollOptions->count())
+    <div class="mb-3 border rounded-md p-3 bg-gray-50">
+        <div class="font-medium mb-2">
+            {{ $post->title }}
+        </div>
+
+        <div class="space-y-2">
+            @foreach ($post->pollOptions as $option)
+                <button
+                    wire:click="$parent.votePoll({{ $option->id }})"
+                    onclick="event.stopPropagation()"
+                    class="w-full flex justify-between items-center px-3 py-2 rounded border
+                           bg-white hover:bg-gray-100 text-left transition"
+                >
+                    <span>{{ $option->option_text }}</span>
+
+                    <span class="text-xs text-gray-500">
+                        {{ $option->votes }} vote
+                    </span>
+                </button>
+            @endforeach
+        </div>
+
+        <p class="text-xs text-gray-500 mt-2">
+            Klik salah satu pilihan untuk menambah vote
+        </p>
+    </div>
+@endif
+
+
             {{-- FOOTER / ACTIONS --}}
             <div class="flex items-center gap-5 text-sm text-gray-500 border-t border-gray-200 pt-3">
 
