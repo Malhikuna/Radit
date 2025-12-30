@@ -14,9 +14,8 @@ class PostList extends Component
 {
     use WithPagination;
 
-    // ================= PROPERTIES =================
     public string $sort = 'new';
-    public string $search = '';
+    public string $search = '';  // default search
     public int $perPage = 10;
     public bool $hasMore = true;
 
@@ -31,21 +30,21 @@ class PostList extends Component
     {
         $this->search = $search;
         $this->perPage = 10;
-        $this->resetPage(); // reset pagination ketika search berubah
+        $this->resetPage();
     }
 
     public function updatedSort()
     {
         $this->perPage = 10;
-        $this->resetPage(); // reset pagination ketika sort berubah
+        $this->resetPage();
     }
 
     // ================= MOUNT =================
     public function mount($userId = null, $communityId = null)
     {
-        $this->search = $search;
         $this->userId = $userId;
         $this->communityId = $communityId;
+        // $this->search sudah default ''
     }
 
     // ================= LOAD MORE =================
@@ -85,18 +84,15 @@ class PostList extends Component
         if (!$option) return;
 
         $existingVote = PollVote::where('user_id', Auth::id())
-            ->whereHas('pollOption', function ($q) use ($option) {
-                $q->where('post_id', $option->post_id);
-            })->first();
+            ->whereHas('pollOption', fn($q) => $q->where('post_id', $option->post_id))
+            ->first();
 
-        // batal vote
         if ($existingVote && $existingVote->poll_option_id === $option->id) {
             $existingVote->delete();
             $option->decrement('votes');
             return;
         }
 
-        // ganti vote
         if ($existingVote) {
             PollOption::where('id', $existingVote->poll_option_id)->decrement('votes');
             $existingVote->update(['poll_option_id' => $option->id]);
@@ -104,7 +100,6 @@ class PostList extends Component
             return;
         }
 
-        // vote baru
         PollVote::create([
             'poll_option_id' => $option->id,
             'user_id' => Auth::id(),
@@ -134,22 +129,18 @@ class PostList extends Component
         }
 
         if ($this->search !== '') {
-            $query->where(function ($q) {
-                $q->where('title', 'like', "%{$this->search}%")
-                  ->orWhere('content', 'like', "%{$this->search}%");
-            });
+            $query->where(fn($q) => $q->where('title', 'like', "%{$this->search}%")
+                                       ->orWhere('content', 'like', "%{$this->search}%"));
         }
 
-        // SORTING
         match ($this->sort) {
             'best', 'top' => $query->orderByDesc('votes_sum_value'),
-            'old'         => $query->orderBy('created_at'),
-            'discussed'   => $query->orderByDesc('comments_count'),
-            default       => $query->latest(),
+            'old' => $query->orderBy('created_at'),
+            'discussed' => $query->orderByDesc('comments_count'),
+            default => $query->latest(),
         };
 
         $posts = $query->take($this->perPage)->get();
-
         $this->hasMore = $posts->count() >= $this->perPage;
 
         return view('livewire.post.post-list', [
