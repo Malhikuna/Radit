@@ -94,13 +94,6 @@
 
         {{-- ACTIONS --}}
         <div class="mt-4 space-y-2 px-3">
-            <a  
-                href=""
-                class="flex items-center gap-2 text-[#9966CC] font-semibold hover:underline">
-                <x-heroicon-o-magnifying-glass class="w-4 h-4" />
-                Cari Community
-            </a> --}}
-
             @auth
                 <a 
                     href="{{ route('communities.create') }}"

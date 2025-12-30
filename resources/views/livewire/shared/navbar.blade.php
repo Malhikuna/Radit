@@ -17,9 +17,9 @@
         {{-- RIGHT --}}
         <div class="flex items-center gap-4">
             @auth
-                <a href="/" class="flex items-center px-2 py-2 rounded-full text-gray-700 hover:bg-gray-100">
-                    <x-lucide-message-circle-more class="w-5"/>
-                </a>
+                @php
+                    $isChat = request()->routeIs('chat');
+                @endphp
 
                 @if (!$isChat)
                     <livewire:chat.chat-widget />
@@ -46,7 +46,7 @@
                 {{-- USER DROPDOWN --}}
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open"
-                        class="w-8 h-8 rounded-full bg-[#9966CC] text-white font-bold flex items-center justify-center">
+                            class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold cursor-pointer border-2 border-yellow-400 hover:outline-none hover:ring-3 hover:ring-yellow-400 hover:border-yellow-400 transition">
                         {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                     </button>
 
@@ -128,3 +128,6 @@
 
     </div>
 </nav>
+
+
+
