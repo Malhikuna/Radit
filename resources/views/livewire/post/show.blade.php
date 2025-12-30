@@ -5,7 +5,7 @@
 <div class="w-full mx-auto py-4">
 
     {{-- POST CARD --}}
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4 hover:border-gray-300 transition duration-150">
+    <div class="bg-white dark:bg-gray-900 dark:border-gray-900 rounded-xl shadow-sm border border-gray-100 mb-4 hover:border-gray-900 transition duration-150">
 
         <div class="p-4 flex flex-col">
 
@@ -28,7 +28,7 @@
                 </div>
 
                 {{-- Author Info --}}
-                <div class="text-xs text-gray-500">
+                <div class="text-xs text-gray-500 dark:text-gray-400">
                     @if($isCommunityPage)
                         {{-- Community Show: user + community --}}
                         <span class="font-medium text-gray-700">u/{{ $post->user->name }}</span>
@@ -38,7 +38,7 @@
                         </a>
                     @else
                         {{-- Post List: only community --}}
-                        <a href="{{ route('communities.show', $post->community->id) }}" class="font-medium text-gray-700 hover:underline">
+                        <a href="{{ route('communities.show', $post->community->id) }}" class="font-medium text-gray-700 dark:text-gray-200 hover:underline">
                             r/{{ $post->community->name }}
                         </a>
                     @endif
@@ -47,7 +47,7 @@
             </div>
 
             {{-- TITLE --}}
-            <h1 class="font-bold text-2xl leading-snug mb-3">
+            <h1 class="font-bold text-2xl leading-snug mb-3 dark:text-white">
                 {{ $post->title }}
             </h1>
 
@@ -66,7 +66,7 @@
 
             {{-- CONTENT --}}
             @if ($post->content)
-                <div class="text-gray-800 mb-4 leading-relaxed whitespace-pre-line">
+                <div class="text-gray-800 dark:text-gray-300 mb-4 leading-relaxed whitespace-pre-line">
                     {!! \Illuminate\Support\Str::of($post->content)
                         ->replaceMatches(
                             '/(https?:\/\/[^\s]+)/',
@@ -79,13 +79,13 @@
             @if ($post->type === 'image' && $post->images->count())
                 <img
                     src="{{ asset('storage/'.$post->images->first()->file_path) }}"
-                    class="rounded-lg max-h-[520px] w-full object-contain mb-4"
+                    class="rounded-lg max-h-130 w-full object-contain mb-4"
                 >
             @endif
 
             {{-- VIDEO --}}
             @if ($post->type === 'video' && $post->images->count())
-                <video controls class="rounded-lg max-h-[520px] w-full mb-4">
+                <video controls class="rounded-lg max-h-130 w-full mb-4">
                     <source
                         src="{{ asset('storage/'.$post->images->first()->file_path) }}"
                         type="video/mp4"
@@ -161,10 +161,10 @@
 
 
             {{-- FOOTER / ACTIONS --}}
-            <div class="flex items-center gap-5 text-sm text-gray-500 border-t border-gray-200 pt-3">
+            <div class="flex items-center gap-5 text-sm text-gray-500 border-t border-gray-200 dark:border-gray-600 pt-3">
 
                 {{-- Vote --}}
-                <div class="flex items-center justify-center px-2 py-2 rounded-full bg-gray-100 hover:bg-gray-100/70">
+                <div class="flex items-center justify-center px-2 py-2 rounded-full bg-gray-100 hover:bg-gray-100/70 dark:bg-gray-700 dark:hover:bg-gray-600">
                     <livewire:components.vote
                         :post="$post"
                         :key="'vote-'.$post->id"
@@ -172,13 +172,13 @@
                 </div>
 
                 {{-- Comments --}}
-                <div class="cursor-pointer flex items-center gap-1 justify-center px-2 py-2 rounded-full bg-gray-100 hover:bg-gray-100/70">
+                <div class="cursor-pointer flex items-center gap-1 justify-center px-2 py-2 rounded-full bg-gray-100 hover:bg-gray-100/70 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200">
                     <x-heroicon-s-chat-bubble-bottom-center class="w-4 h-4" />
                     {{ $post->comments_count }} Comments
                 </div>
 
                 {{-- Views --}}
-                <div class="flex items-center gap-1 justify-center px-2 py-2 rounded-full bg-gray-100">
+                <div class="flex items-center gap-1 justify-center px-2 py-2 rounded-full bg-gray-100 dark:bg-gray-700 dark:text-gray-200">
                     <x-lucide-eye class="w-5"/> {{ $post->views }}
                 </div>
 

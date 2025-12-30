@@ -43,6 +43,7 @@ class PostList extends Component
     // ================= MOUNT =================
     public function mount($userId = null, $communityId = null)
     {
+        $this->search = $search;
         $this->userId = $userId;
         $this->communityId = $communityId;
     }

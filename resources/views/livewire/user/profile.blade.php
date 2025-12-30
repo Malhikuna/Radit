@@ -13,8 +13,8 @@
         </div>
 
         <div>
-            <h1 class="text-xl font-bold">{{ $user->name }}</h1>
-            <p class="text-sm text-gray-500">
+            <h1 class="text-xl font-bold dark:text-white">{{ $user->name }}</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-300">
                 u/{{ $user->username ?? 'user'.$user->id }}
             </p>
         </div>
@@ -24,20 +24,20 @@
     <div x-data="{ tab: 'posts' }">
 
         {{-- TAB NAV --}}
-        <div class="flex gap-6 border-b mb-4 text-sm font-semibold">
+        <div class="flex gap-6 border-b dark:border-gray-600 mb-4 text-sm font-semibold">
             <button @click="tab='posts'"
                 :class="tab==='posts'
-                    ? 'border-b-2 border-black text-black'
-                    : 'text-gray-500'"
-                class="pb-3">
+                    ? 'border-b-2 border-black dark:border-white text-black dark:text-white'
+                    : 'text-gray-500 dark:text-gray-300'"
+                class="pb-3 cursor-pointer">
                 Posts
             </button>
 
             <button @click="tab='comments'"
                 :class="tab==='comments'
-                    ? 'border-b-2 border-black text-black'
-                    : 'text-gray-500'"
-                class="pb-3">
+                    ? 'border-b-2 border-black dark:border-white text-black dark:text-white'
+                    : 'text-gray-500 dark:text-gray-300'"
+                class="pb-3 cursor-pointer">
                 Comments
             </button>
         </div>
@@ -46,7 +46,7 @@
         <div class="mb-6">
             <a href="{{ route('posts.create') }}"
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full
-                        border text-sm font-semibold hover:bg-gray-100">
+                        border text-sm font-semibold hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                 ➕ Create Post
             </a>
         </div>
@@ -66,10 +66,10 @@
             @else
                 {{-- EMPTY --}}
                 <div class="flex flex-col items-center py-20 text-center">
-                    <h2 class="text-xl font-bold mb-2">
+                    <h2 class="text-xl font-bold mb-2 dark:text-white">
                         You don't have any posts yet
                     </h2>
-                    <p class="text-gray-500 mb-6">
+                    <p class="text-gray-500 mb-6 dark:text-gray-400">
                         Once you post to a community, it’ll show up here.
                     </p>
                     <a href="{{ route('posts.create') }}"
@@ -102,7 +102,7 @@
                     @endforeach
                 </div>
             @else
-                <div class="py-20 text-center text-gray-500">
+                <div class="text-xl font-bold py-20 text-center text-gray-500 dark:text-white">
                     You haven't commented yet
                 </div>
             @endif
