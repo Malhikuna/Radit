@@ -18,18 +18,20 @@ class Create extends Component
 
     public function save()
     {
+        // Validasi input
         $this->validate();
 
-        Community::create([
+        // Simpan ke database dan ambil instance komunitas baru
+        $community = Community::create([
             'name' => $this->name,
             'description' => $this->description,
         ]);
 
+        // Flash message
         session()->flash('success', 'Community berhasil dibuat');
 
-        return redirect()->route('communities.index');
-        // return redirect()->route('posts.create');
-        // return redirect()->route('home');
+        // Redirect ke halaman community yang baru dibuat
+        return redirect()->route('communities.show', $community->id);
     }
 
     #[Layout('layouts.app')]

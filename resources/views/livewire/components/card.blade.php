@@ -62,10 +62,11 @@
         @endif
 
         {{-- CONTENT --}}
+        {{-- CONTENT (Trix styled) --}}
         @if ($post->content)
-            <p class="text-sm text-gray-800 mb-3 line-clamp-4 dark:text-gray-100">
-                {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 200) }}
-            </p>
+            <div class="trix-content text-sm text-gray-800 mb-3 line-clamp-4 dark:text-gray-100">
+                {!! $post->content !!}
+            </div>
         @endif
 
         {{-- IMAGE --}}
