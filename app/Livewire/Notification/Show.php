@@ -16,7 +16,7 @@ class Show extends Component
         $user->unreadNotifications->markAsRead();
     }
 
-    #[Layout('layouts.app')]
+    #[Layout('layouts.app', ['hideRightbar' => true])]
     public function render()
     {
         return view('livewire.notification.show', [

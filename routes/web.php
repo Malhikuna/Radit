@@ -48,6 +48,9 @@ use App\Livewire\Admin\Reports;
 
 use App\Livewire\Chat\Show as ChatShow;
 
+/** Notifications */
+
+use App\Livewire\Notification\Show as NotifShow;
 
 use App\Http\Controllers\WeatherPublicController;
 
@@ -185,6 +188,15 @@ Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
 */
 Route::middleware(['auth'])->group(function () {
     Route::get('/chat', ChatShow::class)->name('chat');
+});
+
+/*
+|--------------------------------------------------------------------------
+| CHAT
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notification', NotifShow::class)->name('notification.show');
 });
 
 

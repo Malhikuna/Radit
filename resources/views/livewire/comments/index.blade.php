@@ -17,8 +17,8 @@
                 <textarea
                     wire:model.defer="content"
                     rows="2"
-                    class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none
-                           focus:border-2 focus:border-purple-400"
+                    class="w-full border-2 dark:text-gray-200 border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:outline-none
+                           focus:border-2 focus:border-purple-400 dark:focus:border-white dark:placeholder-gray-500"
                     placeholder="Tambahkan komentar..."
                 ></textarea>
 

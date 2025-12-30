@@ -9,7 +9,7 @@
     {{-- INPUT SEARCH BAR --}}
     <div class="relative group">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <x-lucide-search class="h-5 w-5 text-gray-400 group-focus-within:text-gray-600" />
+            <x-lucide-search class="h-5 w-5 text-gray-400 group-focus-within:text-gray-600 dark:group-focus-within:text-white dark:text-gray-600" />
         </div>
         
         <input 
@@ -19,14 +19,14 @@
             wire:model.live.debounce.300ms="search"
             @focus="open = true"
             @keydown.escape="open = false"
-            class="shadow-[0_0_3px_#9966CC] block w-full pl-10 pr-3 py-2 border border-purple-500 rounded-full leading-5 bg-gray-100 text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-white focus:ring-1 focus:ring-purple-500 focus:border-purple-500 sm:text-sm transition duration-150 ease-in-out h-10"
+            class="shadow-[0_0_3px_#9966CC] block w-full pl-10 pr-3 py-2 border border-purple-500 rounded-full leading-5 bg-gray-100 dark:bg-gray-900 text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-white dark:focus:bg-gray-800 focus:ring-1 focus:ring-purple-500 dark:focus:ring-white  focus:border-purple-500 dark:focus:border-white sm:text-sm transition duration-150 ease-in-out h-10 dark:placeholder-gray-500 dark:text-gray-100"
             placeholder="Find Anything"
             autocomplete="off"
         >
         
         {{-- Tombol Clear (X) di input --}}
         <div x-show="search.length > 0" class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" @click="$wire.set('search', ''); open = true">
-            <x-lucide-x-circle class="h-5 w-5 text-gray-400 hover:text-gray-600" />
+            <x-lucide-x-circle class="h-5 w-5 text-gray-400 hover:text-gray-600 dark:text-gray-200" />
         </div>
     </div>
 

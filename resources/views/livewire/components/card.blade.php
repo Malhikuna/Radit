@@ -3,7 +3,7 @@
 @endphp
 
 <div 
-    class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4 hover:border-gray-300 transition duration-150 cursor-pointer"
+    class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-900 mb-4 dark:hover:bg-gray-900/80 transition duration-150 cursor-pointer"
     onclick="window.location='{{ route('posts.show', $post) }}'"
 >
 
@@ -37,17 +37,17 @@
                     <span class="font-medium text-gray-700">u/{{ $post->user->name }}</span>
                 @else
                     {{-- Post List: only community --}}
-                    <a href="{{ route('communities.show', $post->community->id) }}" class="font-medium text-gray-700 hover:underline">
+                    <a href="{{ route('communities.show', $post->community->id) }}" class="font-medium text-gray-700 dark:text-white hover:underline">
                         r/{{ $post->community->name }}
                     </a>
                 @endif
-                • {{ $post->created_at->diffForHumans() }}
+                <span class="dark:text-gray-400">• {{ $post->created_at->diffForHumans() }}</span>
             </div>
         </div>
 
         {{-- TITLE --}}
         <a href="{{ route('posts.show', $post->id) }}">
-            <h2 class="font-semibold text-lg leading-snug mb-1 transition duration-150">
+            <h2 class="font-semibold text-lg leading-snug mb-1 transition duration-150 dark:text-white">
                 {{ $post->title }}
             </h2>
         </a>
@@ -63,7 +63,7 @@
 
         {{-- CONTENT --}}
         @if ($post->content)
-            <p class="text-sm text-gray-800 mb-3 line-clamp-4">
+            <p class="text-sm text-gray-800 mb-3 line-clamp-4 dark:text-gray-100">
                 {{ \Illuminate\Support\Str::limit(strip_tags($post->content), 200) }}
             </p>
         @endif
@@ -103,16 +103,16 @@
         <div class="flex items-center gap-4 text-sm text-gray-500 mt-auto">
 
             {{-- Vote --}}
-            <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100">
+            <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100 dark:bg-gray-700">
                 <livewire:components.vote :post="$post" :key="'vote-'.$post->id" />
             </div>
 
             {{-- Comments --}}
             <a 
                 href="{{ route('posts.show', $post) }}"
-                class="flex items-center justify-center px-2 py-2 rounded-full bg-gray-100"
+                class="flex items-center justify-center px-2 py-2 rounded-full bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 "
             >
-                <div class="flex items-center gap-1 hover:text-gray-700 cursor-pointer">
+                <div class="flex items-center gap-1 cursor-pointer">
                     <x-heroicon-s-chat-bubble-bottom-center class="w-4 h-4" />
                     {{ $post->comments_count ?? 0 }} Comments
                 </div>
@@ -120,7 +120,7 @@
 
             {{-- Share --}}
             <div class="flex items-center gap-1 hover:text-gray-700 cursor-pointer relative" x-data="{ open: false }">
-                <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100"">
+                <div class="flex items-center gap-1 select-none justify-center px-2 py-2 rounded-full bg-gray-100 dark:bg-gray-700 dark:text-gray-200"">
                     <x-heroicon-s-share class="w-4 h-4" />
     
                     <span @click="open = !open">Share</span>

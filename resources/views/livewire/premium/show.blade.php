@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-[#FAF7F5] overflow-x-hidden">
+<div class="min-h-screen bg-[#FAF7F5] dark:bg-gray-900 overflow-x-hidden">
 
     {{-- NAVBAR --}}
     <header class="bg-white shadow-sm relative z-20">
@@ -105,7 +105,7 @@
 
     {{-- BENEFITS --}}
     <section class="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-        <h3 class="text-2xl sm:text-3xl font-bold text-center mb-12">
+        <h3 class="text-2xl sm:text-3xl font-bold text-center mb-12 dark:text-white">
             Keuntungan
             <span class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400 relative z-10">
                 Radit+
