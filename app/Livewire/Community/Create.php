@@ -21,7 +21,7 @@ class Create extends Component
         // Validasi input
         $this->validate();
 
-        // Simpan ke database dan ambil instance komunitas baru
+        // Simpan ke database
         $community = Community::create([
             'name' => $this->name,
             'description' => $this->description,
@@ -38,7 +38,7 @@ class Create extends Component
     public function render()
     {
         return view('livewire.community.create', [
-            'title' => 'Create Community'
+            'title' => 'Create Community',
         ]);
     }
 }
