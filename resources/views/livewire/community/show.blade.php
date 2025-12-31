@@ -4,16 +4,31 @@
     <div class="bg-white dark:bg-gray-900 dark:border-gray-800 rounded-lg border border-gray-200 mb-6 overflow-hidden">
 
         {{-- BANNER --}}
-        <div class="h-32 bg-linear-to-r from-[#3e2b2c] to-[#3e2b2c]"></div>
+        <div class="h-32 w-full relative overflow-hidden bg-gray-200">
+            @if($community->banner_image)
+                <img src="{{ asset('storage/' . $community->banner_image) }}" 
+                    alt="Banner" 
+                    class="w-full h-full object-cover">
+            @else
+                <div class="w-full h-full bg-linear-to-r from-[#3e2b2c] to-[#3e2b2c]"></div>
+            @endif
+        </div>
 
         <div class="p-6 flex items-center justify-between flex-wrap gap-4">
 
             {{-- LEFT: ICON + NAME --}}
             <div class="flex items-center gap-4">
                 {{-- ICON --}}
-                <div
-                    class="w-16 h-16 rounded-full bg-[#9966CC] border border-[#7A49A6] text-white flex items-center justify-center text-2xl font-bold">
-                    {{ strtoupper(substr($community->name, 0, 1)) }}
+                <div class="w-16 h-16 rounded-full border border-[#7A49A6] overflow-hidden bg-[#9966CC] flex items-center justify-center shrink-0">
+                    @if($community->profile_image)
+                        <img src="{{ asset('storage/' . $community->profile_image) }}" 
+                            alt="{{ $community->name }}" 
+                            class="w-full h-full object-cover">
+                    @else
+                        <span class="text-white text-2xl font-bold">
+                            {{ strtoupper(substr($community->name, 0, 1)) }}
+                        </span>
+                    @endif
                 </div>
 
                 {{-- NAME + MEMBER COUNT --}}

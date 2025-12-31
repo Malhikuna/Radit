@@ -6,16 +6,25 @@ use Livewire\Component;
 use App\Models\Community;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 
 class Create extends Component
 {
+    use WithFileUploads;
+
     public $name;
     public $description;
+
+    public $profile_image;
+    public $banner_image;
 
     protected $rules = [
         'name' => 'required|min:3|unique:communities,name|alpha_dash',
         'description' => 'nullable|min:5',
+
+        'profile_image' => 'nullable|image|max:1024', 
+        'banner_image' => 'nullable|image|max:2048', 
     ];
 
     public function updated($propertyName)
@@ -38,20 +47,29 @@ class Create extends Component
     #[On('execute-create-community')]
     public function save()
     {
-        // Validasi input
         $validated = $this->validate();
 
         try {
-
-            // Simpan ke database
-            $community = Community::create([
+            $data = [
                 'name' => $this->name,
                 'description' => $this->description,
-            ]);
+                'user_id' => Auth::id(),
+            ];
+
+            if ($this->profile_image) {
+                $profilePath = $this->profile_image->store('communities/profiles', 'public');
+                $data['profile_image'] = $profilePath;
+            }
+
+            if ($this->banner_image) {
+                $bannerPath = $this->banner_image->store('communities/banners', 'public');
+                $data['banner_image'] = $bannerPath;
+            }
+
+            $community = Community::create($data);
 
             $this->reset();
 
-            // Flash message
             $this->dispatch('flash', 
                 type: 'success', 
                 message: 'Community created successfully! Welcome to r/' . $community->name,
