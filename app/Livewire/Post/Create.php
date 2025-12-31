@@ -9,6 +9,7 @@ use App\Models\PollOption;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 class Create extends Component
 {
@@ -19,7 +20,7 @@ class Create extends Component
     public $communities = [];
 
     public $title = '';
-    public $content = ''; // hanya content
+    public $content = '';
     public $url = '';
     public $image;
     public $video;
@@ -189,45 +190,73 @@ class Create extends Component
         $this->pollOptions = array_values($this->pollOptions);
     }
 
+    public function confirmPost()
+    {
+        $this->validate([
+            'title' => 'required',
+            'community_id' => 'required'
+        ]);
+
+        $this->dispatch('open-confirm', 
+            action: 'execute-post', 
+            params: [],            
+            title: 'Publish Post?',
+            description: 'Are you sure you want to publish this post to the community?'
+        );
+    }
+
     /* =========================
      * SUBMIT POST
      * ========================= */
+    #[On('execute-post')]
     public function post()
     {
         $validated = $this->validate();
 
-        if ($this->type === 'poll') {
-            $this->pollOptions = array_values(array_unique(array_filter($this->pollOptions)));
-        }
+        try {
 
-        $post = Post::create([
-            'user_id'      => Auth::id(),
-            'community_id' => $this->community_id,
-            'title'        => $this->title,
-            'content'      => $this->type === 'text' ? $this->content : null,
-            'url'          => $this->type === 'link' ? $this->url : null,
-            'type'         => $this->type,
-            'status'       => 'published',
-            'views'        => 0,
-        ]);
-
-        if ($this->type === 'image' && $this->image) {
-            $path = $this->image->store('posts', 'public');
-            $post->images()->create(['file_path'=>$path,'type'=>'image']);
-        }
-
-        if ($this->type === 'video' && $this->video) {
-            $path = $this->video->store('posts', 'public');
-            $post->images()->create(['file_path'=>$path,'type'=>'video']);
-        }
-
-        if ($this->type === 'poll') {
-            foreach ($this->pollOptions as $option) {
-                PollOption::create(['post_id'=>$post->id,'option_text'=>$option]);
+            if ($this->type === 'poll') {
+                $this->pollOptions = array_values(array_unique(array_filter($this->pollOptions)));
             }
-        }
 
-        return redirect()->route('home');
+            $post = Post::create([
+                'user_id'      => Auth::id(),
+                'community_id' => $this->community_id,
+                'title'        => $this->title,
+                'content'      => $this->type === 'text' ? $this->content : null,
+                'url'          => $this->type === 'link' ? $this->url : null,
+                'type'         => $this->type,
+                'status'       => 'published',
+                'views'        => 0,
+            ]);
+
+            if ($this->type === 'image' && $this->image) {
+                $path = $this->image->store('posts', 'public');
+                $post->images()->create(['file_path'=>$path,'type'=>'image']);
+            }
+
+            if ($this->type === 'video' && $this->video) {
+                $path = $this->video->store('posts', 'public');
+                $post->images()->create(['file_path'=>$path,'type'=>'video']);
+            }
+
+            if ($this->type === 'poll') {
+                foreach ($this->pollOptions as $option) {
+                    PollOption::create(['post_id'=>$post->id,'option_text'=>$option]);
+                }
+            }
+
+            $this->reset(['title', 'content', 'image', 'video', 'url', 'pollQuestion', 'pollOptions']);
+            
+            $this->dispatch('flash', 
+                type: 'success', 
+                message: 'Post created successfully! Redirecting...', 
+                redirect: route('home')
+            );
+
+        } catch (\Exception $e) {
+            $this->dispatch('flash', type: 'error', message: 'Failed to create post: ' . $e->getMessage());
+        }
     }
 
     #[Layout('layouts.app')]

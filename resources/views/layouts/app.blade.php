@@ -73,6 +73,9 @@
 
     </div>
 
+    <livewire:shared.flash-message />
+    <livewire:shared.confirm-dialog />
+
     @livewireScripts
     @stack('scripts')
     
