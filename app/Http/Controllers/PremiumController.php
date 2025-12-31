@@ -1,12 +1,15 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Midtrans\Snap;
 use Midtrans\Config;
-use Midtrans\Notification;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class PremiumController extends Controller
 {
@@ -15,18 +18,20 @@ class PremiumController extends Controller
         Config::$serverKey = config('midtrans.server_key');
         Config::$isSanitized = true;
         Config::$is3ds = true;
-        Config::$isProduction = false; // Sandbox
+        Config::$isProduction = config('midtrans.is_production', false);
     }
 
+    /**
+     * CREATE TRANSACTION
+     */
     public function buys(Request $request)
     {
-        $duration = $request->input('duration'); // monthly/yearly
+        $duration = $request->input('duration'); // monthly | yearly
         $price = $duration === 'monthly' ? 79000 : 799000;
 
         $order = Order::create([
             'user_id' => auth()->id(),
-            'order_id' => Str::upper(Str::random(10)),
-            'duration' => $duration,
+            'order_id' => 'ORDER-' . strtoupper(Str::random(8)),
             'amount' => $price,
             'status' => 'pending',
         ]);
@@ -42,53 +47,145 @@ class PremiumController extends Controller
             ],
             'item_details' => [
                 [
-                    'id' => 'premium-'.$duration,
+                    'id' => 'premium-' . $duration,
                     'price' => $price,
                     'quantity' => 1,
-                    'name' => 'Radit+ '.ucfirst($duration)
+                    'name' => 'Radit+ ' . ucfirst($duration),
                 ]
             ],
-            'enabled_payments' => ['credit_card','gopay','bank_transfer'],
+            'enabled_payments' => ['credit_card', 'gopay', 'bank_transfer'],
+            'finish_redirect_url' => route('checkout.success'),
+            'unfinish_redirect_url' => route('checkout.unfinish'),
+            'error_redirect_url' => route('checkout.error'),
         ];
 
         try {
-            $url = Snap::createTransaction($transaction)->redirect_url;
-            return redirect($url);
+            $snap = Snap::createTransaction($transaction);
+            return redirect($snap->redirect_url);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            Log::error('MIDTRANS SNAP ERROR', ['error' => $e->getMessage()]);
+            return back()->with('error', 'Payment gateway error');
         }
     }
 
+    /**
+     * MIDTRANS CALLBACK (PALING PENTING)
+     */
     public function callback(Request $request)
     {
-        $notification = new Notification();
+        Log::info('MIDTRANS CALLBACK MASUK', $request->all());
 
-        $order = Order::where('order_id', $notification->order_id)->first();
-        if (!$order) return response('Order not found', 404);
+        // ===============================
+        // VALIDASI SIGNATURE
+        // ===============================
+        $serverKey = config('midtrans.server_key');
 
-        switch($notification->transaction_status){
-            case 'capture':
-            case 'settlement':
-                $order->update(['status'=>'success']);
-                $user = $order->user;
-                $user->update([
-                    'is_premium' => true,
-                    'premium_expired_at' => $order->duration === 'monthly' ? now()->addMonth() : now()->addYear(),
-                ]);
-                break;
+        $signature = hash(
+            'sha512',
+            $request->order_id .
+            $request->status_code .
+            $request->gross_amount .
+            $serverKey
+        );
 
-            case 'pending':
-                $order->update(['status'=>'pending']);
-                break;
-
-            default:
-                $order->update(['status'=>'failed']);
+        if ($signature !== $request->signature_key) {
+            Log::warning('SIGNATURE INVALID');
+            return response()->json(['message' => 'Invalid signature'], 403);
         }
 
-        return response()->json(['success'=>true]);
+        // ===============================
+        // AMBIL ORDER
+        // ===============================
+        $order = Order::where('order_id', $request->order_id)->first();
+
+        if (!$order) {
+            Log::warning('ORDER NOT FOUND', ['order_id' => $request->order_id]);
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        // ===============================
+        // CEGAH DOUBLE CALLBACK
+        // ===============================
+        if ($order->status === 'success') {
+            Log::info('ORDER SUDAH SUCCESS, CALLBACK DIABAIKAN');
+            return response()->json(['message' => 'Already processed']);
+        }
+
+        // ===============================
+        // SIMPAN STATUS TRANSAKSI
+        // ===============================
+        $order->update([
+            'transaction_status' => $request->transaction_status,
+            'payment_type' => $request->payment_type,
+        ]);
+
+        // ===============================
+        // LOGIKA STATUS MIDTRANS
+        // ===============================
+        if (
+            $request->transaction_status === 'settlement' ||
+            ($request->transaction_status === 'capture' && $request->fraud_status === 'accept')
+        ) {
+            $this->activatePremium($order);
+        }
+
+        if (in_array($request->transaction_status, ['deny', 'expire', 'cancel'])) {
+            $order->update(['status' => 'failed']);
+        }
+
+        Log::info('ORDER UPDATED', [
+            'order_id' => $order->order_id,
+            'status' => $order->status,
+        ]);
+
+        return response()->json(['success' => true]);
     }
 
-    public function success() { return view('checkout.success'); }
-    public function unfinish() { return view('checkout.unfinish'); }
-    public function error() { return view('checkout.error'); }
+    /**
+     * AKTIFKAN PREMIUM
+     */
+    private function activatePremium(Order $order): void
+    {
+        if ($order->status === 'success') {
+            return;
+        }
+
+        $user = $order->user;
+
+        // default monthly
+        $expiredAt = now()->addMonth();
+
+        // yearly jika harga besar
+        if ($order->amount >= 500000) {
+            $expiredAt = now()->addYear();
+        }
+
+        $user->update([
+            'is_premium' => true,
+            'premium_expired_at' => $expiredAt,
+        ]);
+
+        $order->update([
+            'status' => 'success',
+            'paid_at' => now(),
+        ]);
+    }
+
+    /**
+     * REDIRECT PAGE
+     */
+    public function success()
+    {
+        return view('checkout.success');
+    }
+
+    public function unfinish()
+    {
+        return view('checkout.unfinish');
+    }
+
+    public function error()
+    {
+        return view('checkout.error');
+    }
 }
