@@ -18,6 +18,7 @@ class User extends Authenticatable
         'role',
         'is_premium',
         'premium_expired_at',
+        'profile_photo_path',
     ];
 
     protected $casts = [
