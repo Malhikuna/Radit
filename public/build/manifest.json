@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-BwlZKAHi.css",
+    "file": "assets/app-DmFVQ7Ot.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -9,7 +9,7 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-V9vytC1t.js",
+    "file": "assets/app-Cz3LMHPT.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -18,7 +18,7 @@
     ]
   },
   "resources/js/libs/trix.js": {
-    "file": "assets/trix-DoS8D4DF.js",
+    "file": "assets/trix-BtGyuDU2.js",
     "name": "trix",
     "src": "resources/js/libs/trix.js",
     "isEntry": true,
