@@ -1,23 +1,25 @@
 <?php
+
 namespace App\Livewire\Auth;
 
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 
 class Register extends Component
 {
-    public $name, $email, $password;
+    public $name, $email, $password, $password_confirmation;
+
+    protected $rules = [
+        'name' => 'required|min:3',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:6|confirmed', // confirmed untuk password_confirmation
+    ];
 
     public function register()
     {
-        $this->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
+        $this->validate();
 
         $user = User::create([
             'name' => $this->name,
@@ -26,8 +28,8 @@ class Register extends Component
             'role' => 'member',
         ]);
 
-        Auth::login($user);
-        return redirect('/');
+        // Jangan login otomatis, tapi redirect ke login
+        return redirect()->route('login')->with('loginMessage', 'Registrasi berhasil! Silakan login.');
     }
 
     #[Layout('layouts.app', ['hideNavbar' => true, 'hideSidebar' => true])]

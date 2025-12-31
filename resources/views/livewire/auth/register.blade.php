@@ -23,6 +23,13 @@
             </span>
         </a>
 
+        {{-- PESAN DARI REGISTER / ERROR --}}
+        @if(session('loginMessage'))
+            <div class="mb-4 p-3 rounded bg-green-100 text-green-700 text-sm text-center">
+                {{ session('loginMessage') }}
+            </div>
+        @endif
+
         {{-- FORM REGISTER --}}
         <form wire:submit.prevent="register">
 
@@ -32,8 +39,10 @@
                     wire:model.defer="name"
                     type="text"
                     placeholder="Nama *"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-full
-                           focus:outline-none focus:border-gray-400">
+                    class="w-full px-4 py-2 border rounded-full focus:outline-none focus:border-gray-400 @error('name') border-red-500 @enderror">
+                @error('name') 
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p> 
+                @enderror
             </div>
 
             {{-- Email --}}
@@ -42,8 +51,10 @@
                     wire:model.defer="email"
                     type="email"
                     placeholder="Email *"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-full
-                           focus:outline-none focus:border-gray-400">
+                    class="w-full px-4 py-2 border rounded-full focus:outline-none focus:border-gray-400 @error('email') border-red-500 @enderror">
+                @error('email') 
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p> 
+                @enderror
             </div>
 
             {{-- Password --}}
@@ -52,8 +63,10 @@
                     wire:model.defer="password"
                     type="password"
                     placeholder="Password *"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-full pr-12
-                           focus:outline-none focus:border-gray-400">
+                    class="w-full px-4 py-2 border rounded-full focus:outline-none focus:border-gray-400 @error('password') border-red-500 @enderror">
+                @error('password') 
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p> 
+                @enderror
             </div>
 
             {{-- Konfirmasi Password --}}
@@ -62,15 +75,16 @@
                     wire:model.defer="password_confirmation"
                     type="password"
                     placeholder="Konfirmasi Password *"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-full pr-12
-                           focus:outline-none focus:border-gray-400">
+                    class="w-full px-4 py-2 border rounded-full focus:outline-none focus:border-gray-400 @error('password_confirmation') border-red-500 @enderror">
+                @error('password_confirmation') 
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p> 
+                @enderror
             </div>
 
             {{-- Button Register --}}
             <button
                 type="submit"
-                class="w-full border border-gray-300 rounded-full py-2 font-bold
-                       hover:bg-gray-100 transition">
+                class="w-full border border-gray-300 rounded-full py-2 font-bold hover:bg-gray-100 transition">
                 Register
             </button>
 
@@ -87,5 +101,4 @@
         </p>
 
     </div>
-
 </div>
