@@ -1,244 +1,33 @@
 <?php
 
-namespace App\Livewire\Post;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Livewire\Component;
-use App\Models\Post;
-use App\Models\Community;
-use App\Models\PollOption;
-use Illuminate\Support\Facades\Auth;
-use Livewire\WithFileUploads;
-use Livewire\Attributes\Layout;
-use App\Models\RichText;
-
-class Create extends Component
-{
-    use WithFileUploads;
-
-    public $community_id = null;
-    public $communitySearch = '';
-    public $communities = [];
-
-    public $title = '';
-    public $content = '';
-    public $url = '';
-    public $image;
-    public $video;
-
-    public $type = 'text';
-
-    // Poll
-    public $pollQuestion = '';
-    public $pollOptions = ['', ''];
-
-    /* =========================
-     * MOUNT
-     * ========================= */
-    public function mount($community = null)
+return new class extends Migration {
+    public function up(): void
     {
-        if ($community) {
-            $communityModel = Community::find($community);
-            if ($communityModel) {
-                $this->community_id = $communityModel->id;
-                $this->communitySearch = $communityModel->name;
-            }
-        }
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id(); // primary key
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); 
+            // pemilik post
+            $table->foreignId('community_id')->constrained()->cascadeOnDelete(); 
+            // komunitas post
+            $table->string('title'); // judul post
+            $table->text('content')->nullable(); // isi teks (text post)
+            $table->string('url')->nullable();   // link post (link post)
+            $table->enum('type', ['text','image','video','link','poll'])->default('text'); 
+            // tipe post
+            $table->enum('status', ['published','removed','locked'])->default('published'); 
+            // status post
+            $table->integer('views')->default(0); // jumlah view
+            $table->timestamps(); // created_at & updated_at
+            $table->index(['title','type','status']); // index untuk search
+        });
     }
 
-    /* =========================
-     * COMMUNITY SEARCH
-     * ========================= */
-    public function updatedCommunitySearch()
+    public function down(): void
     {
-        if (strlen($this->communitySearch) < 1) {
-            $this->communities = [];
-            return;
-        }
-
-        $this->communities = Community::query()
-            ->where('name', 'like', '%' . $this->communitySearch . '%')
-            ->orderBy('name')
-            ->limit(5)
-            ->get();
+        Schema::dropIfExists('posts');
     }
-
-    public function selectCommunity($id)
-    {
-        $community = Community::findOrFail($id);
-
-        $this->community_id = $community->id;
-        $this->communitySearch = $community->name;
-        $this->communities = [];
-    }
-
-    /* =========================
-     * REALTIME VALIDATION
-     * ========================= */
-    public function updated($property)
-    {
-        $this->validateOnly($property);
-    }
-
-    public function updatedImage()
-    {
-        $this->validateOnly('image');
-    }
-
-    public function updatedVideo()
-    {
-        $this->validateOnly('video');
-    }
-
-    /* =========================
-     * RULES
-     * ========================= */
-    protected function rules()
-    {
-        $rules = [
-            'community_id' => 'required|exists:communities,id',
-            'title'        => 'required|string|min:3|max:255',
-            'type'         => 'required|in:text,image,video,link,poll',
-        ];
-
-        if ($this->type === 'text') {
-            $rules['content'] = 'required|string|min:5';
-        }
-
-        if ($this->type === 'link') {
-            $rules['url'] = 'required|url|max:500';
-        }
-
-        if ($this->type === 'image') {
-            $rules['image'] = ['required','image','mimes:jpg,jpeg,png,webp','max:2048'];
-        }
-
-        if ($this->type === 'video') {
-            $rules['video'] = ['required','file','mimetypes:video/mp4,video/webm,video/ogg','max:20480'];
-        }
-
-        if ($this->type === 'poll') {
-            $rules['pollQuestion']  = 'required|string|min:5|max:255';
-            $rules['pollOptions']   = 'required|array|min:2|max:6';
-            $rules['pollOptions.*'] = 'required|string|min:1|max:100';
-        }
-
-        return $rules;
-    }
-
-    protected function messages()
-    {
-        return [
-            'community_id.required' => 'Pilih community terlebih dahulu',
-            'title.required'        => 'Title wajib diisi',
-            'title.min'             => 'Title minimal 3 karakter',
-            'title.max'             => 'Title maksimal 255 karakter',
-            'content.required'      => 'Konten tidak boleh kosong',
-            'url.required'          => 'Link wajib diisi',
-            'url.url'               => 'Format URL tidak valid',
-            'image.required'        => 'Gambar wajib diupload',
-            'image.image'           => 'File harus berupa gambar',
-            'image.max'             => 'Ukuran gambar maksimal 2 MB',
-            'video.required'        => 'Video wajib diupload',
-            'video.mimetypes'       => 'Format video tidak didukung',
-            'video.max'             => 'Ukuran video maksimal 20 MB',
-            'pollQuestion.required' => 'Pertanyaan poll wajib diisi',
-            'pollOptions.min'       => 'Minimal 2 opsi poll',
-            'pollOptions.max'       => 'Maksimal 6 opsi poll',
-            'pollOptions.*.required'=> 'Opsi poll tidak boleh kosong',
-        ];
-    }
-
-    /* =========================
-     * SET TYPE
-     * ========================= */
-    public function setType($type)
-    {
-        $this->resetErrorBag();
-        $this->type = $type;
-
-        $this->content = '';
-        $this->url     = '';
-        $this->image   = null;
-        $this->video   = null;
-
-        if ($type === 'poll') {
-            $this->pollQuestion = '';
-            $this->pollOptions  = ['', ''];
-        } else {
-            $this->pollQuestion = '';
-            $this->pollOptions  = [];
-        }
-    }
-
-    /* =========================
-     * POLL
-     * ========================= */
-    public function addPollOption()
-    {
-        if (count($this->pollOptions) < 6) {
-            $this->pollOptions[] = '';
-        }
-    }
-
-    public function removePollOption($index)
-    {
-        unset($this->pollOptions[$index]);
-        $this->pollOptions = array_values($this->pollOptions);
-    }
-
-    /* =========================
-     * SUBMIT POST
-     * ========================= */
-    public function post()
-    {
-        $validated = $this->validate();
-
-        if ($this->type === 'poll') {
-            $this->pollOptions = array_values(array_unique(array_filter($this->pollOptions)));
-        }
-
-        $post = Post::create([
-            'user_id'      => Auth::id(),
-            'community_id' => $this->community_id,
-            'title'        => $this->title,
-            'type'         => $this->type,
-            'status'       => 'published',
-            'views'        => 0,
-        ]);
-
-        // Save text content to rich_texts
-        if ($this->type === 'text' && $this->content) {
-            RichText::updateOrCreate(
-                ['record_type' => Post::class, 'record_id' => $post->id, 'field' => 'content'],
-                ['body' => $this->content]
-            );
-        }
-
-        // Upload image/video
-        if ($this->type === 'image' && $this->image) {
-            $path = $this->image->store('posts', 'public');
-            $post->images()->create(['file_path'=>$path,'type'=>'image']);
-        }
-
-        if ($this->type === 'video' && $this->video) {
-            $path = $this->video->store('posts', 'public');
-            $post->images()->create(['file_path'=>$path,'type'=>'video']);
-        }
-
-        // Poll options
-        if ($this->type === 'poll') {
-            foreach ($this->pollOptions as $option) {
-                PollOption::create(['post_id'=>$post->id,'option_text'=>$option]);
-            }
-        }
-
-        session()->flash('message', 'Post berhasil dibuat!');
-        return redirect()->route('home');
-    }
-
-    #[Layout('layouts.app')]
-    public function render()
-    {
-        return view('livewire.post.create', ['title'=>'Create Post']);
-    }
-}
+};

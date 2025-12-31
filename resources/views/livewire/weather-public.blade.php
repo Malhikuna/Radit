@@ -23,7 +23,7 @@
                 wire:model.defer="city"
                 wire:keydown.enter="getWeather"
                 placeholder="Cari daerah..."
-                class="flex-1 w-full bg-gray-100 dark:bg-gray-800 rounded-full border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:placeholder-gray-500 dark:text-gray-200"
+                class="flex-1 w-full bg-gray-100 dark:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:placeholder-gray-500 dark:text-gray-200"
             />
             <button 
                 wire:click="getWeather"

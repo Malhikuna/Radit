@@ -1,9 +1,9 @@
-<div class="max-w-2xl mx-auto mt-8 px-4"> {{-- Lebih sempit dari max-w-2xl --}}
-    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+<div class="max-w-2xl mx-auto mt-4 px-4"> {{-- Lebih sempit dari max-w-2xl --}}
+    <div class="bg-white dark:bg-gray-900 dark:border-gray-900 rounded-2xl shadow border border-gray-100 overflow-hidden">
 
         {{-- HEADER --}}
-        <div class="px-5 py-4 border-b bg-gradient-to-r from-gray-50 to-white flex items-center justify-between">
-            <h1 class="font-semibold text-lg text-gray-800">Create a post</h1>
+        <div class="px-5 py-4 border-b dark:border-gray-700 bg-gray-50 border-gray-200 dark:bg-[#111b2e]  flex items-center justify-between">
+            <h1 class="font-semibold text-lg text-gray-800 dark:text-gray-200">Create a post</h1>
         </div>
 
         {{-- BODY --}}
@@ -12,10 +12,10 @@
             {{-- COMMUNITY SELECTOR --}}
             <div class="relative">
                 <label class="text-xs font-medium text-gray-500 mb-1 block">Community</label>
-                <div class="flex items-center gap-2 w-full rounded-xl px-3 py-2.5 bg-white
+                <div class="flex items-center gap-2 w-full rounded-xl px-3 py-2.5 bg-white dark:bg-gray-800
                             border transition
-                            {{ $community_id ? 'border-purple-500 ring-1 ring-purple-200' : 'border-gray-200 hover:border-gray-300' }}
-                            focus-within:ring-1 focus-within:ring-purple-500">
+                            {{ $community_id ? 'border-purple-500 dark:border-white ring-1 ring-purple-200' : 'border-gray-200  dark:border-gray-700' }}
+                            focus-within:ring-1 focus-within:ring-purple-500 dark:focus-within:ring-white">
                     @if ($community_id)
                         <x-community-icon :community="\App\Models\Community::find($community_id)" size="32" />
                     @endif
@@ -23,18 +23,18 @@
                            wire:model.live.debounce.300ms="communitySearch"
                            placeholder="Choose a community"
                            autocomplete="off"
-                           class="flex-1 bg-transparent border-0 p-0 text-sm placeholder-gray-400 focus:outline-none focus:ring-0">
+                           class="flex-1 bg-transparent border-0 p-0 text-sm placeholder-gray-400 focus:outline-none focus:ring-0 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-500">
                 </div>
 
                 @if (count($communities) > 0)
-                    <div class="absolute z-30 w-full mt-2 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="absolute z-30 w-full mt-2 bg-white dark:bg-gray-700 rounded-xl shadow-lg border border-gray-100 dark:border-gray-600 overflow-hidden">
                         @foreach ($communities as $community)
                             <button type="button" wire:click="selectCommunity({{ $community->id }})"
                                     class="group flex items-center gap-3 w-full px-4 py-3 text-sm text-left
                                            transition border-l-4
-                                           {{ $community_id === $community->id ? 'border-purple-500 bg-purple-50' : 'border-transparent hover:border-purple-400 hover:bg-gray-50' }}">
+                                           {{ $community_id === $community->id ? 'border-purple-500 bg-purple-50' : 'border-transparent hover:border-purple-400 hover:bg-gray-50 dark:hover:bg-gray-600' }}">
                                 <x-community-icon :community="$community" size="32" />
-                                <span class="font-medium text-gray-700">{{ $community->name }}</span>
+                                <span class="font-medium text-gray-700 dark:text-gray-200">{{ $community->name }}</span>
                             </button>
                         @endforeach
                     </div>
@@ -46,11 +46,11 @@
             </div>
 
             {{-- TABS --}}
-            <div class="flex flex-wrap bg-gray-50 rounded-xl p-1 text-sm gap-1"> {{-- flex-wrap supaya tombol tidak melebihi lebar --}}
+            <div class="flex flex-wrap bg-gray-50 dark:bg-gray-700 rounded-xl p-1 text-sm gap-1"> {{-- flex-wrap supaya tombol tidak melebihi lebar --}}
                 @foreach (['text'=>'pencil-square','image'=>'photo','video'=>'video-camera','link'=>'link','poll'=>'chart-bar'] as $key=>$icon)
                     <button type="button" wire:click="setType('{{ $key }}')"
                         class="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg transition
-                               {{ $type === $key ? 'bg-white shadow text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700' }}">
+                               {{ $type === $key ? 'bg-white dark:bg-gray-200 shadow text-blue-600 font-medium' : 'text-gray-500 dark:text-gray-200 dark:hover:text-gray-300 hover:text-gray-700' }}">
                         <x-dynamic-component :component="'heroicon-s-' . $icon" class="w-4 h-4" />
                         <span>{{ ucfirst($key) }}</span>
                     </button>
@@ -59,14 +59,20 @@
 
             {{-- TITLE --}}
             <div>
+                <label class="text-xs font-medium text-gray-500 mb-1 block">Title</label>
                 <input wire:model.defer="title" placeholder="Title"
-                       class="w-full rounded-xl px-4 py-2.5 text-sm border border-gray-200 focus:outline-none focus:ring-1 focus:ring-purple-500">
+                       class="w-full rounded-xl px-4 py-2.5 text-sm border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-1 focus:ring-purple-500 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-500 dark:focus-within:ring-white">
                 @error('title')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
             </div>
 
             {{-- TEXT --}}
             @if($type === 'text')
-                <div wire:ignore>
+                {{-- Tambahkan wire:key="unique-key" disini --}}
+                <div 
+                    wire:ignore 
+                    wire:key="trix-editor-container" 
+                    class="{{ $type === 'text' ? 'block' : 'hidden' }}"
+                >
                     <label class="text-xs font-medium text-gray-600 mb-1 block">Content</label>
                     <x-trix-input id="content" name="content" wire:model.defer="content" />
                     @error('content')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
@@ -155,7 +161,7 @@
         </div>
 
         {{-- FOOTER --}}
-        <div class="px-5 py-4 border-t bg-gray-50 flex justify-end">
+        <div class="px-5 py-4 border-t dark:border-gray-700 border-gray-200 bg-gray-50 flex justify-end dark:bg-[#111b2e]">
             <button wire:click="post"
                     class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-sm font-medium px-6 py-2.5 rounded-full transition">
                 Post
