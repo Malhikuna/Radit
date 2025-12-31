@@ -25,7 +25,10 @@
     <title>{{ $title ?? 'Enable404' }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/libs/trix.js'])
-    @trixassets
+    @push('trix')
+        @trixassets
+        <x-rich-text::styles theme="richtextlaravel" />
+    @endpush
     @livewireStyles
     <x-rich-text::styles theme="richtextlaravel" data-turbo-track="false" />
 </head>
