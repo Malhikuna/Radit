@@ -43,7 +43,7 @@
                 @forelse ($followingCommunities as $community)
                     <li>
                         <a href="{{ route('communities.show', $community) }}"
-                            class="flex items-center gap-3 px-3 py-1.5 rounded-md font-medium text-gray-700 hover:bg-gray-100 hover:text-[#3e2b2c]"
+                            class="flex items-center gap-3 px-3 py-1.5 rounded-md font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 hover:text-[#3e2b2c]"
                         >
 
                             <x-community-icon :community="$community" size="26" />
@@ -75,7 +75,7 @@
                 <li>
                     <a  
                         href="{{ route('communities.show', $community) }}"
-                        class="flex items-center gap-3 px-3 py-1.5 rounded-md text-gray-700 dark:text-gray-100 hover:bg-gray-100 hover:text-[#3e2b2c]"
+                        class="flex items-center gap-3 px-3 py-1.5 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 hover:text-[#3e2b2c]"
                     >
 
                         <x-community-icon :community="$community" size="26" />

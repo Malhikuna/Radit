@@ -86,19 +86,13 @@
         @endif
 
         {{-- POLL --}}
-        @if ($post->type === 'poll' && $post->pollOptions && $post->pollOptions->count())
-            <div class="mb-3 border rounded-md p-3 bg-gray-50">
-                <div class="font-medium mb-2">{{ $post->title }}</div>
-                <ul class="space-y-1">
-                    @foreach ($post->pollOptions as $option)
-                        <li class="flex justify-between items-center">
-                            <span>{{ $option->option_text }}</span>
-                            <span class="text-gray-500 text-xs">{{ $option->votes }} votes</span>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+        @if ($post->type === 'poll')
+            <livewire:components.poll
+                :post="$post"
+                :key="'poll-'.$post->id"
+            />
         @endif
+
 
         {{-- FOOTER / ACTIONS --}}
         <div class="flex items-center gap-4 text-sm text-gray-500 mt-auto">

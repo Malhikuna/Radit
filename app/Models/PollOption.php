@@ -4,33 +4,38 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class PollOption extends Model
 {
 
-public $pollOptions;
-public $hasVoted = false;
-public $userVotedOptionId = null;
+    use HasFactory;
 
-public function loadPoll()
-{
-    $this->pollOptions = PollOption::where('post_id', $this->post->id)
-        ->select('id', 'option_text', 'post_id')
-        ->withCount([
-            'as votes_count' => function ($q) {
-                $q->whereNotNull('user_id');
-            }
-        ])
-        ->get();
+    public $pollOptions;
+    public $hasVoted = false;
+    public $userVotedOptionId = null;
 
-    if (Auth::check()) {
-        $vote = PollOption::where('post_id', $this->post->id)
-            ->where('user_id', Auth::id())
-            ->first();
+    public function loadPoll()
+    {
+        $this->pollOptions = PollOption::where('post_id', $this->post->id)
+            ->select('id', 'option_text', 'post_id')
+            ->withCount([
+                'as votes_count' => function ($q) {
+                    $q->whereNotNull('user_id');
+                }
+            ])
+            ->get();
 
-        $this->hasVoted = (bool) $vote;
-        $this->userVotedOptionId = $vote?->id;
+        if (Auth::check()) {
+            $vote = PollOption::where('post_id', $this->post->id)
+                ->where('user_id', Auth::id())
+                ->first();
+
+            $this->hasVoted = (bool) $vote;
+            $this->userVotedOptionId = $vote?->id;
+        }
     }
-}
 
     protected $fillable = [
         'post_id',
