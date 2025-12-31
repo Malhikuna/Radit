@@ -55,7 +55,9 @@
             $isPremium = request()->routeIs('premium');
             $isLogin = request()->routeIs('login');
             $isRegister = request()->routeIs('register');
-            $px = $isPremium || $isChat || $isLogin || $isRegister ? 'px-0' : 'px-6';
+            $isPasswordReset = request()->routeIs('password.reset');
+            $isPasswordRequest = request()->routeIs('password.request');
+            $px = $isPremium || $isChat || $isLogin || $isRegister || $isPasswordReset || $isPasswordRequest ? 'px-0' : 'px-6';
             $pt = ($hideSidebar ?? false) ? 'pt-0' : 'pt-20';
         @endphp
 
