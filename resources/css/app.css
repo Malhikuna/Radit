@@ -26,11 +26,11 @@
     }
 }
 
-@layer utilities {
+/* @layer utilities {
     .debug-primary {
         background-color: rgb(var(59 130 246));
     }
-}
+} */
 
 @keyframes logo-bounce-fade {
     0% {

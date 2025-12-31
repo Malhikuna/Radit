@@ -13,7 +13,7 @@
 /.zed
 /auth.json
 /node_modules
-/public/build
+# /public/build
 /public/hot
 /public/storage
 /storage/*.key
@@ -22,8 +22,4 @@
 /database/database.sqlite
 Homestead.json
 Homestead.yaml
-<<<<<<< HEAD
-Thumbs.db
-=======
 Thumbs.db/vendor
->>>>>>> e9e83b789d0974e860c0b37a7c6e093eb392d32d
