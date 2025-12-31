@@ -14,6 +14,8 @@ use App\Livewire\Search as SearchShow;
 
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Auth\PasswordRequest;
+use App\Livewire\Auth\PasswordReset;
 use App\Livewire\User\Profile;
 use App\Livewire\User\UserProfile;
 
@@ -146,6 +148,9 @@ Route::middleware('auth')->get('/premium', PremiumShow::class)->name('premium');
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
+    Route::get('/password/reset', PasswordRequest::class)->name('password.request');
+    Route::get('/password/reset/{token}', PasswordReset::class)->name('password.reset');
+
 });
 
 Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect']);

@@ -162,7 +162,7 @@
 
         {{-- FOOTER --}}
         <div class="px-5 py-4 border-t dark:border-gray-700 border-gray-200 bg-gray-50 flex justify-end dark:bg-[#111b2e]">
-            <button wire:click="post"
+            <button wire:click="confirmPost" 
                     class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white text-sm font-medium px-6 py-2.5 rounded-full transition">
                 Post
             </button>

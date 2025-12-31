@@ -5,6 +5,8 @@ namespace App\Livewire\Community;
 use Livewire\Component;
 use App\Models\Community;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Auth;
 
 class Create extends Component
 {
@@ -12,26 +14,56 @@ class Create extends Component
     public $description;
 
     protected $rules = [
-        'name' => 'required|min:3|unique:communities,name',
+        'name' => 'required|min:3|unique:communities,name|alpha_dash',
         'description' => 'nullable|min:5',
     ];
 
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    public function confirmSave()
+    {
+        $this->validate(); 
+
+        $this->dispatch('open-confirm', 
+            action: 'execute-create-community',
+            title: 'Create Community?',
+            description: "Are you sure you want to create r/" . $this->name . "?",
+            params: [] 
+        );
+    }
+
+    #[On('execute-create-community')]
     public function save()
     {
         // Validasi input
-        $this->validate();
+        $validated = $this->validate();
 
-        // Simpan ke database
-        $community = Community::create([
-            'name' => $this->name,
-            'description' => $this->description,
-        ]);
+        try {
 
-        // Flash message
-        session()->flash('success', 'Community berhasil dibuat');
+            // Simpan ke database
+            $community = Community::create([
+                'name' => $this->name,
+                'description' => $this->description,
+            ]);
 
-        // Redirect ke halaman community yang baru dibuat
-        return redirect()->route('communities.show', $community->id);
+            $this->reset();
+
+            // Flash message
+            $this->dispatch('flash', 
+                type: 'success', 
+                message: 'Community created successfully! Welcome to r/' . $community->name,
+                redirect: route('communities.show', $community->id) 
+            );
+        
+        } catch (\Exception $e) {
+            $this->dispatch('flash', 
+                type: 'error', 
+                message: 'Failed to create community: ' . $e->getMessage()
+            );
+        }
     }
 
     #[Layout('layouts.app')]

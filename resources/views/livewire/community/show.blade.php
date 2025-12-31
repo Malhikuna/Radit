@@ -1,10 +1,10 @@
 <div class="max-w-7xl mx-auto">
 
     {{-- COMMUNITY HEADER --}}
-    <div class="bg-white rounded-lg border border-gray-200 mb-6 overflow-hidden">
+    <div class="bg-white dark:bg-gray-900 dark:border-gray-800 rounded-lg border border-gray-200 mb-6 overflow-hidden">
 
         {{-- BANNER --}}
-        <div class="h-32 bg-gradient-to-r from-[#3e2b2c] to-[#3e2b2c]"></div>
+        <div class="h-32 bg-linear-to-r from-[#3e2b2c] to-[#3e2b2c]"></div>
 
         <div class="p-6 flex items-center justify-between flex-wrap gap-4">
 
@@ -18,11 +18,11 @@
 
                 {{-- NAME + MEMBER COUNT --}}
                 <div class="flex flex-col">
-                    <h1 class="text-2xl font-bold">r/{{ $community->name }}</h1>
+                    <h1 class="text-2xl dark:text-gray-200 font-bold">r/{{ $community->name }}</h1>
                 </div>
             </div>
 
-            <span class="text-sm text-gray-500">{{ $community->members_count ?? 0 }} members</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ $community->members_count ?? 0 }} members</span>
 
             {{-- ACTIONS --}}
             <div class="ml-auto flex items-center gap-3">

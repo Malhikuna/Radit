@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
@@ -15,8 +16,15 @@ class SocialAuthController extends Controller
 
     public function callback($provider)
     {
-        $socialUser = Socialite::driver($provider)->stateless()->user();
-        // $socialUser = Socialite::driver($provider)->user();
+        try {
+            $socialUser = Socialite::driver($provider)->user();
+        } catch (\Exception $e) {
+            return redirect()->route('login')->with('loginError', 'Login via '.$provider.' gagal.');
+        }
+
+        if (!$socialUser->getEmail()) {
+            return redirect()->route('login')->with('loginError', 'Email tidak tersedia dari '.$provider);
+        }
 
         $user = User::firstOrCreate(
             ['email' => $socialUser->getEmail()],
@@ -27,7 +35,8 @@ class SocialAuthController extends Controller
             ]
         );
 
-        Auth::login($user);
-        return redirect('/');
+        Auth::login($user, true);
+
+        return redirect()->intended('/');
     }
 }
