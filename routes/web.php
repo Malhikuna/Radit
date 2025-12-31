@@ -11,7 +11,6 @@ use App\Livewire\Home;
 use App\Livewire\Search as SearchShow;
 
 /** Auth */
-
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\PasswordRequest;
@@ -20,26 +19,20 @@ use App\Livewire\User\Profile;
 use App\Livewire\User\UserProfile;
 
 /** Posts */
-
 use App\Livewire\Post\Create as PostCreate;
 use App\Livewire\Post\Show as PostShow;
 use App\Livewire\Post\Edit as PostEdit;
 
 /** Communities */
-
 use App\Livewire\Community\Index as CommunityIndex;
 use App\Livewire\Community\Create as CommunityCreate;
 use App\Livewire\Community\Edit as CommunityEdit;
 use App\Livewire\Community\Show as CommunityShow;
-use App\Http\Controllers\CommunityController;
-
 
 /** Premium */
-use App\Livewire\Premium\Checkout;
 use App\Livewire\Premium\Show as PremiumShow;
 
 /** Admin */
-
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Users;
 use App\Livewire\Admin\Posts;
@@ -47,39 +40,31 @@ use App\Livewire\Admin\Communities;
 use App\Livewire\Admin\Reports;
 
 /** Chat */
-
 use App\Livewire\Chat\Show as ChatShow;
 
 /** Notifications */
-
 use App\Livewire\Notification\Show as NotifShow;
-
 
 /*
 |--------------------------------------------------------------------------
 | CONTROLLERS
 |--------------------------------------------------------------------------
 */
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PremiumController;
-use App\Http\Controllers\MidtransController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SocialAuthController;
+
 /*
 |--------------------------------------------------------------------------
 | PUBLIC
 |--------------------------------------------------------------------------
 */
-
-Route::get('/', Home::class)
-    ->name('home');
+Route::get('/', Home::class)->name('home');
 
 /*
 |--------------------------------------------------------------------------
 | SEARCH
 |--------------------------------------------------------------------------
 */
-
 Route::get('/search', SearchShow::class)->name('search');
 
 /*
@@ -110,35 +95,20 @@ Route::prefix('communities')->name('communities.')->group(function () {
     Route::get('/{community}', CommunityShow::class)->name('show');
 });
 
-
-
-Route::post('/community/{community}/join', [CommunityController::class, 'join'])
-    ->name('community.join')
-    ->middleware('auth'); // pastikan user login
-
 /*
 |--------------------------------------------------------------------------
-| PREMIUM / MIDTRANS
+| PREMIUM (WEB ONLY)
 |--------------------------------------------------------------------------
 */
-
-Route::middleware(['auth'])->group(function() {
+Route::middleware('auth')->group(function () {
     Route::post('/premium/buys', [PremiumController::class, 'buys'])->name('premium.buys');
-    Route::get('/checkout/success', [PremiumController::class, 'success']);
-    Route::get('/checkout/unfinish', [PremiumController::class, 'unfinish']);
-    Route::get('/checkout/error', [PremiumController::class, 'error']);
-    Route::post('/midtrans/callback', [PremiumController::class, 'callback']);
 
+    Route::get('/checkout/success', [PremiumController::class, 'success'])->name('checkout.success');
+    Route::get('/checkout/unfinish', [PremiumController::class, 'unfinish'])->name('checkout.unfinish');
+    Route::get('/checkout/error', [PremiumController::class, 'error'])->name('checkout.error');
+
+    Route::get('/premium', PremiumShow::class)->name('premium');
 });
-
-/*
-|--------------------------------------------------------------------------
-|   REDIT ++
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware('auth')->get('/premium', PremiumShow::class)->name('premium');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -150,7 +120,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', Register::class)->name('register');
     Route::get('/password/reset', PasswordRequest::class)->name('password.request');
     Route::get('/password/reset/{token}', PasswordReset::class)->name('password.reset');
-
 });
 
 Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect']);
@@ -164,15 +133,14 @@ Route::post('/logout', function () {
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN PANEL
+| ADMIN
 |--------------------------------------------------------------------------
 */
-
-        Route::get('/admin', Dashboard::class)->name('admin.dashboard');
-        Route::get('/users', Users::class)->name('admin.users');
-        Route::get('/posts', Posts::class)->name('admin.posts');
-        Route::get('/communities', Communities::class)->name('admin.communities');
-        Route::get('/reports', Reports::class)->name('admin.reports');
+Route::get('/admin', Dashboard::class)->name('admin.dashboard');
+Route::get('/users', Users::class)->name('admin.users');
+Route::get('/posts', Posts::class)->name('admin.posts');
+Route::get('/communities', Communities::class)->name('admin.communities');
+Route::get('/reports', Reports::class)->name('admin.reports');
 
 /*
 |--------------------------------------------------------------------------
@@ -182,21 +150,12 @@ Route::post('/logout', function () {
 Route::middleware('auth')->get('/profile', Profile::class)->name('profile');
 Route::get('/user/{userId}', UserProfile::class)->name('user.profile');
 
-
 /*
 |--------------------------------------------------------------------------
-| CHAT
+| CHAT & NOTIFICATION
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/chat', ChatShow::class)->name('chat');
-});
-
-/*
-|--------------------------------------------------------------------------
-| CHAT
-|--------------------------------------------------------------------------
-*/
-Route::middleware(['auth'])->group(function () {
     Route::get('/notification', NotifShow::class)->name('notification.show');
 });

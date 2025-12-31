@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('order_id')->unique(); // Midtrans Order ID
+            $table->string('duration')->default('monthly'); // monthly / yearly
             $table->unsignedBigInteger('amount');
             $table->string('status')->default('pending'); 
             $table->string('transaction_status')->nullable();
