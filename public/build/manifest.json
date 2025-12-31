@@ -1,0 +1,29 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-BwlZKAHi.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-V9vytC1t.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/libs/trix.js"
+    ]
+  },
+  "resources/js/libs/trix.js": {
+    "file": "assets/trix-DoS8D4DF.js",
+    "name": "trix",
+    "src": "resources/js/libs/trix.js",
+    "isEntry": true,
+    "css": [
+      "assets/trix-D5TYrzIX.css"
+    ]
+  }
+}
